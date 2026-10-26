@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { processPaystackWebhook } from '../../../../lib/finance/finance-store';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * Paystack Webhook Handler
  * Verified with HMAC-SHA512 cryptographic signature
