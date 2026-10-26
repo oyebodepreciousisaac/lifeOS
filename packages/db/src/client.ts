@@ -60,19 +60,19 @@ export function getScopedDb(schoolId: string) {
     name: 'tenant-isolation-extension',
     query: {
       $allModels: {
-        async findMany({ model, args, query }) {
+        async findMany({ model, args, query }: { model: string; args: any; query: (args: any) => Promise<any> }) {
           if (TENANT_MODELS.has(model)) {
             args.where = { ...(args.where || {}), schoolId };
           }
           return query(args);
         },
-        async findFirst({ model, args, query }) {
+        async findFirst({ model, args, query }: { model: string; args: any; query: (args: any) => Promise<any> }) {
           if (TENANT_MODELS.has(model)) {
             args.where = { ...(args.where || {}), schoolId };
           }
           return query(args);
         },
-        async findUnique({ model, args, query }) {
+        async findUnique({ model, args, query }: { model: string; args: any; query: (args: any) => Promise<any> }) {
           if (TENANT_MODELS.has(model)) {
             // findUnique only allows unique fields. To ensure cross-tenant protection,
             // we execute via findFirst with both the target criteria and schoolId.
@@ -83,25 +83,25 @@ export function getScopedDb(schoolId: string) {
           }
           return query(args);
         },
-        async count({ model, args, query }) {
+        async count({ model, args, query }: { model: string; args: any; query: (args: any) => Promise<any> }) {
           if (TENANT_MODELS.has(model)) {
             args.where = { ...(args.where || {}), schoolId };
           }
           return query(args);
         },
-        async create({ model, args, query }) {
+        async create({ model, args, query }: { model: string; args: any; query: (args: any) => Promise<any> }) {
           if (TENANT_MODELS.has(model)) {
             args.data = { ...(args.data as any), schoolId } as any;
           }
           return query(args);
         },
-        async updateMany({ model, args, query }) {
+        async updateMany({ model, args, query }: { model: string; args: any; query: (args: any) => Promise<any> }) {
           if (TENANT_MODELS.has(model)) {
             args.where = { ...(args.where || {}), schoolId };
           }
           return query(args);
         },
-        async deleteMany({ model, args, query }) {
+        async deleteMany({ model, args, query }: { model: string; args: any; query: (args: any) => Promise<any> }) {
           if (TENANT_MODELS.has(model)) {
             args.where = { ...(args.where || {}), schoolId };
           }
