@@ -76,8 +76,7 @@ export function getScopedDb(schoolId: string) {
           if (TENANT_MODELS.has(model)) {
             // findUnique only allows unique fields. To ensure cross-tenant protection,
             // we execute via findFirst with both the target criteria and schoolId.
-            // @ts-expect-error dynamic delegation
-            return prisma[model.toLowerCase()].findFirst({
+            return (prisma as any)[model.toLowerCase()].findFirst({
               where: { ...(args.where || {}), schoolId },
             });
           }
