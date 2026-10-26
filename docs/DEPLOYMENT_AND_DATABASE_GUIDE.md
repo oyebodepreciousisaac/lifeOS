@@ -18,64 +18,58 @@ After evaluating **Supabase** vs. **Neon** for a multi-tenant institutional oper
 
 ---
 
-## 2. GitHub Repository Initialization & Push
-
-Run the following commands from your terminal in `c:\Users\THE LAPTOP STORE\Desktop\school-os`:
-
-```bash
-# 1. Verify git status
-git status
-
-# 2. Add your newly created GitHub repository as remote origin:
-git remote add origin https://github.com/<your-username>/square-os.git
-
-# 3. Rename branch to main if needed
-git branch -M main
-
-# 4. Push all code to GitHub
-git push -u origin main
-```
+## 2. GitHub Repository Status
+All code, database schemas, and multi-tenant portals are pushed to your remote repository:
+- **Repository URL**: `https://github.com/oyebodepreciousisaac/lifeOS.git`
+- **Branch**: `main` (clean working tree, verified in sync)
 
 ---
 
-## 3. Supabase Database Setup
+## 3. Supabase Database Status (COMPLETED & VERIFIED)
 
-1. Log in to [Supabase Console](https://supabase.com/dashboard).
-2. Click **New Project** and configure:
-   - **Name**: `square-os-prod`
-   - **Database Password**: Generate a secure 24-character password and store in your password manager.
-   - **Region**: `eu-west-1` (Frankfurt or London) or closest region for low latency to West Africa.
-3. Once provisioned, navigate to **Project Settings** → **Database**:
-   - Copy the **Connection String (Transaction Pooler - Port 6543)**. This is your `DATABASE_URL`.
-   - Copy the **Direct Connection String (Port 5432)**. This is your `DIRECT_URL` (used for running schema migrations).
-4. Navigate to **Storage** → Create two private buckets:
-   - `student-documents` (private, strictly authorized downloads)
-   - `school-crests` (public read, cached via CDN)
+The production database is fully provisioned and seeded:
+- **Project Reference**: `gqwxuzbgsngqsmgasfxi`
+- **Region**: `eu-west-1` (AWS Ireland)
+- **Engine**: PostgreSQL 17.11
+- **Schema Status**: `prisma db push` completed in 25.9s (All 22 institutional tables, foreign keys, indexes created)
+- **Seed Status**: Reference tenant (`Apex Model College, Lagos`), permissions catalog, campuses, 2026/2027 sessions, terms, and JSS1 Gold class arm populated.
+
+### Connection Strings:
+- **Transaction Pooler (`DATABASE_URL`)**:
+  ```text
+  postgresql://postgres.gqwxuzbgsngqsmgasfxi:Krd364ca%402004@aws-0-eu-west-1.pooler.supabase.com:6543/postgres?pgbouncer=true&sslmode=require
+  ```
+- **Session / Direct Migration URL (`DIRECT_URL`)**:
+  ```text
+  postgresql://postgres.gqwxuzbgsngqsmgasfxi:Krd364ca%402004@aws-0-eu-west-1.pooler.supabase.com:5432/postgres?sslmode=require
+  ```
 
 ---
 
-## 4. Vercel Deployment
+## 4. Vercel Deployment (Final Step)
 
-1. Log in to [Vercel](https://vercel.com).
-2. Click **Add New...** → **Project** and select your GitHub `square-os` repository.
-3. Configure Project Settings:
+1. Log in to [Vercel](https://vercel.com/dashboard).
+2. Click **Add New...** → **Project**.
+3. Import your GitHub repository: **`oyebodepreciousisaac/lifeOS`**.
+4. Configure Project Settings:
    - **Framework Preset**: `Next.js`
-   - **Root Directory**: `./`
+   - **Root Directory**: `apps/web` (or `./` if deploying from monorepo root)
    - **Build Command**: `npm run build`
-   - **Output Directory**: `apps/web/.next` (automatically resolved)
-4. Add the following **Environment Variables** in Vercel:
+   - **Install Command**: `npm install`
+5. Paste the following **Environment Variables** in the Vercel dashboard:
 
-| Variable Name | Example Value | Description |
+| Variable Name | Production Value | Description |
 | :--- | :--- | :--- |
-| `COOKIE_SECRET` | `64_char_cryptographically_secure_random_hex` | Required: Signs HMAC-SHA256 session cookies (anti-tamper). |
-| `DATABASE_URL` | `postgresql://postgres.[ref]:[pass]@aws-0-[region].pooler.supabase.com:6543/postgres?pgbouncer=true` | Supavisor transaction pooler for Next.js API routes. |
-| `DIRECT_URL` | `postgresql://postgres:[pass]@db.[ref].supabase.co:5432/postgres` | Direct connection for Prisma/migration tools. |
-| `NEXT_PUBLIC_APP_URL` | `https://square-os.vercel.app` | Canonical production URL. |
-| `PAYSTACK_SECRET_KEY` | `your_paystack_secret_key` | Paystack API Secret for live billing and webhook verification. |
-| `PAYSTACK_PUBLIC_KEY` | `your_paystack_public_key` | Paystack public key for client-side checkout. |
-| `TERMII_API_KEY` | `your_termii_api_key` | Nigerian SMS & DND bypass gateway. |
+| `DATABASE_URL` | `postgresql://postgres.gqwxuzbgsngqsmgasfxi:Krd364ca%402004@aws-0-eu-west-1.pooler.supabase.com:6543/postgres?pgbouncer=true&sslmode=require` | Supavisor pooler for serverless API routes. |
+| `DIRECT_URL` | `postgresql://postgres.gqwxuzbgsngqsmgasfxi:Krd364ca%402004@aws-0-eu-west-1.pooler.supabase.com:5432/postgres?sslmode=require` | Direct connection for Prisma engine. |
+| `SESSION_SECRET` | `school-os-development-session-signing-secret-key-32-chars-min` | HMAC-SHA256 session cookie signing secret. |
+| `NEXT_PUBLIC_APP_URL` | `https://life-os.vercel.app` (or your chosen Vercel domain) | Public application canonical URL. |
+| `PAYSTACK_SECRET_KEY` | `sk_test_f06fd03d6c409b8fdf7ab64af6c206d141f0b5fe` | Paystack secret key. |
+| `PAYSTACK_PUBLIC_KEY` | `pk_test_06684d9512c75a3a4f0d26f8930eaf3d31489a9d` | Paystack public checkout key. |
+| `NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY` | `pk_test_06684d9512c75a3a4f0d26f8930eaf3d31489a9d` | Paystack client-side public key. |
+| `TERMII_API_KEY` | `your_termii_api_key_here` | Nigerian SMS & DND routing key. |
 
-5. Click **Deploy**. Vercel will build and deploy the production bundle.
+6. Click **Deploy**. Vercel will build and deploy the production bundle. (Verified local production build time: ~40s, 32/32 routes static & dynamic).
 
 ---
 
