@@ -66,4 +66,12 @@ export const DEMO_USERS: Record<string, DemoUser> = {
     schoolName: 'Premier Academy Abuja',
     mfaSecret: 'JBSWY3DPEHPK3PXP',
   },
+  'superadmin@squareos.com': {
+    email: 'superadmin@squareos.com',
+    name: 'Oyebode Precious',
+    role: 'SUPERADMIN',
+    schoolId: 'global',
+    schoolName: 'SquareOS Multi-School Platform',
+    mfaSecret: 'JBSWY3DPEHPK3PXP',
+  },
 };

@@ -45,13 +45,65 @@ export default function MainNavbar({ user }: MainNavbarProps) {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [mobileMenuOpen]);
 
-  const navLinks = [
-    { label: 'Overview', href: '/' },
-    { label: 'Admissions Portal', href: '/admissions/apply' },
-    { label: 'Parent Portal', href: '/portal/parent' },
-    { label: 'Teacher Portal', href: '/portal/teacher' },
-    { label: 'Student Portal', href: '/portal/student' },
-  ];
+  const getNavLinks = () => {
+    if (user?.role === 'TEACHER') {
+      return [
+        { label: 'Teaching Schedule', href: '/portal/teacher' },
+        { label: 'Daily Roll Call', href: '/admin/attendance' },
+        { label: 'CA Scorebook', href: '/admin/assessments' },
+        { label: 'Timetable', href: '/admin/timetable' },
+      ];
+    }
+    if (user?.role === 'PARENT') {
+      return [
+        { label: 'My Wards', href: '/portal/parent' },
+        { label: 'Pay Fees Online', href: '/portal/parent?tab=fees' },
+        { label: 'Term Reports', href: '/portal/parent?tab=reports' },
+        { label: 'School Broadcasts', href: '/admin/communications' },
+      ];
+    }
+    if (user?.role === 'STUDENT') {
+      return [
+        { label: 'My Desk', href: '/portal/student' },
+        { label: 'Timetable', href: '/portal/student?tab=timetable' },
+        { label: 'Virtual LMS', href: '/admin/lms' },
+        { label: 'My Report Card', href: '/portal/student?tab=report-card' },
+      ];
+    }
+    if (user?.role === 'BURSAR') {
+      return [
+        { label: 'Finance Dashboard', href: '/dashboard' },
+        { label: 'Invoices & Billing', href: '/admin/finance' },
+        { label: 'Fee Schedules', href: '/admin/finance?tab=fees' },
+        { label: 'Debtors Ledger', href: '/admin/students' },
+      ];
+    }
+    if (user?.role === 'SUPERADMIN') {
+      return [
+        { label: 'Platform Command Center', href: '/dashboard' },
+        { label: 'Onboard School', href: '/setup' },
+        { label: 'Platform Security', href: '/admin/platform-security' },
+        { label: 'Audit Trail', href: '/admin/audit-logs' },
+      ];
+    }
+    if (user) {
+      return [
+        { label: 'Dashboard', href: '/dashboard' },
+        { label: 'Student Directory', href: '/admin/students' },
+        { label: 'Finance Ledger', href: '/admin/finance' },
+        { label: 'Daily Attendance', href: '/admin/attendance' },
+        { label: 'Governance Queue', href: '/admin/governance' },
+      ];
+    }
+    return [
+      { label: 'Overview', href: '/' },
+      { label: 'Admissions Portal', href: '/admissions/apply' },
+      { label: 'Verify Credentials', href: '/admin/report-cards' },
+      { label: 'Onboard School', href: '/setup' },
+    ];
+  };
+
+  const navLinks = getNavLinks();
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
@@ -231,7 +283,7 @@ export default function MainNavbar({ user }: MainNavbarProps) {
                     className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-navy-950 text-white font-bold text-sm shadow-sm"
                   >
                     <LogIn className="h-4 w-4 text-emerald-400" />
-                    Sign In to SchoolOS
+                    Sign In to SquareOS
                   </Link>
                   <Link
                     href="/admissions/apply"

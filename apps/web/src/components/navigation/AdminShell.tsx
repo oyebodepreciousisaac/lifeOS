@@ -135,12 +135,44 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
       ];
     }
 
+    if (role === 'SUPERADMIN') {
+      return [
+        {
+          title: 'Platform Control',
+          items: [
+            { label: 'Platform Command Center', href: '/dashboard', icon: LayoutDashboard },
+            { label: 'Onboard New School', href: '/setup', icon: UserPlus },
+            { label: 'Platform Security & Health', href: '/admin/platform-security', icon: Database },
+          ],
+        },
+        {
+          title: 'Institutional Consoles',
+          items: [
+            { label: 'Student Directory', href: '/admin/students', icon: Users },
+            { label: 'Finance & Invoicing', href: '/admin/finance', icon: Receipt },
+            { label: 'Daily Attendance', href: '/admin/attendance', icon: UserCheck },
+            { label: 'Assessments & Broadsheet', href: '/admin/report-cards', icon: Award },
+            { label: 'Maker-Checker Queue', href: '/admin/governance', icon: Scale },
+            { label: 'System Audit Logs', href: '/admin/audit-logs', icon: FileText },
+          ],
+        },
+      ];
+    }
+
     if (role === 'PARENT') {
       return [
         {
-          title: 'Parent Portal',
+          title: 'Family & Wards',
           items: [
-            { label: 'My Children & Attendance', href: '/portal/parent', icon: Users },
+            { label: 'Parent Dashboard', href: '/portal/parent', icon: Users },
+            { label: 'Termly Report Cards', href: '/portal/parent?tab=reports', icon: Award },
+            { label: 'Attendance Records', href: '/portal/parent?tab=attendance', icon: UserCheck },
+          ],
+        },
+        {
+          title: 'Bursary & Messages',
+          items: [
+            { label: 'Fee Invoices & Pay Online', href: '/portal/parent?tab=fees', icon: CreditCard },
             { label: 'School Broadcasts', href: '/admin/communications', icon: Radio },
           ],
         },
@@ -150,10 +182,18 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
     if (role === 'STUDENT') {
       return [
         {
-          title: 'Student Workspace',
+          title: 'Academic Workspace',
           items: [
-            { label: 'My Classes & Timetable', href: '/portal/student', icon: GraduationCap },
-            { label: 'Virtual Lessons', href: '/admin/lms', icon: Video },
+            { label: 'Student Dashboard', href: '/portal/student', icon: GraduationCap },
+            { label: 'Weekly Timetable', href: '/portal/student?tab=timetable', icon: Calendar },
+            { label: 'My Report Card', href: '/portal/student?tab=report-card', icon: Award },
+          ],
+        },
+        {
+          title: 'Learning & Resources',
+          items: [
+            { label: 'Virtual Lessons & LMS', href: '/admin/lms', icon: Video },
+            { label: 'Library & Books', href: '/admin/auxiliary', icon: BookOpen },
           ],
         },
       ];

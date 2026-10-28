@@ -96,33 +96,20 @@ export default function RoleSpecificKpiPanel({ session, metrics }: RoleSpecificK
           </div>
         </div>
 
-        {/* Persona Switcher Buttons */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
-          <span className="text-[11px] font-medium text-slate-500 mr-1 flex items-center gap-1 shrink-0">
-            <Eye className="h-3 w-3 text-slate-400" /> Switch Perspective:
+        {/* Authenticated Role Indicator */}
+        <div className="flex items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold bg-navy-950 text-white shadow-xs">
+            <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
+            {activePersona === 'OWNER'
+              ? 'School Executive Role'
+              : activePersona === 'PRINCIPAL'
+              ? 'Principal Role'
+              : activePersona === 'BURSAR'
+              ? 'Bursary Role'
+              : activePersona === 'TEACHER'
+              ? 'Teacher Role'
+              : 'IT Administrator Role'}
           </span>
-          {(['OWNER', 'PRINCIPAL', 'BURSAR', 'TEACHER', 'IT_ADMIN'] as const).map((persona) => (
-            <button
-              key={persona}
-              type="button"
-              onClick={() => setActivePersona(persona)}
-              className={`px-2.5 py-1 rounded-md text-xs font-bold transition-colors whitespace-nowrap ${
-                activePersona === persona
-                  ? 'bg-navy-950 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-navy-950 hover:bg-slate-100'
-              }`}
-            >
-              {persona === 'OWNER'
-                ? 'School Executive'
-                : persona === 'PRINCIPAL'
-                ? 'Principal'
-                : persona === 'BURSAR'
-                ? 'Bursar'
-                : persona === 'TEACHER'
-                ? 'Teacher'
-                : 'IT Administrator'}
-            </button>
-          ))}
         </div>
       </div>
 

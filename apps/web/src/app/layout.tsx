@@ -1,10 +1,23 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import Link from 'next/link';
+import { Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google';
 import { getSession } from '@/lib/auth/session';
 import MainNavbar from '@/components/navigation/MainNavbar';
 import MobileBottomNav from '@/components/navigation/MobileBottomNav';
 import { ShieldCheck, Layers, BookOpen, ExternalLink, Heart } from 'lucide-react';
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'SquareOS — Complete School Operating System',
@@ -27,16 +40,8 @@ export default async function RootLayout({
     : null;
 
   return (
-    <html lang="en" className="h-full">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="flex min-h-full w-full max-w-full flex-col bg-slate-50 text-slate-900 selection:bg-emerald-500 selection:text-white pb-16 lg:pb-0 overflow-x-hidden">
+    <html lang="en" className={`h-full ${plusJakartaSans.variable} ${jetbrainsMono.variable}`}>
+      <body className="flex min-h-full w-full max-w-full flex-col bg-slate-50 text-slate-900 selection:bg-emerald-500 selection:text-white pb-16 lg:pb-0 overflow-x-hidden font-sans">
         {/* Responsive Institutional Navbar */}
         <MainNavbar user={user} />
 
@@ -58,37 +63,30 @@ export default async function RootLayout({
                   <span className="font-extrabold text-navy-950 text-sm">Square<span className="text-emerald-600">OS</span></span>
                 </div>
                 <span className="hidden sm:inline">•</span>
-                <span>The Operating System for West African Schools</span>
-                <span className="hidden sm:inline">•</span>
-                <span className="text-emerald-700 font-medium">NDPA 2023 & OWASP ASVS 5.0 Compliant</span>
+                <p>
+                  Institutional Operating System &bull; WAEC &bull; NECO &bull; Cambridge &bull; CBN AML/CFT Compliant
+                </p>
               </div>
 
-              <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-medium">
-                <Link href="/" className="hover:text-emerald-700 transition-colors">
-                  Overview
-                </Link>
-                <Link href="/admissions/apply" className="hover:text-emerald-700 transition-colors">
+              <div className="flex items-center gap-4 text-xs font-semibold text-slate-600">
+                <Link href="/admissions/apply" className="hover:text-emerald-600 transition-colors">
                   Admissions
                 </Link>
-                <Link href="/portal/parent" className="hover:text-emerald-700 transition-colors">
-                  Parent Portal
+                <Link href="/setup" className="hover:text-emerald-600 transition-colors">
+                  Onboard School
                 </Link>
-                <Link href="/portal/teacher" className="hover:text-emerald-700 transition-colors">
-                  Teacher Portal
-                </Link>
-                <Link href="/portal/student" className="hover:text-emerald-700 transition-colors">
-                  Student Portal
-                </Link>
-                <Link href="/admin/governance" className="hover:text-emerald-700 transition-colors flex items-center gap-1">
-                  <ShieldCheck className="h-3 w-3 text-emerald-600" />
-                  Dual Governance
+                <Link href="/login" className="hover:text-emerald-600 transition-colors">
+                  Institutional Login
                 </Link>
               </div>
             </div>
 
-            <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-400 text-center sm:text-left">
-              <p>© {new Date().getFullYear()} SchoolOS. The Authorized School Operating System for West African Educational Institutions.</p>
-              <p>One authoritative student record • Double-entry immutable ledger • Multi-person dual control</p>
+            <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-400">
+              <p>&copy; {new Date().getFullYear()} SquareOS Systems Ltd. Multi-Tenant Enterprise License.</p>
+              <div className="flex items-center gap-1.5 text-slate-500 font-medium">
+                <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+                <span>Zero Fee Leakage &bull; Double-Entry Append-Only Ledger &bull; Maker-Checker Signed</span>
+              </div>
             </div>
           </div>
         </footer>

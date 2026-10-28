@@ -42,6 +42,8 @@ import { getAuxiliaryMetrics } from '@/lib/auxiliary/auxiliary-store';
 import { getTeacherPortalData } from '@/lib/portals/portal-service';
 import TeacherDashboardView from './TeacherDashboardView';
 import BursarDashboardView from './BursarDashboardView';
+import PlatformOwnerDashboardView from './PlatformOwnerDashboardView';
+import InstitutionalAnalytics from '@/components/dashboard/InstitutionalAnalytics';
 
 // Human-readable role labels
 const ROLE_LABELS: Record<string, string> = {
@@ -75,6 +77,23 @@ export default async function DashboardPage() {
 
   const userConfig = DEMO_USERS[session.email] || { schoolName: 'Apex Model College, Lagos' };
 
+  const dateDisplay = new Date().toLocaleDateString('en-NG', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+  // Dedicated Platform Owner / SuperAdmin Command Center
+  if (session.userType === 'SUPERADMIN' || session.email === 'superadmin@squareos.com') {
+    return (
+      <PlatformOwnerDashboardView
+        session={session}
+        dateDisplay={dateDisplay}
+      />
+    );
+  }
+
   // Dedicated Teacher Dashboard
   if (session.userType === 'TEACHER') {
     const teacherData = await getTeacherPortalData(session.schoolId, session);
@@ -90,13 +109,6 @@ export default async function DashboardPage() {
   const today = new Date().toISOString().split('T')[0];
   const roleLabel = ROLE_LABELS[session.userType] ?? session.userType;
 
-  // Date display in Nigerian locale format
-  const dateDisplay = new Date().toLocaleDateString('en-NG', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
 
   // --- Fetch all metrics gracefully ---
   let sisMetrics = {
@@ -349,6 +361,13 @@ export default async function DashboardPage() {
 
       {/* ── ROLE-SPECIFIC KPI INTELLIGENCE PANEL ── */}
       <RoleSpecificKpiPanel session={session} metrics={metricsContext} />
+
+      {/* ── REAL-TIME INSTITUTIONAL PERFORMANCE & VISUAL ANALYTICS ── */}
+      <InstitutionalAnalytics
+        totalBilled={totalBilled}
+        totalCollected={totalCollected}
+        overallAttendanceRate={attendanceMetrics.overallAttendanceRate}
+      />
 
       {/* ═══════════════════════════════════════════════════════
           SECTION 1: ACADEMICS & STUDENTS

@@ -16,8 +16,13 @@ import {
   UserCheck,
   CreditCard,
   Building,
-  Wifi,
-  ChevronRight,
+  Radio,
+  Clock,
+  Award,
+  Video,
+  Scale,
+  FileText,
+  BookOpen,
   LogOut,
   Sparkles,
 } from 'lucide-react';
@@ -31,6 +36,14 @@ interface MobileBottomNavProps {
   } | null;
 }
 
+interface BottomNavItem {
+  label: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+  isAction?: boolean;
+  onClick?: () => void;
+}
+
 export default function MobileBottomNav({ user }: MobileBottomNavProps) {
   const pathname = usePathname();
   const [sheetOpen, setSheetOpen] = React.useState(false);
@@ -42,20 +55,53 @@ export default function MobileBottomNav({ user }: MobileBottomNavProps) {
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
-    return pathname.startsWith(href);
+    const [path] = href.split('?');
+    return pathname.startsWith(path);
   };
 
-  const getNavItems = () => {
+  const getNavItems = (): BottomNavItem[] => {
+    if (user?.role === 'STUDENT') {
+      return [
+        { label: 'My Desk', href: '/portal/student', icon: GraduationCap },
+        { label: 'Timetable', href: '/portal/student?tab=timetable', icon: Clock },
+        { label: 'LMS Class', href: '/admin/lms', icon: Video },
+        { label: 'Report Card', href: '/portal/student?tab=report-card', icon: Award },
+        {
+          label: 'Student Hub',
+          isAction: true,
+          href: '#hub',
+          icon: Settings,
+          onClick: () => setSheetOpen(true),
+        },
+      ];
+    }
+
+    if (user?.role === 'PARENT') {
+      return [
+        { label: 'My Wards', href: '/portal/parent', icon: Users },
+        { label: 'Pay Fees', href: '/portal/parent?tab=fees', icon: CreditCard },
+        { label: 'Reports', href: '/portal/parent?tab=reports', icon: Award },
+        { label: 'Broadcasts', href: '/admin/communications', icon: Radio },
+        {
+          label: 'Parent Hub',
+          isAction: true,
+          href: '#hub',
+          icon: Settings,
+          onClick: () => setSheetOpen(true),
+        },
+      ];
+    }
+
     if (user?.role === 'TEACHER') {
       return [
-        { label: 'Home', href: '/', icon: Home },
+        { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
         { label: 'Schedule', href: '/portal/teacher', icon: GraduationCap },
         { label: 'Roll Call', href: '/admin/attendance', icon: UserCheck },
         { label: 'CA Marks', href: '/admin/assessments', icon: FileCheck2 },
         {
-          label: 'My Hub',
+          label: 'Teacher Hub',
           isAction: true,
-          href: '/dashboard',
+          href: '#hub',
           icon: Settings,
           onClick: () => setSheetOpen(true),
         },
@@ -64,36 +110,111 @@ export default function MobileBottomNav({ user }: MobileBottomNavProps) {
 
     if (user?.role === 'BURSAR') {
       return [
-        { label: 'Home', href: '/', icon: Home },
+        { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
         { label: 'Invoices', href: '/admin/finance', icon: CreditCard },
-        { label: 'Schedules', href: '/admin/finance?tab=fees', icon: FileCheck2 },
+        { label: 'Fee Setup', href: '/admin/finance?tab=fees', icon: FileCheck2 },
         { label: 'Debtors', href: '/admin/students', icon: Users },
         {
-          label: 'My Hub',
+          label: 'Finance Hub',
           isAction: true,
-          href: '/dashboard',
+          href: '#hub',
           icon: Settings,
           onClick: () => setSheetOpen(true),
         },
       ];
     }
 
+    if (user) {
+      // Platform Owner, Principal, SuperAdmin, IT Admin
+      return [
+        { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+        { label: 'Academics', href: '/admin/students', icon: Users },
+        { label: 'Finance', href: '/admin/finance', icon: CreditCard },
+        { label: 'Attendance', href: '/admin/attendance', icon: UserCheck },
+        {
+          label: 'Admin Hub',
+          isAction: true,
+          href: '#hub',
+          icon: Settings,
+          onClick: () => setSheetOpen(true),
+        },
+      ];
+    }
+
+    // Guest / Unauthenticated
     return [
       { label: 'Home', href: '/', icon: Home },
-      { label: 'Parent', href: '/portal/parent', icon: Users },
-      { label: 'Teacher', href: '/portal/teacher', icon: GraduationCap },
       { label: 'Apply', href: '/admissions/apply', icon: FileCheck2 },
+      { label: 'Verify', href: '/admin/report-cards', icon: ShieldCheck },
+      { label: 'Setup School', href: '/setup', icon: Building },
       {
-        label: user ? 'App Hub' : 'Sign In',
-        isAction: Boolean(user),
-        href: user ? '/dashboard' : '/login',
-        icon: user ? Settings : LogIn,
-        onClick: user ? () => setSheetOpen(true) : undefined,
+        label: 'Sign In',
+        isAction: false,
+        href: '/login',
+        icon: LogIn,
       },
     ];
   };
 
   const navItems = getNavItems();
+
+  const getRoleHubLinks = () => {
+    const role = user?.role;
+    if (role === 'STUDENT') {
+      return [
+        { label: 'My Academic Desk', href: '/portal/student', icon: GraduationCap },
+        { label: 'Weekly Timetable', href: '/portal/student?tab=timetable', icon: Clock },
+        { label: 'Terminal Report Card', href: '/portal/student?tab=report-card', icon: Award },
+        { label: 'Virtual LMS & Homework', href: '/admin/lms', icon: Video },
+        { label: 'School Library Catalog', href: '/admin/auxiliary', icon: BookOpen },
+      ];
+    }
+
+    if (role === 'PARENT') {
+      return [
+        { label: 'Children Overview', href: '/portal/parent', icon: Users },
+        { label: 'Tuition Invoices & Payment', href: '/portal/parent?tab=fees', icon: CreditCard },
+        { label: 'Terminal Report Cards', href: '/portal/parent?tab=reports', icon: Award },
+        { label: 'Attendance & Bell Cutoff', href: '/portal/parent?tab=attendance', icon: UserCheck },
+        { label: 'School Announcements', href: '/admin/communications', icon: Radio },
+      ];
+    }
+
+    if (role === 'TEACHER') {
+      return [
+        { label: 'Teacher Dashboard', href: '/dashboard', icon: LayoutDashboard },
+        { label: 'Teaching Schedule', href: '/portal/teacher', icon: GraduationCap },
+        { label: 'Morning Roll Call', href: '/admin/attendance', icon: UserCheck },
+        { label: 'CA Scorebook', href: '/admin/assessments', icon: FileCheck2 },
+        { label: 'AI Lesson Assistant', href: '/admin/assistive-ai', icon: Sparkles },
+        { label: 'Score Alteration Request', href: '/admin/governance', icon: Scale },
+      ];
+    }
+
+    if (role === 'BURSAR') {
+      return [
+        { label: 'Finance Dashboard', href: '/dashboard', icon: LayoutDashboard },
+        { label: 'Invoices & Term Billing', href: '/admin/finance', icon: CreditCard },
+        { label: 'Fee Schedules & Concessions', href: '/admin/finance?tab=fees', icon: FileCheck2 },
+        { label: 'Aging Debtors Roster', href: '/admin/students', icon: Users },
+        { label: 'Dual-Control Reversals', href: '/admin/governance', icon: Scale },
+        { label: 'Audit Trail', href: '/admin/audit-logs', icon: FileText },
+      ];
+    }
+
+    // Executive / Superadmin / Owner
+    return [
+      { label: 'Command Center', href: '/dashboard', icon: LayoutDashboard },
+      { label: 'Provision New School', href: '/setup', icon: Building },
+      { label: 'Student Directory', href: '/admin/students', icon: Users },
+      { label: 'Admissions Funnel', href: '/admin/admissions', icon: FileCheck2 },
+      { label: 'Bursary Ledger', href: '/admin/finance', icon: CreditCard },
+      { label: 'Maker-Checker Queue', href: '/admin/governance', icon: Scale },
+      { label: 'Platform Security', href: '/admin/platform-security', icon: ShieldCheck },
+    ];
+  };
+
+  const hubLinks = getRoleHubLinks();
 
   return (
     <>
@@ -113,19 +234,14 @@ export default function MobileBottomNav({ user }: MobileBottomNavProps) {
                   key={item.label}
                   type="button"
                   onClick={item.onClick}
-                  className={`flex flex-col items-center justify-center py-1.5 px-3 rounded-xl transition-all duration-150 min-w-[60px] min-h-[48px] ${
+                  className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all ${
                     active
                       ? 'text-emerald-700 font-bold'
                       : 'text-slate-500 hover:text-navy-950 font-medium'
                   }`}
+                  aria-label={item.label}
                 >
-                  <div
-                    className={`p-1 rounded-lg transition-transform ${
-                      active ? 'bg-emerald-50 scale-110' : ''
-                    }`}
-                  >
-                    <Icon className={`h-5 w-5 ${active ? 'text-emerald-600' : 'text-slate-500'}`} />
-                  </div>
+                  <Icon className={`h-5 w-5 ${active ? 'text-emerald-700 stroke-[2.5]' : 'stroke-[1.75]'}`} />
                   <span className="text-[10px] mt-0.5 tracking-tight">{item.label}</span>
                 </button>
               );
@@ -135,19 +251,14 @@ export default function MobileBottomNav({ user }: MobileBottomNavProps) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex flex-col items-center justify-center py-1.5 px-3 rounded-xl transition-all duration-150 min-w-[60px] min-h-[48px] ${
+                className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all ${
                   active
                     ? 'text-emerald-700 font-bold'
                     : 'text-slate-500 hover:text-navy-950 font-medium'
                 }`}
+                aria-label={item.label}
               >
-                <div
-                  className={`p-1 rounded-lg transition-transform ${
-                    active ? 'bg-emerald-50 scale-110' : ''
-                  }`}
-                >
-                  <Icon className={`h-5 w-5 ${active ? 'text-emerald-600' : 'text-slate-500'}`} />
-                </div>
+                <Icon className={`h-5 w-5 ${active ? 'text-emerald-700 stroke-[2.5]' : 'stroke-[1.75]'}`} />
                 <span className="text-[10px] mt-0.5 tracking-tight">{item.label}</span>
               </Link>
             );
@@ -155,18 +266,18 @@ export default function MobileBottomNav({ user }: MobileBottomNavProps) {
         </div>
       </nav>
 
-      {/* ── NATIVE APP SETTINGS & QUICK SWITCHER BOTTOM SHEET ── */}
+      {/* ── ROLE-SEGREGATED BOTTOM ACTION HUB SHEET ── */}
       {sheetOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 flex flex-col justify-end">
+        <div className="lg:hidden fixed inset-0 z-50 flex items-end">
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-navy-950/60 backdrop-blur-xs transition-opacity animate-in fade-in"
+            className="fixed inset-0 bg-navy-950/50 backdrop-blur-xs transition-opacity"
             onClick={() => setSheetOpen(false)}
             aria-hidden="true"
           />
 
-          {/* Slide-Up Sheet Card */}
-          <div className="relative bg-white rounded-t-3xl shadow-2xl p-5 max-h-[85vh] overflow-y-auto z-10 border-t border-slate-200 animate-in slide-in-from-bottom duration-200 space-y-4">
+          {/* Sheet Body */}
+          <div className="relative w-full bg-white rounded-t-3xl shadow-2xl border-t border-slate-200 p-5 space-y-4 max-h-[85vh] overflow-y-auto animate-in slide-in-from-bottom duration-250">
             {/* Sheet Handle Indicator */}
             <div className="w-12 h-1.5 bg-slate-300 rounded-full mx-auto" />
 
@@ -177,7 +288,7 @@ export default function MobileBottomNav({ user }: MobileBottomNavProps) {
                   {user?.name ? user.name[0] : 'S'}
                 </div>
                 <div>
-                  <h3 className="text-sm font-bold text-navy-950">{user?.name || 'Square User'}</h3>
+                  <h3 className="text-sm font-bold text-navy-950">{user?.name || 'SquareOS User'}</h3>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
                       {user?.role || 'AUTHENTICATED'}
@@ -193,105 +304,55 @@ export default function MobileBottomNav({ user }: MobileBottomNavProps) {
                 type="button"
                 onClick={() => setSheetOpen(false)}
                 className="p-2 rounded-xl bg-slate-100 text-slate-500 hover:text-navy-950"
-                aria-label="Close settings sheet"
+                aria-label="Close hub sheet"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
 
-            {/* PWA Offline Health Status */}
-            <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between text-xs">
-              <div className="flex items-center gap-2">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                </span>
-                <span className="font-semibold text-slate-700">Offline PWA Engine</span>
-              </div>
-              <span className="text-[10px] font-mono text-emerald-700 font-bold bg-emerald-100/60 px-2 py-0.5 rounded">
-                Active &amp; Synced
-              </span>
-            </div>
-
-            {/* Quick Portal Switcher Grid */}
+            {/* Role-Specific Quick Links */}
             <div className="space-y-1.5">
               <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                Institutional Portals
+                {user?.role} Workspace Links
               </span>
-              <div className="grid grid-cols-2 gap-2">
-                <Link
-                  href="/dashboard"
-                  onClick={() => setSheetOpen(false)}
-                  className="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 hover:border-emerald-500 bg-white transition-colors text-xs font-semibold text-navy-950"
-                >
-                  <LayoutDashboard className="h-4 w-4 text-emerald-600" />
-                  <span>Dashboard</span>
-                </Link>
-
-                <Link
-                  href="/portal/parent"
-                  onClick={() => setSheetOpen(false)}
-                  className="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 hover:border-emerald-500 bg-white transition-colors text-xs font-semibold text-navy-950"
-                >
-                  <Users className="h-4 w-4 text-emerald-600" />
-                  <span>Parent Portal</span>
-                </Link>
-
-                <Link
-                  href="/portal/teacher"
-                  onClick={() => setSheetOpen(false)}
-                  className="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 hover:border-blue-500 bg-white transition-colors text-xs font-semibold text-navy-950"
-                >
-                  <UserCheck className="h-4 w-4 text-blue-600" />
-                  <span>Teacher Portal</span>
-                </Link>
-
-                <Link
-                  href="/portal/student"
-                  onClick={() => setSheetOpen(false)}
-                  className="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 hover:border-purple-500 bg-white transition-colors text-xs font-semibold text-navy-950"
-                >
-                  <GraduationCap className="h-4 w-4 text-purple-600" />
-                  <span>Student Portal</span>
-                </Link>
-
-                <Link
-                  href="/admin/finance"
-                  onClick={() => setSheetOpen(false)}
-                  className="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 hover:border-amber-500 bg-white transition-colors text-xs font-semibold text-navy-950"
-                >
-                  <CreditCard className="h-4 w-4 text-amber-600" />
-                  <span>Finance Ledger</span>
-                </Link>
-
-                <Link
-                  href="/admin/attendance"
-                  onClick={() => setSheetOpen(false)}
-                  className="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 hover:border-emerald-500 bg-white transition-colors text-xs font-semibold text-navy-950"
-                >
-                  <UserCheck className="h-4 w-4 text-emerald-600" />
-                  <span>Attendance</span>
-                </Link>
+              <div className="grid grid-cols-1 gap-1.5">
+                {hubLinks.map((link) => {
+                  const Icon = link.icon;
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setSheetOpen(false)}
+                      className="flex items-center justify-between p-3 rounded-xl border border-slate-200 hover:border-emerald-500 bg-white transition-colors text-xs font-semibold text-navy-950 hover:bg-slate-50"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Icon className="h-4 w-4 text-emerald-700" />
+                        <span>{link.label}</span>
+                      </div>
+                      <span className="text-slate-400 text-xs">→</span>
+                    </Link>
+                  );
+                })}
               </div>
             </div>
 
             {/* Quick Actions & Logout */}
             <div className="pt-2 border-t border-slate-100 flex items-center justify-between gap-3">
               <Link
-                href="/signup"
+                href="/dashboard"
                 onClick={() => setSheetOpen(false)}
-                className="text-xs font-semibold text-slate-600 hover:text-navy-950"
+                className="text-xs font-bold text-emerald-700 hover:text-emerald-800"
               >
-                Register New School
+                Go to Main Dashboard
               </Link>
 
-              <form action={logoutAction} className="shrink-0">
+              <form action={logoutAction}>
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-50 text-rose-700 hover:bg-rose-100 text-xs font-bold transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-rose-700 hover:bg-rose-50 border border-rose-200 transition-colors"
                 >
                   <LogOut className="h-3.5 w-3.5" />
-                  <span>Sign Out</span>
+                  Sign Out
                 </button>
               </form>
             </div>
