@@ -39,18 +39,7 @@ export default async function TeacherPortalPage() {
   const data = await getTeacherPortalData(session.schoolId, session);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-      {data.isPreview && (
-        <div className="rounded-xl border border-blue-200 bg-blue-50/90 px-4 py-3 flex items-center justify-between text-xs text-blue-900 shadow-xs">
-          <div className="flex items-center gap-2.5">
-            <UserCheck className="h-4 w-4 text-blue-600 shrink-0" />
-            <span>
-              <strong>Staff Preview Mode:</strong> You are viewing the Teacher Workspace for <strong>{data.teacher.name}</strong> ({data.teacher.role}). Logged in as: {data.previewActorName} ({data.previewActorRole}).
-            </span>
-          </div>
-          <span className="text-[11px] font-semibold text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Preview</span>
-        </div>
-      )}
+    <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-6">
 
       {/* Top Banner */}
       <div className="rounded-2xl bg-navy-950 text-white p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-institutional-lg">

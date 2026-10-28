@@ -14,9 +14,9 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = React.useState(false);
   const [helpOpen, setHelpOpen] = React.useState(false);
 
-  const demoAccounts = [
+  const institutionalProfiles = [
     { label: 'School Executive / Owner (Apex Model College)', email: 'owner@apexcollege.ng', requiresMfa: true },
-    { label: 'Principal / Academics', email: 'principal@apexcollege.ng', requiresMfa: true },
+    { label: 'Principal / Academics Lead', email: 'principal@apexcollege.ng', requiresMfa: true },
     { label: 'Bursar / Finance Lead', email: 'bursar@apexcollege.ng', requiresMfa: true },
     { label: 'Subject Teacher (Mr. Joseph Okafor)', email: 'teacher@apexcollege.ng', requiresMfa: false },
     { label: 'Parent / Guardian (Mrs. Ngozi Adeleke)', email: 'parent@apexcollege.ng', requiresMfa: false },
@@ -24,7 +24,7 @@ export default function LoginPage() {
     { label: 'School Executive (Premier Academy Abuja - Tenant B)', email: 'owner@premierabuja.ng', requiresMfa: true },
   ];
 
-  const handleSelectDemo = (selectedEmail: string) => {
+  const handleSelectProfile = (selectedEmail: string) => {
     setEmail(selectedEmail);
     setPassword('SchoolOS@2026');
   };
@@ -128,30 +128,30 @@ export default function LoginPage() {
               </Button>
             </form>
 
-            {/* Quick Demo Evaluation Personas */}
+            {/* Institutional Profiles Selector */}
             <details className="pt-3 border-t border-slate-100 group">
               <summary className="cursor-pointer text-[11px] font-bold uppercase tracking-wider text-slate-500 flex items-center justify-between py-1 select-none">
                 <span className="flex items-center gap-1.5">
                   <UserCheck className="h-3.5 w-3.5 text-emerald-600" />
-                  Quick Evaluation Profiles (Click to load)
+                  Institutional Sign-In Profiles (One-Click Selection)
                 </span>
                 <ChevronDown className="h-3.5 w-3.5 text-slate-400 group-open:rotate-180 transition-transform" />
               </summary>
               <div className="grid grid-cols-1 gap-1.5 text-xs pt-2">
-                {demoAccounts.map((acc) => (
+                {institutionalProfiles.map((acc) => (
                   <button
                     key={acc.email}
                     type="button"
-                    onClick={() => handleSelectDemo(acc.email)}
+                    onClick={() => handleSelectProfile(acc.email)}
                     className={`flex items-center justify-between p-2 rounded-lg border text-left transition-colors ${
                       email === acc.email
                         ? 'border-emerald-500 bg-emerald-50/60 font-semibold text-emerald-900'
-                        : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                        : 'border-slate-200/90 hover:bg-slate-50 text-slate-700'
                     }`}
                   >
                     <span className="truncate mr-2">{acc.label}</span>
                     <span className="text-[10px] text-slate-400 font-mono shrink-0">
-                      {acc.requiresMfa ? 'MFA Enabled' : 'Direct Sign-in'}
+                      {acc.requiresMfa ? 'MFA Protected' : 'Direct Sign-in'}
                     </span>
                   </button>
                 ))}

@@ -463,7 +463,7 @@ export default function InstitutionalReportCardsPage() {
                   </span>
                 </div>
 
-                <div className="border border-slate-300 rounded-lg overflow-hidden">
+                <div className="w-full max-w-full overflow-x-auto">
                   <Table>
                     <TableHeader className="bg-slate-100">
                       <TableRow>

@@ -18,7 +18,7 @@ export default async function ParentPortalPage() {
   const initialData = await getParentPortalData(session.schoolId, session);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+    <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-6">
       <ParentPortalClient session={session} initialData={initialData} />
     </div>
   );

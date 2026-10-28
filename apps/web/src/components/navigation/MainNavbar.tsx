@@ -104,11 +104,29 @@ export default function MainNavbar({ user }: MainNavbarProps) {
         <div className="hidden sm:flex items-center gap-3">
           {user ? (
             <Link
-              href="/dashboard"
+              href={
+                user.role === 'TEACHER'
+                  ? '/portal/teacher'
+                  : user.role === 'PARENT'
+                  ? '/portal/parent'
+                  : user.role === 'STUDENT'
+                  ? '/portal/student'
+                  : user.role === 'BURSAR'
+                  ? '/admin/finance'
+                  : '/dashboard'
+              }
               className="inline-flex items-center gap-1.5 text-xs font-bold bg-navy-950 text-white px-4 py-2 rounded-lg hover:bg-navy-900 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
             >
               <LayoutDashboard className="h-4 w-4 text-emerald-400" />
-              Institutional Dashboard
+              {user.role === 'TEACHER'
+                ? 'Teacher Workspace'
+                : user.role === 'PARENT'
+                ? 'Parent Portal'
+                : user.role === 'STUDENT'
+                ? 'Student Workspace'
+                : user.role === 'BURSAR'
+                ? 'Finance Dashboard'
+                : 'Institutional Dashboard'}
               <ArrowRight className="h-3.5 w-3.5 ml-0.5" />
             </Link>
           ) : (
@@ -140,12 +158,26 @@ export default function MainNavbar({ user }: MainNavbarProps) {
         <div className="flex items-center gap-2 lg:hidden">
           {user && (
             <Link
-              href="/dashboard"
+              href={
+                user.role === 'TEACHER'
+                  ? '/portal/teacher'
+                  : user.role === 'PARENT'
+                  ? '/portal/parent'
+                  : user.role === 'STUDENT'
+                  ? '/portal/student'
+                  : '/dashboard'
+              }
               className="sm:hidden inline-flex items-center gap-1 text-xs font-bold bg-navy-950 text-white px-2.5 py-1.5 rounded-lg"
               aria-label="Dashboard"
             >
               <LayoutDashboard className="h-3.5 w-3.5 text-emerald-400" />
-              Dashboard
+              {user.role === 'TEACHER'
+                ? 'Teacher'
+                : user.role === 'PARENT'
+                ? 'Parent'
+                : user.role === 'STUDENT'
+                ? 'Student'
+                : 'Dashboard'}
             </Link>
           )}
           <button

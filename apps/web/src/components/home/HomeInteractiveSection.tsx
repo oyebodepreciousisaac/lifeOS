@@ -785,7 +785,7 @@ export default function HomeInteractiveSection() {
                     href="/admin/report-cards"
                     className="inline-flex items-center gap-2 text-xs font-bold text-emerald-700 hover:text-emerald-800"
                   >
-                    <span>View Academic Scorebook Demo</span>
+                    <span>View Academic Report Cards</span>
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </div>

@@ -39,6 +39,9 @@ import { getSchoolAttendanceMetrics } from '@/lib/attendance/attendance-store';
 import { listInvoices, generateAgingDebtorsReport } from '@/lib/finance/finance-store';
 import { getGovernanceMetrics } from '@/lib/governance/governance-store';
 import { getAuxiliaryMetrics } from '@/lib/auxiliary/auxiliary-store';
+import { getTeacherPortalData } from '@/lib/portals/portal-service';
+import TeacherDashboardView from './TeacherDashboardView';
+import BursarDashboardView from './BursarDashboardView';
 
 // Human-readable role labels
 const ROLE_LABELS: Record<string, string> = {
@@ -66,7 +69,24 @@ export default async function DashboardPage() {
   if (!session) redirect('/login');
   if (session.isPrivileged && !session.mfaVerified) redirect('/mfa-challenge');
 
+  // Direct routing for portal roles
+  if (session.userType === 'PARENT') redirect('/portal/parent');
+  if (session.userType === 'STUDENT') redirect('/portal/student');
+
   const userConfig = DEMO_USERS[session.email] || { schoolName: 'Apex Model College, Lagos' };
+
+  // Dedicated Teacher Dashboard
+  if (session.userType === 'TEACHER') {
+    const teacherData = await getTeacherPortalData(session.schoolId, session);
+    return (
+      <TeacherDashboardView
+        session={session}
+        data={teacherData}
+        schoolName={userConfig.schoolName}
+      />
+    );
+  }
+
   const today = new Date().toISOString().split('T')[0];
   const roleLabel = ROLE_LABELS[session.userType] ?? session.userType;
 
@@ -165,6 +185,18 @@ export default async function DashboardPage() {
     clinicVisitsToday: auxiliaryMetrics.totalClinicVisitsToday,
     activeBusRoutes: auxiliaryMetrics.activeTransportRoutes,
   };
+
+  // Dedicated Bursar Financial Command Center
+  if (session.userType === 'BURSAR') {
+    return (
+      <BursarDashboardView
+        session={session}
+        metrics={metricsContext}
+        schoolName={userConfig.schoolName}
+        dateDisplay={dateDisplay}
+      />
+    );
+  }
 
   const collectionRate = totalBilled > 0 ? Math.round((totalCollected / totalBilled) * 100) : 0;
   const attendanceOk = attendanceMetrics.overallAttendanceRate >= 85;

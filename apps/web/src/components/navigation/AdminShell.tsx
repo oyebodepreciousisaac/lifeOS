@@ -27,6 +27,8 @@ import {
   ChevronRight,
   LogOut,
   Building,
+  BookOpen,
+  GraduationCap,
 } from 'lucide-react';
 import { logoutAction } from '@/app/actions/auth';
 
@@ -73,45 +75,133 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [mobileOpen]);
 
-  const navSections: NavSection[] = [
-    {
-      title: 'Academics & Students',
-      items: [
-        { label: 'Student Directory', href: '/admin/students', icon: Users },
-        { label: 'Admissions Funnel', href: '/admin/admissions', icon: UserPlus },
-        { label: 'Daily Attendance', href: '/admin/attendance', icon: UserCheck },
-        { label: 'Master Timetable', href: '/admin/timetable', icon: Calendar },
-        { label: 'Continuous Assessment', href: '/admin/assessments', icon: FileSpreadsheet },
-        { label: 'Report Cards & Promotion', href: '/admin/report-cards', icon: Award },
-      ],
-    },
-    {
-      title: 'Finance & Accounts',
-      items: [
-        { label: 'Invoices & Billing', href: '/admin/finance', icon: Receipt },
-        { label: 'Fee Schedules', href: '/admin/finance?tab=fees', icon: CreditCard },
-      ],
-    },
-    {
-      title: 'School Operations',
-      items: [
-        { label: 'Auxiliary Services', href: '/admin/auxiliary', icon: HeartPulse },
-        { label: 'Virtual LMS', href: '/admin/lms', icon: Video },
-        { label: 'School Broadcasts', href: '/admin/communications', icon: Radio },
-        { label: 'Assistive AI Workbench', href: '/admin/assistive-ai', icon: Bot },
-      ],
-    },
-    {
-      title: 'Governance & Security',
-      items: [
-        { label: 'Maker-Checker Queue', href: '/admin/governance', icon: Scale },
-        { label: 'Academic Setup', href: '/admin/academic-setup', icon: Layers },
-        { label: 'Staff & Roles', href: '/admin/users', icon: ShieldCheck },
-        { label: 'Audit Trail', href: '/admin/audit-logs', icon: FileText },
-        { label: 'Security & Backup', href: '/admin/platform-security', icon: Database },
-      ],
-    },
-  ];
+  const getNavSections = (): NavSection[] => {
+    const role = session.userType;
+    if (role === 'TEACHER') {
+      return [
+        {
+          title: 'Teaching Workspace',
+          items: [
+            { label: 'Teacher Dashboard', href: '/dashboard', icon: LayoutDashboard },
+            { label: 'Schedule & Scorebook', href: '/portal/teacher', icon: BookOpen },
+          ],
+        },
+        {
+          title: 'Classroom & Academics',
+          items: [
+            { label: 'Daily Attendance', href: '/admin/attendance', icon: UserCheck },
+            { label: 'Continuous Assessment', href: '/admin/assessments', icon: FileSpreadsheet },
+            { label: 'Class Timetable', href: '/admin/timetable', icon: Calendar },
+            { label: 'Virtual LMS', href: '/admin/lms', icon: Video },
+            { label: 'Student Directory', href: '/admin/students', icon: Users },
+          ],
+        },
+        {
+          title: 'Tools & Requests',
+          items: [
+            { label: 'School Broadcasts', href: '/admin/communications', icon: Radio },
+            { label: 'AI Lesson Assistant', href: '/admin/assistive-ai', icon: Bot },
+            { label: 'Score Alteration Requests', href: '/admin/governance', icon: Scale },
+          ],
+        },
+      ];
+    }
+
+    if (role === 'BURSAR') {
+      return [
+        {
+          title: 'Finance & Accounts',
+          items: [
+            { label: 'Finance Dashboard', href: '/dashboard', icon: LayoutDashboard },
+            { label: 'Invoices & Billing', href: '/admin/finance', icon: Receipt },
+            { label: 'Fee Schedules', href: '/admin/finance?tab=fees', icon: CreditCard },
+          ],
+        },
+        {
+          title: 'Collections & Operations',
+          items: [
+            { label: 'Student Debtors', href: '/admin/students', icon: Users },
+            { label: 'Payment Reminders', href: '/admin/communications', icon: Radio },
+            { label: 'Auxiliary & PTA Levies', href: '/admin/auxiliary', icon: HeartPulse },
+          ],
+        },
+        {
+          title: 'Governance & Audit',
+          items: [
+            { label: 'Dual-Control Approvals', href: '/admin/governance', icon: Scale },
+            { label: 'Financial Audit Trail', href: '/admin/audit-logs', icon: FileText },
+          ],
+        },
+      ];
+    }
+
+    if (role === 'PARENT') {
+      return [
+        {
+          title: 'Parent Portal',
+          items: [
+            { label: 'My Children & Attendance', href: '/portal/parent', icon: Users },
+            { label: 'School Broadcasts', href: '/admin/communications', icon: Radio },
+          ],
+        },
+      ];
+    }
+
+    if (role === 'STUDENT') {
+      return [
+        {
+          title: 'Student Workspace',
+          items: [
+            { label: 'My Classes & Timetable', href: '/portal/student', icon: GraduationCap },
+            { label: 'Virtual Lessons', href: '/admin/lms', icon: Video },
+          ],
+        },
+      ];
+    }
+
+    // Default Institutional Leadership (OWNER, PRINCIPAL, VICE_PRINCIPAL, SUPERADMIN, IT_ADMIN)
+    return [
+      {
+        title: 'Academics & Students',
+        items: [
+          { label: 'Student Directory', href: '/admin/students', icon: Users },
+          { label: 'Admissions Funnel', href: '/admin/admissions', icon: UserPlus },
+          { label: 'Daily Attendance', href: '/admin/attendance', icon: UserCheck },
+          { label: 'Master Timetable', href: '/admin/timetable', icon: Calendar },
+          { label: 'Continuous Assessment', href: '/admin/assessments', icon: FileSpreadsheet },
+          { label: 'Report Cards & Promotion', href: '/admin/report-cards', icon: Award },
+        ],
+      },
+      {
+        title: 'Finance & Accounts',
+        items: [
+          { label: 'Invoices & Billing', href: '/admin/finance', icon: Receipt },
+          { label: 'Fee Schedules', href: '/admin/finance?tab=fees', icon: CreditCard },
+        ],
+      },
+      {
+        title: 'School Operations',
+        items: [
+          { label: 'Auxiliary Services', href: '/admin/auxiliary', icon: HeartPulse },
+          { label: 'Virtual LMS', href: '/admin/lms', icon: Video },
+          { label: 'School Broadcasts', href: '/admin/communications', icon: Radio },
+          { label: 'Assistive AI Workbench', href: '/admin/assistive-ai', icon: Bot },
+        ],
+      },
+      {
+        title: 'Governance & Security',
+        items: [
+          { label: 'Maker-Checker Queue', href: '/admin/governance', icon: Scale },
+          { label: 'Academic Setup', href: '/admin/academic-setup', icon: Layers },
+          { label: 'Staff & Roles', href: '/admin/users', icon: ShieldCheck },
+          { label: 'Audit Trail', href: '/admin/audit-logs', icon: FileText },
+          { label: 'Security & Backup', href: '/admin/platform-security', icon: Database },
+        ],
+      },
+    ];
+  };
+
+  const navSections = getNavSections();
 
   const isCurrent = (href: string) => {
     const [path] = href.split('?');
@@ -242,7 +332,7 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
         </aside>
 
         {/* Content Area */}
-        <main className="flex-1 min-w-0 p-4 sm:p-6 lg:p-8 w-full">
+        <main className="flex-1 min-w-0 p-3.5 sm:p-6 lg:p-8 w-full max-w-full overflow-x-hidden">
           {children}
         </main>
       </div>

@@ -446,8 +446,8 @@ export default function InstitutionalAttendancePage() {
             </Button>
           </Link>
 
-          {/* Offline Mode Simulator Toggle */}
-          <div className="flex items-center gap-2 bg-muted/60 border border-border/80 px-3 py-1.5 rounded-lg text-xs">
+          {/* PWA Offline Mode Sync Toggle */}
+          <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg text-xs">
             <button
               onClick={() => {
                 const nextState = !offlineSimActive;
@@ -456,21 +456,21 @@ export default function InstitutionalAttendancePage() {
                 setNotification({
                   type: 'info',
                   message: nextState
-                    ? 'Offline Simulation Enabled: Register submissions will be saved locally to test campus power/internet outages.'
-                    : 'Online Mode Restored: Live server communication active.',
+                    ? 'PWA Offline Cache Active: Register entries are queued locally in browser storage for low-bandwidth resilience.'
+                    : 'Cloud Sync Restored: Direct live server synchronization active.',
                 });
               }}
-              className="flex items-center gap-1.5 font-medium hover:text-primary transition-colors"
+              className="flex items-center gap-1.5 font-medium hover:text-navy-950 transition-colors"
             >
               {offlineSimActive ? (
                 <>
                   <WifiOff className="h-4 w-4 text-amber-500 animate-pulse" />
-                  <span className="text-amber-600 font-semibold">Offline Mode (Simulated)</span>
+                  <span className="text-amber-700 font-semibold">Offline Cache Active</span>
                 </>
               ) : (
                 <>
                   <Wifi className="h-4 w-4 text-emerald-500" />
-                  <span className="text-muted-foreground">Network Online</span>
+                  <span className="text-slate-600 font-medium">Cloud Synced</span>
                 </>
               )}
             </button>

@@ -36,12 +36,12 @@ export default async function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="flex min-h-full flex-col bg-slate-50 text-slate-900 selection:bg-emerald-500 selection:text-white pb-16 lg:pb-0">
+      <body className="flex min-h-full w-full max-w-full flex-col bg-slate-50 text-slate-900 selection:bg-emerald-500 selection:text-white pb-16 lg:pb-0 overflow-x-hidden">
         {/* Responsive Institutional Navbar */}
         <MainNavbar user={user} />
 
         {/* Main Content Area */}
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 w-full max-w-full overflow-x-hidden">{children}</main>
 
         {/* Mobile PWA Bottom Navigation Bar */}
         <MobileBottomNav user={user} />

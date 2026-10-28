@@ -45,19 +45,55 @@ export default function MobileBottomNav({ user }: MobileBottomNavProps) {
     return pathname.startsWith(href);
   };
 
-  const navItems = [
-    { label: 'Home', href: '/', icon: Home },
-    { label: 'Parent', href: '/portal/parent', icon: Users },
-    { label: 'Teacher', href: '/portal/teacher', icon: GraduationCap },
-    { label: 'Apply', href: '/admissions/apply', icon: FileCheck2 },
-    {
-      label: user ? 'App Hub' : 'Sign In',
-      isAction: Boolean(user),
-      href: user ? '/dashboard' : '/login',
-      icon: user ? Settings : LogIn,
-      onClick: user ? () => setSheetOpen(true) : undefined,
-    },
-  ];
+  const getNavItems = () => {
+    if (user?.role === 'TEACHER') {
+      return [
+        { label: 'Home', href: '/', icon: Home },
+        { label: 'Schedule', href: '/portal/teacher', icon: GraduationCap },
+        { label: 'Roll Call', href: '/admin/attendance', icon: UserCheck },
+        { label: 'CA Marks', href: '/admin/assessments', icon: FileCheck2 },
+        {
+          label: 'My Hub',
+          isAction: true,
+          href: '/dashboard',
+          icon: Settings,
+          onClick: () => setSheetOpen(true),
+        },
+      ];
+    }
+
+    if (user?.role === 'BURSAR') {
+      return [
+        { label: 'Home', href: '/', icon: Home },
+        { label: 'Invoices', href: '/admin/finance', icon: CreditCard },
+        { label: 'Schedules', href: '/admin/finance?tab=fees', icon: FileCheck2 },
+        { label: 'Debtors', href: '/admin/students', icon: Users },
+        {
+          label: 'My Hub',
+          isAction: true,
+          href: '/dashboard',
+          icon: Settings,
+          onClick: () => setSheetOpen(true),
+        },
+      ];
+    }
+
+    return [
+      { label: 'Home', href: '/', icon: Home },
+      { label: 'Parent', href: '/portal/parent', icon: Users },
+      { label: 'Teacher', href: '/portal/teacher', icon: GraduationCap },
+      { label: 'Apply', href: '/admissions/apply', icon: FileCheck2 },
+      {
+        label: user ? 'App Hub' : 'Sign In',
+        isAction: Boolean(user),
+        href: user ? '/dashboard' : '/login',
+        icon: user ? Settings : LogIn,
+        onClick: user ? () => setSheetOpen(true) : undefined,
+      },
+    ];
+  };
+
+  const navItems = getNavItems();
 
   return (
     <>

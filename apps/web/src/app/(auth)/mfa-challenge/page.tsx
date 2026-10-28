@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useFormState } from 'react-dom';
 import { verifyMfaAction, AuthState } from '@/app/actions/auth';
 import { Button, Input, Card, CardHeader, CardTitle, CardDescription, CardContent, Alert } from '@school-os/ui';
-import { KeyRound, ShieldAlert, ArrowLeft, RefreshCw, CheckCircle2 } from 'lucide-react';
+import { KeyRound, ShieldAlert, ArrowLeft, RefreshCw, CheckCircle2, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 
 export default function MfaChallengePage() {
@@ -73,13 +73,13 @@ export default function MfaChallengePage() {
               </Button>
             </form>
 
-            <div className="rounded-lg bg-slate-50 p-3 border border-slate-200/80 text-xs text-slate-600 space-y-1">
-              <div className="flex items-center gap-1.5 font-bold text-slate-800">
-                <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                Demo Testing Token:
+            <div className="rounded-lg bg-emerald-50/70 p-3 border border-emerald-200/80 text-xs text-emerald-900 space-y-1">
+              <div className="flex items-center gap-1.5 font-bold text-emerald-950">
+                <ShieldCheck className="h-4 w-4 text-emerald-600" />
+                Authorized Institutional Passkey:
               </div>
-              <p>
-                Enter standard demo passkey <code className="font-mono font-bold text-navy-950 bg-white px-1.5 py-0.5 rounded border">123456</code> or your live Authenticator TOTP token.
+              <p className="text-slate-600">
+                Enter your Authenticator TOTP token, or default evaluation code <code className="font-mono font-bold text-navy-950 bg-white px-1.5 py-0.5 rounded border border-emerald-200">123456</code>.
               </p>
             </div>
           </CardContent>

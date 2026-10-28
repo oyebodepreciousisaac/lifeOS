@@ -88,20 +88,8 @@ export default function ParentPortalClient({
 
   return (
     <div className="space-y-6">
-      {data.isPreview && (
-        <div className="rounded-xl border border-blue-200 bg-blue-50/90 px-4 py-3 flex items-center justify-between text-xs text-blue-900 shadow-xs">
-          <div className="flex items-center gap-2.5">
-            <ShieldCheck className="h-4 w-4 text-blue-600 shrink-0" />
-            <span>
-              <strong>Staff Preview Mode:</strong> You are viewing the live Parent Portal workspace for registered guardian <strong>{data.guardian.name}</strong>. Logged in as: {data.previewActorName} ({data.previewActorRole}).
-            </span>
-          </div>
-          <span className="text-[11px] font-semibold text-blue-700 bg-blue-100 px-2 py-0.5 rounded">Preview</span>
-        </div>
-      )}
-
       {/* Top Banner: Parent Identity & Multi-Child Switcher */}
-      <div className="rounded-2xl bg-navy-950 text-white p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-institutional-lg">
+      <div className="rounded-2xl bg-navy-950 text-white p-5 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-institutional-lg">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-400 bg-navy-900 px-2.5 py-1 rounded-md border border-emerald-500/20">
@@ -116,15 +104,15 @@ export default function ParentPortalClient({
             Welcome, {data.guardian.name}
           </h1>
 
-          <p className="text-xs text-slate-300 flex items-center gap-2">
+          <p className="text-xs text-slate-300 flex flex-wrap items-center gap-2">
             <span>Primary Phone: <strong className="text-white">{data.guardian.phone}</strong></span>
-            <span>•</span>
+            <span className="hidden sm:inline">•</span>
             <span className="text-slate-400">{data.guardian.email}</span>
           </p>
         </div>
 
         {/* Multi-Child Selector Switcher */}
-        <div className="bg-navy-900/90 border border-slate-700 p-3 rounded-xl flex flex-col gap-1 min-w-[260px]">
+        <div className="bg-navy-900/90 border border-slate-700 p-3 rounded-xl flex flex-col gap-1 w-full sm:w-auto sm:min-w-[240px]">
           <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
             <User className="h-3.5 w-3.5 text-emerald-400" />
             Switch Active Child ({data.children.length} Enrolled)
@@ -146,22 +134,22 @@ export default function ParentPortalClient({
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-200 pb-2 overflow-x-auto">
+      <div className="flex items-center gap-2 border-b border-slate-200 pb-2 overflow-x-auto -mx-1 px-1">
         <button
           onClick={() => setActiveTab('OVERVIEW')}
-          className={`px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 ${
+          className={`px-3 sm:px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 whitespace-nowrap shrink-0 ${
             activeTab === 'OVERVIEW'
               ? 'bg-navy-950 text-white shadow-sm'
               : 'text-slate-600 hover:text-navy-950 hover:bg-slate-100'
           }`}
         >
           <User className="h-3.5 w-3.5" />
-          Overview & Attendance
+          Overview &amp; Attendance
         </button>
 
         <button
           onClick={() => setActiveTab('REPORT_CARD')}
-          className={`px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 ${
+          className={`px-3 sm:px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 whitespace-nowrap shrink-0 ${
             activeTab === 'REPORT_CARD'
               ? 'bg-navy-950 text-white shadow-sm'
               : 'text-slate-600 hover:text-navy-950 hover:bg-slate-100'
@@ -173,16 +161,16 @@ export default function ParentPortalClient({
 
         <button
           onClick={() => setActiveTab('FEES')}
-          className={`px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 ${
+          className={`px-3 sm:px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 whitespace-nowrap shrink-0 ${
             activeTab === 'FEES'
               ? 'bg-navy-950 text-white shadow-sm'
               : 'text-slate-600 hover:text-navy-950 hover:bg-slate-100'
           }`}
         >
           <CreditCard className="h-3.5 w-3.5" />
-          Fees & Paystack Billing
+          Fees &amp; Paystack Billing
           {child.outstandingBalance > 0 && (
-            <span className="ml-1 px-1.5 py-0.2 rounded-full bg-rose-500 text-white text-[10px]">
+            <span className="ml-1 px-1.5 py-0.5 rounded-full bg-rose-500 text-white text-[10px]">
               ₦{child.outstandingBalance.toLocaleString()}
             </span>
           )}
@@ -190,7 +178,7 @@ export default function ParentPortalClient({
 
         <button
           onClick={() => setActiveTab('RECEIPTS')}
-          className={`px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 ${
+          className={`px-3 sm:px-4 py-2 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5 whitespace-nowrap shrink-0 ${
             activeTab === 'RECEIPTS'
               ? 'bg-navy-950 text-white shadow-sm'
               : 'text-slate-600 hover:text-navy-950 hover:bg-slate-100'
@@ -215,25 +203,25 @@ export default function ParentPortalClient({
                   <Badge variant="approved">{child.classArm}</Badge>
                 </div>
                 <CardDescription>
-                  Admission No: <strong className="font-mono text-slate-800">{child.admissionNumber}</strong> • {child.campusName}
+                  Admission No: <strong className="font-mono text-slate-800">{child.admissionNumber}</strong> &bull; {child.campusName}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-                  <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
-                    <span className="text-slate-400 block mb-0.5">DATE OF BIRTH</span>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs">
+                  <div className="p-2.5 rounded-lg bg-slate-50/80 border border-slate-100">
+                    <span className="text-slate-400 block mb-0.5 text-[10px] uppercase font-bold tracking-wider">DATE OF BIRTH</span>
                     <strong className="text-slate-800">{child.dateOfBirth}</strong>
                   </div>
-                  <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
-                    <span className="text-slate-400 block mb-0.5">GENDER</span>
+                  <div className="p-2.5 rounded-lg bg-slate-50/80 border border-slate-100">
+                    <span className="text-slate-400 block mb-0.5 text-[10px] uppercase font-bold tracking-wider">GENDER</span>
                     <strong className="text-slate-800">{child.gender}</strong>
                   </div>
-                  <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
-                    <span className="text-slate-400 block mb-0.5">GENOTYPE & BLOOD</span>
+                  <div className="p-2.5 rounded-lg bg-slate-50/80 border border-slate-100">
+                    <span className="text-slate-400 block mb-0.5 text-[10px] uppercase font-bold tracking-wider">GENOTYPE &amp; BLOOD</span>
                     <strong className="text-slate-800">{child.genotype} / {child.bloodGroup}</strong>
                   </div>
-                  <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200">
-                    <span className="text-slate-400 block mb-0.5">MEDICAL ALERTS</span>
+                  <div className="p-2.5 rounded-lg bg-slate-50/80 border border-slate-100">
+                    <span className="text-slate-400 block mb-0.5 text-[10px] uppercase font-bold tracking-wider">MEDICAL ALERTS</span>
                     <strong className="text-amber-700">{child.allergies || 'None'}</strong>
                   </div>
                 </div>

@@ -6,9 +6,9 @@ export function Table({
   ...props
 }: React.HTMLAttributes<HTMLTableElement>) {
   return (
-    <div className="relative w-full overflow-auto rounded-lg border border-slate-200 dark:border-slate-800">
+    <div className="relative w-full max-w-full overflow-x-auto rounded-lg border border-slate-200/90 dark:border-slate-800 -webkit-overflow-scrolling-touch">
       <table
-        className={cn('w-full caption-bottom text-sm text-left', className)}
+        className={cn('w-full min-w-full caption-bottom text-sm text-left', className)}
         {...props}
       />
     </div>

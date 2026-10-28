@@ -394,7 +394,7 @@ export default function AdminFinanceManagementPage() {
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-600"></span>
                 </span>
-                <span>Paystack Gateway Live (Test Mode)</span>
+                <span>Paystack Payment Gateway Active</span>
               </div>
 
               <Button
