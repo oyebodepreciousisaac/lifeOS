@@ -298,11 +298,10 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
                       <Link
                         key={item.href}
                         href={item.href}
-                        className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
-                          active
+                        className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors ${active
                             ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-400 font-bold border-l-4 border-emerald-600'
                             : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-navy-950 dark:hover:text-white'
-                        }`}
+                          }`}
                       >
                         <Icon className={`h-4 w-4 shrink-0 ${active ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'}`} />
                         <span className="truncate">{item.label}</span>
@@ -388,11 +387,10 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
                         <Link
                           key={item.href}
                           href={item.href}
-                          className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-medium transition-colors ${
-                            active
+                          className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-medium transition-colors ${active
                               ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-400 font-bold border-l-4 border-emerald-600'
                               : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
-                          }`}
+                            }`}
                         >
                           <Icon className={`h-4 w-4 shrink-0 ${active ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'}`} />
                           <span>{item.label}</span>

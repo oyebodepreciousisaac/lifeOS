@@ -237,11 +237,10 @@ export default function MobileBottomNav({ user }: MobileBottomNavProps) {
                   key={item.label}
                   type="button"
                   onClick={item.onClick}
-                  className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all ${
-                    active
+                  className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all ${active
                       ? 'text-emerald-700 dark:text-emerald-400 font-bold'
                       : 'text-slate-500 dark:text-slate-400 hover:text-navy-950 dark:hover:text-white font-medium'
-                  }`}
+                    }`}
                   aria-label={item.label}
                 >
                   <Icon className={`h-5 w-5 ${active ? 'text-emerald-700 dark:text-emerald-400 stroke-[2.5]' : 'stroke-[1.75]'}`} />
@@ -254,11 +253,10 @@ export default function MobileBottomNav({ user }: MobileBottomNavProps) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all ${
-                  active
+                className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all ${active
                     ? 'text-emerald-700 dark:text-emerald-400 font-bold'
                     : 'text-slate-500 dark:text-slate-400 hover:text-navy-950 dark:hover:text-white font-medium'
-                }`}
+                  }`}
                 aria-label={item.label}
               >
                 <Icon className={`h-5 w-5 ${active ? 'text-emerald-700 dark:text-emerald-400 stroke-[2.5]' : 'stroke-[1.75]'}`} />

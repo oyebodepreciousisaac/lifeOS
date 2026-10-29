@@ -142,11 +142,10 @@ export default function MainNavbar({ user }: MainNavbarProps) {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`px-3 py-1.5 rounded-lg transition-colors ${
-                  isActive(link.href)
+                className={`px-3 py-1.5 rounded-lg transition-colors ${isActive(link.href)
                     ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400 font-bold border border-emerald-200/50 dark:border-emerald-800/50'
                     : 'hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-slate-50 dark:hover:bg-slate-800'
-                }`}
+                  }`}
               >
                 {link.label}
               </Link>
@@ -164,12 +163,12 @@ export default function MainNavbar({ user }: MainNavbarProps) {
                 user.role === 'TEACHER'
                   ? '/portal/teacher'
                   : user.role === 'PARENT'
-                  ? '/portal/parent'
-                  : user.role === 'STUDENT'
-                  ? '/portal/student'
-                  : user.role === 'BURSAR'
-                  ? '/admin/finance'
-                  : '/dashboard'
+                    ? '/portal/parent'
+                    : user.role === 'STUDENT'
+                      ? '/portal/student'
+                      : user.role === 'BURSAR'
+                        ? '/admin/finance'
+                        : '/dashboard'
               }
               className="inline-flex items-center gap-1.5 text-xs font-bold bg-navy-950 dark:bg-slate-800 text-white px-4 py-2 rounded-lg hover:bg-navy-900 dark:hover:bg-slate-700 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 border border-slate-700/50"
             >
@@ -177,12 +176,12 @@ export default function MainNavbar({ user }: MainNavbarProps) {
               {user.role === 'TEACHER'
                 ? 'Teacher Workspace'
                 : user.role === 'PARENT'
-                ? 'Parent Portal'
-                : user.role === 'STUDENT'
-                ? 'Student Workspace'
-                : user.role === 'BURSAR'
-                ? 'Finance Dashboard'
-                : 'Dashboard'}
+                  ? 'Parent Portal'
+                  : user.role === 'STUDENT'
+                    ? 'Student Workspace'
+                    : user.role === 'BURSAR'
+                      ? 'Finance Dashboard'
+                      : 'Dashboard'}
               <ArrowRight className="h-3.5 w-3.5 ml-0.5" />
             </Link>
           ) : (
@@ -214,10 +213,10 @@ export default function MainNavbar({ user }: MainNavbarProps) {
                 user.role === 'TEACHER'
                   ? '/portal/teacher'
                   : user.role === 'PARENT'
-                  ? '/portal/parent'
-                  : user.role === 'STUDENT'
-                  ? '/portal/student'
-                  : '/dashboard'
+                    ? '/portal/parent'
+                    : user.role === 'STUDENT'
+                      ? '/portal/student'
+                      : '/dashboard'
               }
               className="sm:hidden inline-flex items-center gap-1 text-xs font-bold bg-navy-950 dark:bg-slate-800 text-white px-2.5 py-1.5 rounded-lg border border-slate-700/40"
               aria-label="Dashboard"
@@ -226,10 +225,10 @@ export default function MainNavbar({ user }: MainNavbarProps) {
               {user.role === 'TEACHER'
                 ? 'Teacher'
                 : user.role === 'PARENT'
-                ? 'Parent'
-                : user.role === 'STUDENT'
-                ? 'Student'
-                : 'Dashboard'}
+                  ? 'Parent'
+                  : user.role === 'STUDENT'
+                    ? 'Student'
+                    : 'Dashboard'}
             </Link>
           )}
           <button
@@ -256,11 +255,10 @@ export default function MainNavbar({ user }: MainNavbarProps) {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors ${
-                  isActive(link.href)
+                className={`flex items-center justify-between px-3 py-2.5 rounded-lg transition-colors ${isActive(link.href)
                     ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-400 font-bold'
                     : 'hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200'
-                }`}
+                  }`}
               >
                 <span>{link.label}</span>
                 <ArrowRight className="h-4 w-4 text-slate-400" />

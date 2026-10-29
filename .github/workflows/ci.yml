@@ -11,6 +11,11 @@ jobs:
     name: Verify & Build
     runs-on: ubuntu-latest
 
+    env:
+      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/test?schema=public"
+      DIRECT_URL: "postgresql://postgres:postgres@localhost:5432/test?schema=public"
+      NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+
     steps:
       - name: Checkout Codebase
         uses: actions/checkout@v4
@@ -35,6 +40,3 @@ jobs:
 
       - name: Build Web Application
         run: npm run build
-        env:
-          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/test?schema=public"
-          NEXT_PUBLIC_APP_URL: "http://localhost:3000"
