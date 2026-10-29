@@ -80,60 +80,60 @@ export default async function StudentPortalPage() {
         </div>
       </div>
 
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* KPI Cards - 2x2 on Mobile, 4-col on Desktop */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <Card>
-          <CardHeader className="pb-2">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              Term Academic Average
+          <CardHeader className="p-4 sm:p-5 pb-2">
+            <span className="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">
+              Term Average
             </span>
-            <CardTitle className="text-2xl font-extrabold text-navy-950 mt-1">
+            <CardTitle className="text-xl sm:text-2xl font-extrabold text-navy-950 mt-1">
               {averageScore}%
             </CardTitle>
-            <CardDescription className="text-xs text-emerald-600 font-medium">
-              Grade Distinction Standard
+            <CardDescription className="text-[11px] sm:text-xs text-emerald-600 font-medium">
+              Academic Standing
             </CardDescription>
           </CardHeader>
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              Attendance Record
+          <CardHeader className="p-4 sm:p-5 pb-2">
+            <span className="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">
+              Attendance
             </span>
-            <CardTitle className="text-2xl font-extrabold text-emerald-700 mt-1">
+            <CardTitle className="text-xl sm:text-2xl font-extrabold text-emerald-700 mt-1">
               {data.attendanceSummary.rate}%
             </CardTitle>
-            <CardDescription className="text-xs text-slate-500">
-              {data.attendanceSummary.daysPresent} days present ({data.attendanceSummary.daysAbsent} absent)
+            <CardDescription className="text-[11px] sm:text-xs text-slate-500">
+              {data.attendanceSummary.daysPresent} days present
             </CardDescription>
           </CardHeader>
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              Registered Subjects
+          <CardHeader className="p-4 sm:p-5 pb-2">
+            <span className="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">
+              Subjects
             </span>
-            <CardTitle className="text-2xl font-extrabold text-navy-950 mt-1">
+            <CardTitle className="text-xl sm:text-2xl font-extrabold text-navy-950 mt-1">
               {data.termGrades.length} Courses
             </CardTitle>
-            <CardDescription className="text-xs text-blue-600 font-medium">
-              NERDC National Curriculum
+            <CardDescription className="text-[11px] sm:text-xs text-blue-600 font-medium">
+              Term Curriculum
             </CardDescription>
           </CardHeader>
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              Today&apos;s Periods
+          <CardHeader className="p-4 sm:p-5 pb-2">
+            <span className="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">
+              Today&apos;s Classes
             </span>
-            <CardTitle className="text-2xl font-extrabold text-navy-950 mt-1">
+            <CardTitle className="text-xl sm:text-2xl font-extrabold text-navy-950 mt-1">
               {data.timetableToday.length} Lessons
             </CardTitle>
-            <CardDescription className="text-xs text-slate-500">
-              Next: Basic Science at 10:00 AM
+            <CardDescription className="text-[11px] sm:text-xs text-slate-500">
+              Timetable
             </CardDescription>
           </CardHeader>
         </Card>

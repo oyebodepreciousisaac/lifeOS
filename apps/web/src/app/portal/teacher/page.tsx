@@ -47,10 +47,10 @@ export default async function TeacherPortalPage() {
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-400 bg-navy-900 px-2.5 py-1 rounded-md border border-emerald-500/20">
               <BookOpen className="h-3.5 w-3.5" />
-              Teacher Workspace & Scorebook
+              Teacher Workspace
             </span>
             <Badge variant="paid">{data.todaySummary.dayOfWeek} • Week {data.todaySummary.currentWeek}</Badge>
-            <Badge variant="approved">Tenant Scoped</Badge>
+            <Badge variant="approved">Class Teacher</Badge>
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
@@ -58,88 +58,89 @@ export default async function TeacherPortalPage() {
           </h1>
 
           <p className="text-xs text-slate-300">
-            {data.teacher.schoolName} • Senior Faculty Member • Department of Mathematics & Science
+            {data.teacher.schoolName} • Department of Mathematics &amp; Science
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <Link href="/admin/attendance">
+        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
+          <Link href="/admin/attendance" className="flex-1 sm:flex-initial">
             <Button
               variant="primary"
               size="sm"
+              className="w-full sm:w-auto"
               leftIcon={<UserCheck className="h-4 w-4" />}
             >
               Take Register
             </Button>
           </Link>
 
-          <Link href="/admin/assessments">
+          <Link href="/admin/assessments" className="flex-1 sm:flex-initial">
             <Button
               variant="outline"
               size="sm"
-              className="text-white border-slate-700 bg-navy-900 hover:bg-navy-800"
+              className="w-full sm:w-auto text-white border-slate-700 bg-navy-900 hover:bg-navy-800"
               leftIcon={<FileSpreadsheet className="h-4 w-4" />}
             >
-              CA Scorebook
+              Enter Scores
             </Button>
           </Link>
         </div>
       </div>
 
-      {/* KPI Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* KPI Stats - 2x2 on Mobile, 4-col on Desktop */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <Card>
-          <CardHeader className="pb-2">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+          <CardHeader className="p-4 sm:p-5 pb-2">
+            <span className="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">
               Classes Today
             </span>
-            <CardTitle className="text-2xl font-extrabold text-navy-950 mt-1">
+            <CardTitle className="text-xl sm:text-2xl font-extrabold text-navy-950 mt-1">
               {data.todaySummary.totalPeriodsToday} Periods
             </CardTitle>
-            <CardDescription className="text-xs text-emerald-600 font-medium">
-              Mathematics & Further Maths
+            <CardDescription className="text-[11px] sm:text-xs text-emerald-600 font-medium">
+              Mathematics
             </CardDescription>
           </CardHeader>
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              Roll Call Registers
+          <CardHeader className="p-4 sm:p-5 pb-2">
+            <span className="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">
+              Roll Call
             </span>
-            <CardTitle className="text-2xl font-extrabold text-navy-950 mt-1">
-              {data.todaySummary.registersTakenCount} of {data.assignedClasses.length} Taken
+            <CardTitle className="text-xl sm:text-2xl font-extrabold text-navy-950 mt-1">
+              {data.todaySummary.registersTakenCount}/{data.assignedClasses.length} Done
             </CardTitle>
-            <CardDescription className="text-xs text-amber-700 font-medium">
-              {data.todaySummary.registersPendingCount} Arm Pending Roll Call
+            <CardDescription className="text-[11px] sm:text-xs text-amber-700 font-medium">
+              {data.todaySummary.registersPendingCount > 0 ? `${data.todaySummary.registersPendingCount} Pending` : 'All Completed'}
             </CardDescription>
           </CardHeader>
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              Assigned Students
+          <CardHeader className="p-4 sm:p-5 pb-2">
+            <span className="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">
+              My Students
             </span>
-            <CardTitle className="text-2xl font-extrabold text-navy-950 mt-1">
-              68 Scholars
+            <CardTitle className="text-xl sm:text-2xl font-extrabold text-navy-950 mt-1">
+              68 Students
             </CardTitle>
-            <CardDescription className="text-xs text-slate-500">
-              Across 3 active class arms
+            <CardDescription className="text-[11px] sm:text-xs text-slate-500">
+              Across 3 class arms
             </CardDescription>
           </CardHeader>
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
-            <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-              Pending Action Items
+          <CardHeader className="p-4 sm:p-5 pb-2">
+            <span className="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">
+              Action Items
             </span>
-            <CardTitle className="text-2xl font-extrabold text-rose-700 mt-1">
-              {data.pendingTasks.length} Urgent
+            <CardTitle className="text-xl sm:text-2xl font-extrabold text-rose-700 mt-1">
+              {data.pendingTasks.length} Pending
             </CardTitle>
-            <CardDescription className="text-xs text-rose-600 font-medium">
-              Missing Marks Deadline Today
+            <CardDescription className="text-[11px] sm:text-xs text-rose-600 font-medium">
+              Continuous Assessment
             </CardDescription>
           </CardHeader>
         </Card>
