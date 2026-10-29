@@ -33,7 +33,7 @@ import {
 import Link from 'next/link';
 import { logoutAction } from '@/app/actions/auth';
 import { DEMO_USERS } from '@/lib/auth/demo-users';
-import { getSchoolConfiguration } from '@/lib/academic/academic-store';
+import { getSchoolConfiguration, getPlatformRegisteredSchools } from '@/lib/academic/academic-store';
 import RoleSpecificKpiPanel, { DashboardMetricsContext } from './RoleSpecificKpiPanel';
 import { getSisDashboardMetrics } from '@/lib/sis/sis-store';
 import { getSchoolAttendanceMetrics } from '@/lib/attendance/attendance-store';
@@ -97,10 +97,12 @@ export default async function DashboardPage() {
 
   // Dedicated Platform Owner / SuperAdmin Command Center
   if (session.userType === 'SUPERADMIN' || session.email === 'superadmin@squareos.com') {
+    const registeredSchools = getPlatformRegisteredSchools();
     return (
       <PlatformOwnerDashboardView
         session={session}
         dateDisplay={dateDisplay}
+        initialSchools={registeredSchools}
       />
     );
   }

@@ -396,27 +396,24 @@ export default function InstitutionalAttendancePage() {
   }, [sheet, searchQuery]);
 
   return (
-    <div className="space-y-8 p-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-16">
       {/* Top Header & Navigation */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border/40 pb-5">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-5">
         <div>
-          <div className="flex items-center gap-2 mb-1">
+          <div className="mb-3.5">
             <Link
               href="/dashboard"
-              className="text-xs font-medium text-muted-foreground hover:text-foreground inline-flex items-center gap-1 transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-700 transition shadow-2xs"
             >
-              <ArrowLeft className="h-3.5 w-3.5" /> Back to Executive Dashboard
+              <ArrowLeft className="h-3.5 w-3.5" />
+              <span>Back to Dashboard</span>
             </Link>
-            <span className="text-muted-foreground/40">•</span>
-            <span className="text-xs font-semibold text-primary uppercase tracking-wider">
-              Daily Attendance Register
-            </span>
           </div>
-          <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-foreground via-foreground/90 to-muted-foreground bg-clip-text text-transparent">
-            Institutional Attendance & Absence Pipeline
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-navy-950">
+            Daily Student Attendance
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Sub-60s classroom register entry, automated parent SMS absence alerts, lateness threshold detection, and offline resilient queue.
+          <p className="text-xs text-slate-500 mt-1 max-w-2xl leading-relaxed">
+            Take classroom roll-call, track lateness, and record student attendance.
           </p>
         </div>
 
@@ -595,14 +592,14 @@ export default function InstitutionalAttendancePage() {
         </Card>
       </div>
 
-      {/* Register Controls & High-Speed Entry Bar */}
+      {/* Register Controls & Entry Bar */}
       <Card className="shadow-xs border-border/80">
-        <CardContent className="p-4 space-y-4">
+        <CardContent className="p-4 sm:p-5 space-y-4">
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             {/* Roster Selectors */}
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full lg:w-auto">
               {/* Class Arm Selector */}
-              <div className="w-48">
+              <div className="w-full">
                 <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1">
                   Class Arm
                 </label>
@@ -630,7 +627,7 @@ export default function InstitutionalAttendancePage() {
               </div>
 
               {/* Date Selector */}
-              <div className="w-40">
+              <div className="w-full">
                 <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1">
                   Attendance Date
                 </label>
@@ -638,12 +635,12 @@ export default function InstitutionalAttendancePage() {
                   type="date"
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
-                  className="h-9 text-sm"
+                  className="h-9 text-sm w-full"
                 />
               </div>
 
               {/* Period Type */}
-              <div className="w-44">
+              <div className="w-full">
                 <label className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider block mb-1">
                   Session Type
                 </label>

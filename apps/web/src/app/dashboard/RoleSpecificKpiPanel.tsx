@@ -116,58 +116,58 @@ export default function RoleSpecificKpiPanel({ session, metrics }: RoleSpecificK
       {/* 1. OWNER / EXECUTIVE PERSPECTIVE */}
       {activePersona === 'OWNER' && (
         <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card className="border-l-4 border-l-emerald-600">
-              <CardHeader className="pb-2">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Total Term Invoiced
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            <Card className="border-l-4 border-l-emerald-600 shadow-xs">
+              <CardHeader className="pb-2 p-3.5 sm:p-5">
+                <span className="text-[11px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider truncate">
+                  Total Invoiced
                 </span>
-                <CardTitle className="text-2xl font-extrabold text-navy-950 mt-1">
+                <CardTitle className="text-lg sm:text-2xl font-extrabold text-navy-950 mt-1 truncate">
                   {formatNaira(metrics.totalBilledNaira)}
                 </CardTitle>
-                <CardDescription className="text-xs text-emerald-700 font-medium">
-                  {formatNaira(metrics.totalCollectedNaira)} Collected ({collectionRate}% Rate)
+                <CardDescription className="text-[10px] sm:text-xs text-emerald-700 font-medium truncate">
+                  {formatNaira(metrics.totalCollectedNaira)} ({collectionRate}%)
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="border-l-4 border-l-amber-500">
-              <CardHeader className="pb-2">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                  Outstanding Balances
+            <Card className="border-l-4 border-l-amber-500 shadow-xs">
+              <CardHeader className="pb-2 p-3.5 sm:p-5">
+                <span className="text-[11px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider truncate">
+                  Outstanding
                 </span>
-                <CardTitle className="text-2xl font-extrabold text-amber-700 mt-1">
+                <CardTitle className="text-lg sm:text-2xl font-extrabold text-amber-700 mt-1 truncate">
                   {formatNaira(metrics.totalOutstandingNaira)}
                 </CardTitle>
-                <CardDescription className="text-xs text-amber-600 font-medium">
-                  {metrics.agingDebtorsCount} Active Debtor {metrics.agingDebtorsCount === 1 ? 'Account' : 'Accounts'}
+                <CardDescription className="text-[10px] sm:text-xs text-amber-600 font-medium truncate">
+                  {metrics.agingDebtorsCount} Active Debtors
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="border-l-4 border-l-blue-600">
-              <CardHeader className="pb-2">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+            <Card className="border-l-4 border-l-blue-600 shadow-xs">
+              <CardHeader className="pb-2 p-3.5 sm:p-5">
+                <span className="text-[11px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider truncate">
                   Enrolled Students
                 </span>
-                <CardTitle className="text-2xl font-extrabold text-navy-950 mt-1">
-                  {metrics.enrolledStudents} {metrics.enrolledStudents === 1 ? 'Student' : 'Students'}
+                <CardTitle className="text-lg sm:text-2xl font-extrabold text-navy-950 mt-1 truncate">
+                  {metrics.enrolledStudents} {metrics.enrolledStudents === 1 ? 'Pupil' : 'Pupils'}
                 </CardTitle>
-                <CardDescription className="text-xs text-blue-600 font-medium">
-                  {metrics.activeStudents} Active Status ({metrics.admissionsTotal} Prospective)
+                <CardDescription className="text-[10px] sm:text-xs text-blue-600 font-medium truncate">
+                  {metrics.activeStudents} Active Status
                 </CardDescription>
               </CardHeader>
             </Card>
 
-            <Card className="border-l-4 border-l-purple-600">
-              <CardHeader className="pb-2">
-                <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+            <Card className="border-l-4 border-l-purple-600 shadow-xs">
+              <CardHeader className="pb-2 p-3.5 sm:p-5">
+                <span className="text-[11px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider truncate">
                   Attendance Today
                 </span>
-                <CardTitle className="text-2xl font-extrabold text-navy-950 mt-1">
-                  {metrics.attendanceRatePercent > 0 ? `${metrics.attendanceRatePercent}%` : 'Register Pending'}
+                <CardTitle className="text-lg sm:text-2xl font-extrabold text-navy-950 mt-1 truncate">
+                  {metrics.attendanceRatePercent > 0 ? `${metrics.attendanceRatePercent}%` : 'Pending'}
                 </CardTitle>
-                <CardDescription className="text-xs text-purple-600 font-medium">
+                <CardDescription className="text-[10px] sm:text-xs text-purple-600 font-medium truncate">
                   {metrics.presentStudentsToday} Present Today
                 </CardDescription>
               </CardHeader>
@@ -217,7 +217,7 @@ export default function RoleSpecificKpiPanel({ session, metrics }: RoleSpecificK
       {/* 2. PRINCIPAL PERSPECTIVE */}
       {activePersona === 'PRINCIPAL' && (
         <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <Card className="border-l-4 border-l-emerald-600">
               <CardHeader className="pb-2">
                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
@@ -297,7 +297,7 @@ export default function RoleSpecificKpiPanel({ session, metrics }: RoleSpecificK
       {/* 3. BURSAR PERSPECTIVE */}
       {activePersona === 'BURSAR' && (
         <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <Card className="border-l-4 border-l-emerald-600">
               <CardHeader className="pb-2">
                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
@@ -377,7 +377,7 @@ export default function RoleSpecificKpiPanel({ session, metrics }: RoleSpecificK
       {/* 4. TEACHER PERSPECTIVE */}
       {activePersona === 'TEACHER' && (
         <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <Card className="border-l-4 border-l-blue-600">
               <CardHeader className="pb-2">
                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
@@ -457,7 +457,7 @@ export default function RoleSpecificKpiPanel({ session, metrics }: RoleSpecificK
       {/* 5. IT ADMINISTRATOR PERSPECTIVE */}
       {activePersona === 'IT_ADMIN' && (
         <div className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <Card className="border-l-4 border-l-emerald-600">
               <CardHeader className="pb-2">
                 <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">

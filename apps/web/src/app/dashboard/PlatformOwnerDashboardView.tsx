@@ -34,109 +34,48 @@ interface PlatformOwnerDashboardViewProps {
     userType: string;
   };
   dateDisplay: string;
+  initialSchools?: Array<{
+    id: string;
+    name: string;
+    code: string;
+    location: string;
+    ownerName: string;
+    contactEmail: string;
+    studentsCount: number;
+    subscriptionPlan: string;
+    status: 'ACTIVE' | 'PENDING_SETUP';
+    lastActive: string;
+    mrr: string;
+  }>;
 }
 
 export default function PlatformOwnerDashboardView({
   session,
   dateDisplay,
+  initialSchools,
 }: PlatformOwnerDashboardViewProps) {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [filterStatus, setFilterStatus] = React.useState<'ALL' | 'ACTIVE' | 'TRIAL' | 'SETUP'>('ALL');
 
-  // Multi-School Tenant Registry Data
-  const schoolsRegistry = [
-    {
-      id: 'sch-001',
-      name: 'Apex Model College',
-      code: 'APX-LAG',
-      state: 'Lagos State (Victoria Island)',
-      students: 450,
-      teachers: 32,
-      parents: 380,
-      status: 'ACTIVE',
-      plan: 'Enterprise (Multi-Campus)',
-      gtv: '₦48,500,000',
-      lastActive: 'Just now',
-    },
-    {
-      id: 'sch-002',
-      name: 'Premier Academy',
-      code: 'PRM-ABJ',
-      state: 'FCT Abuja (Maitama)',
-      students: 620,
-      teachers: 45,
-      parents: 540,
-      status: 'ACTIVE',
-      plan: 'Enterprise',
-      gtv: '₦72,800,000',
-      lastActive: '4 mins ago',
-    },
-    {
-      id: 'sch-003',
-      name: 'King’s Gate International School',
-      code: 'KGT-PHC',
-      state: 'Rivers State (Port Harcourt)',
-      students: 380,
-      teachers: 28,
-      parents: 310,
-      status: 'ACTIVE',
-      plan: 'Standard Tier',
-      gtv: '₦39,200,000',
-      lastActive: '12 mins ago',
-    },
-    {
-      id: 'sch-004',
-      name: 'Graceland High Academy',
-      code: 'GLD-IBD',
-      state: 'Oyo State (Ibadan)',
-      students: 510,
-      teachers: 36,
-      parents: 420,
-      status: 'ACTIVE',
-      plan: 'Standard Tier',
-      gtv: '₦41,600,000',
-      lastActive: '25 mins ago',
-    },
-    {
-      id: 'sch-005',
-      name: 'Corona Horizon College',
-      code: 'CRN-ENU',
-      state: 'Enugu State (Independence Layout)',
-      students: 290,
-      teachers: 22,
-      parents: 260,
-      status: 'ACTIVE',
-      plan: 'Standard Tier',
-      gtv: '₦28,400,000',
-      lastActive: '1 hour ago',
-    },
-    {
-      id: 'sch-006',
-      name: 'Silverbird Crest Preparatory',
-      code: 'SBC-LAG',
-      state: 'Lagos State (Ikeja GRA)',
-      students: 340,
-      teachers: 26,
-      parents: 295,
-      status: 'TRIAL',
-      plan: '14-Day Free Evaluation',
-      gtv: '₦0',
-      lastActive: '3 hours ago',
-    },
-    {
-      id: 'sch-007',
-      name: 'St. Saviour British Academy',
-      code: 'SSB-KAN',
-      state: 'Kano State (Nasarawa GRA)',
-      students: 410,
-      teachers: 30,
-      parents: 350,
-      status: 'SETUP',
-      plan: 'Onboarding Configuration',
-      gtv: '₦0',
-      lastActive: 'Yesterday',
-    },
-  ];
+  // Real Multi-School Tenant Registry Data from Store
+  const schoolsRegistry = React.useMemo(() => {
+    if (initialSchools && initialSchools.length > 0) {
+      return initialSchools.map((s) => ({
+        id: s.id,
+        name: s.name,
+        code: s.code,
+        state: s.location,
+        students: s.studentsCount,
+        teachers: 0,
+        parents: 0,
+        status: s.status === 'ACTIVE' ? 'ACTIVE' : 'SETUP',
+        plan: s.subscriptionPlan,
+        gtv: '₦0',
+        lastActive: s.lastActive,
+      }));
+    }
+    return [];
+  }, [initialSchools]);
 
   // Core Platform Subsystems & Ecosystem Status
   const platformSubsystems = [
@@ -264,104 +203,93 @@ export default function PlatformOwnerDashboardView({
         </div>
       </div>
 
-      {/* ── MACRO PLATFORM METRICS (THE 3 CORE REQUIREMENTS) ── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* ── MACRO PLATFORM METRICS (2x2 on Mobile, 4-Cols on Desktop) ── */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* Metric 1: Number of Schools */}
-        <Card className="border-l-4 border-l-emerald-600 shadow-sm hover:shadow-md transition-shadow">
-          <CardHeader className="pb-2">
+        <Card className="border-l-4 border-l-emerald-600 shadow-xs">
+          <CardHeader className="pb-2 p-4 sm:p-5">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Total Schools
+              <span className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider truncate">
+                Registered Schools
               </span>
-              <div className="h-8 w-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+              <div className="h-7 w-7 sm:h-8 sm:w-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold shrink-0">
                 <Building2 className="h-4 w-4" />
               </div>
             </div>
-            <CardTitle className="text-3xl font-extrabold text-navy-950 mt-1">
-              {totalSchools} Institutions
+            <CardTitle className="text-2xl sm:text-3xl font-extrabold text-navy-950 mt-1">
+              {totalSchools}
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between text-xs text-slate-600">
-              <span className="text-emerald-700 font-semibold flex items-center gap-1">
-                <CheckCircle2 className="h-3.5 w-3.5" /> 5 Active
-              </span>
-              <span className="text-slate-400">•</span>
-              <span className="text-amber-700 font-semibold">1 Trial</span>
-              <span className="text-slate-400">•</span>
-              <span className="text-blue-700 font-semibold">1 Onboarding</span>
+          <CardContent className="px-4 sm:px-5 pb-4 pt-0">
+            <div className="text-[11px] text-slate-500 truncate">
+              {totalSchools === 1 ? '1 active tenant' : `${totalSchools} active institutions`}
             </div>
           </CardContent>
         </Card>
 
         {/* Metric 2: Number of Users */}
-        <Card className="border-l-4 border-l-blue-600 shadow-sm hover:shadow-md transition-shadow">
-          <CardHeader className="pb-2">
+        <Card className="border-l-4 border-l-blue-600 shadow-xs">
+          <CardHeader className="pb-2 p-4 sm:p-5">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Total Global Users
+              <span className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider truncate">
+                Total Students
               </span>
-              <div className="h-8 w-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
+              <div className="h-7 w-7 sm:h-8 sm:w-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center font-bold shrink-0">
                 <Users className="h-4 w-4" />
               </div>
             </div>
-            <CardTitle className="text-3xl font-extrabold text-navy-950 mt-1">
-              {totalGlobalUsers.toLocaleString('en-NG')} Users
+            <CardTitle className="text-2xl sm:text-3xl font-extrabold text-navy-950 mt-1">
+              {totalStudents}
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between text-xs text-slate-600">
-              <span>{totalStudents} Students</span>
-              <span className="text-slate-300">•</span>
-              <span>{totalParents} Parents</span>
-              <span className="text-slate-300">•</span>
-              <span>{totalTeachers} Teachers</span>
+          <CardContent className="px-4 sm:px-5 pb-4 pt-0">
+            <div className="text-[11px] text-slate-500 truncate">
+              Enrolled pupils across schools
             </div>
           </CardContent>
         </Card>
 
-        {/* Metric 3: Number of Platforms & Subsystems */}
-        <Card className="border-l-4 border-l-purple-600 shadow-sm hover:shadow-md transition-shadow">
-          <CardHeader className="pb-2">
+        {/* Metric 3: Subsystems & Engines */}
+        <Card className="border-l-4 border-l-purple-600 shadow-xs">
+          <CardHeader className="pb-2 p-4 sm:p-5">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Subsystems & Engines
+              <span className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider truncate">
+                Core Engines
               </span>
-              <div className="h-8 w-8 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center font-bold">
+              <div className="h-7 w-7 sm:h-8 sm:w-8 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center font-bold shrink-0">
                 <Layers className="h-4 w-4" />
               </div>
             </div>
-            <CardTitle className="text-3xl font-extrabold text-navy-950 mt-1">
-              8 / 8 Platforms
+            <CardTitle className="text-2xl sm:text-3xl font-extrabold text-navy-950 mt-1">
+              8 / 8 Active
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-1.5 text-xs text-emerald-700 font-semibold">
+          <CardContent className="px-4 sm:px-5 pb-4 pt-0">
+            <div className="flex items-center gap-1.5 text-[11px] text-emerald-700 font-semibold truncate">
               <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>100% Core Services Operational</span>
+              <span>All systems operational</span>
             </div>
           </CardContent>
         </Card>
 
-        {/* Metric 4: Platform Gross Transaction Volume (GTV) */}
-        <Card className="border-l-4 border-l-amber-600 shadow-sm hover:shadow-md transition-shadow">
-          <CardHeader className="pb-2">
+        {/* Metric 4: Platform Security */}
+        <Card className="border-l-4 border-l-amber-600 shadow-xs">
+          <CardHeader className="pb-2 p-4 sm:p-5">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                Total Fees Handled (GTV)
+              <span className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider truncate">
+                Tenant Security
               </span>
-              <div className="h-8 w-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center font-bold">
-                <TrendingUp className="h-4 w-4" />
+              <div className="h-7 w-7 sm:h-8 sm:w-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center font-bold shrink-0">
+                <ShieldCheck className="h-4 w-4" />
               </div>
             </div>
-            <CardTitle className="text-3xl font-extrabold text-navy-950 mt-1">
-              ₦230.5M
+            <CardTitle className="text-2xl sm:text-3xl font-extrabold text-navy-950 mt-1">
+              Active
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="flex items-center justify-between text-xs text-slate-600">
-              <span className="text-emerald-700 font-semibold">Paystack Gateway Live</span>
-              <span className="text-slate-400">Zero Leakage</span>
+          <CardContent className="px-4 sm:px-5 pb-4 pt-0">
+            <div className="text-[11px] text-emerald-700 font-semibold truncate">
+              RBAC & tenant isolation online
             </div>
           </CardContent>
         </Card>
@@ -458,64 +386,124 @@ export default function PlatformOwnerDashboardView({
           </div>
         </CardHeader>
 
-        <CardContent>
-          <div className="w-full max-w-full overflow-x-auto rounded-lg border border-slate-200/90">
-            <table className="w-full text-left text-xs text-slate-700">
-              <thead className="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500 font-bold border-b border-slate-200">
-                <tr>
-                  <th className="py-3 px-4">Institution Name</th>
-                  <th className="py-3 px-4">Location</th>
-                  <th className="py-3 px-4 text-center">Students</th>
-                  <th className="py-3 px-4 text-center">Teachers</th>
-                  <th className="py-3 px-4 text-center">Parents</th>
-                  <th className="py-3 px-4">Fee Volume (GTV)</th>
-                  <th className="py-3 px-4 text-center">Status</th>
-                  <th className="py-3 px-4 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 font-medium">
+        <CardContent className="p-0 sm:p-6 sm:pt-0">
+          {filteredSchools.length === 0 ? (
+            <div className="p-8 text-center space-y-3">
+              <Building2 className="h-8 w-8 text-slate-300 mx-auto" />
+              <p className="text-xs font-semibold text-slate-600">No matching schools found.</p>
+              <Link href="/setup">
+                <Button size="sm" variant="outline" className="text-xs">
+                  Register New School
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <>
+              {/* MOBILE VIEW: Responsive Cards (Zero awkward horizontal scroll) */}
+              <div className="block md:hidden divide-y divide-slate-100">
                 {filteredSchools.map((school) => (
-                  <tr key={school.id} className="hover:bg-slate-50/80 transition-colors">
-                    <td className="py-3 px-4">
-                      <div className="font-bold text-navy-950 flex items-center gap-2">
-                        <span>{school.name}</span>
-                        <span className="font-mono text-[10px] text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">
-                          {school.code}
-                        </span>
+                  <div key={school.id} className="p-4 space-y-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <div>
+                        <h4 className="font-bold text-navy-950 text-sm">{school.name}</h4>
+                        <div className="text-xs text-slate-500 flex items-center gap-1.5 mt-0.5">
+                          <span className="font-mono text-emerald-700 font-semibold">{school.code}</span>
+                          <span>•</span>
+                          <span>{school.state}</span>
+                        </div>
                       </div>
-                      <div className="text-[11px] text-slate-400">{school.plan}</div>
-                    </td>
-                    <td className="py-3 px-4 text-slate-600">{school.state}</td>
-                    <td className="py-3 px-4 text-center font-bold text-navy-950">{school.students}</td>
-                    <td className="py-3 px-4 text-center text-slate-600">{school.teachers}</td>
-                    <td className="py-3 px-4 text-center text-slate-600">{school.parents}</td>
-                    <td className="py-3 px-4 font-bold text-emerald-800 font-mono">{school.gtv}</td>
-                    <td className="py-3 px-4 text-center">
                       <Badge
                         variant={
                           school.status === 'ACTIVE'
                             ? 'approved'
                             : school.status === 'TRIAL'
-                            ? 'pending'
-                            : 'neutral'
+                              ? 'pending'
+                              : 'neutral'
                         }
                       >
                         {school.status}
                       </Badge>
-                    </td>
-                    <td className="py-3 px-4 text-right">
+                    </div>
+
+                    <div className="flex items-center justify-between text-xs text-slate-600 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                      <div>
+                        <span className="text-[10px] text-slate-400 block">Plan</span>
+                        <span className="font-semibold">{school.plan}</span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] text-slate-400 block">Activity</span>
+                        <span className="font-semibold">{school.lastActive}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex justify-end pt-1">
                       <Link
-                        href={`/dashboard?tenant=${school.code.toLowerCase()}`}
-                        className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:text-emerald-900"
+                        href="/dashboard"
+                        className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:text-emerald-900 bg-emerald-50 px-3 py-1.5 rounded-lg"
                       >
-                        Inspect <ExternalLink className="h-3 w-3" />
+                        Inspect Dashboard <ExternalLink className="h-3 w-3" />
                       </Link>
-                    </td>
-                  </tr>
+                    </div>
+                  </div>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </div>
+
+              {/* DESKTOP VIEW: Structured Table */}
+              <div className="hidden md:block w-full max-w-full overflow-x-auto rounded-lg border border-slate-200/90">
+                <table className="w-full text-left text-xs text-slate-700">
+                  <thead className="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500 font-bold border-b border-slate-200">
+                    <tr>
+                      <th className="py-3 px-4">Institution Name</th>
+                      <th className="py-3 px-4">Location</th>
+                      <th className="py-3 px-4 text-center">Students</th>
+                      <th className="py-3 px-4">Plan</th>
+                      <th className="py-3 px-4 text-center">Status</th>
+                      <th className="py-3 px-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-100 font-medium">
+                    {filteredSchools.map((school) => (
+                      <tr key={school.id} className="hover:bg-slate-50/80 transition-colors">
+                        <td className="py-3 px-4">
+                          <div className="font-bold text-navy-950 flex items-center gap-2">
+                            <span>{school.name}</span>
+                            <span className="font-mono text-[10px] text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">
+                              {school.code}
+                            </span>
+                          </div>
+                          <div className="text-[11px] text-slate-400">{school.lastActive}</div>
+                        </td>
+                        <td className="py-3 px-4 text-slate-600">{school.state}</td>
+                        <td className="py-3 px-4 text-center font-bold text-navy-950">{school.students}</td>
+                        <td className="py-3 px-4 font-medium text-slate-700">{school.plan}</td>
+                        <td className="py-3 px-4 text-center">
+                          <Badge
+                            variant={
+                              school.status === 'ACTIVE'
+                                ? 'approved'
+                                : school.status === 'TRIAL'
+                                  ? 'pending'
+                                  : 'neutral'
+                            }
+                          >
+                            {school.status}
+                          </Badge>
+                        </td>
+                        <td className="py-3 px-4 text-right">
+                          <Link
+                            href="/dashboard"
+                            className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:text-emerald-900"
+                          >
+                            Inspect <ExternalLink className="h-3 w-3" />
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
         </CardContent>
       </Card>
     </div>

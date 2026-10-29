@@ -366,24 +366,24 @@ export default function AdminFinanceManagementPage() {
     <div className="min-h-screen bg-slate-50/50 pb-24 text-slate-900">
       {/* Top Banner / Breadcrumb & Status */}
       <div className="border-b border-slate-200 bg-white shadow-xs">
-        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:py-8 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div className="space-y-1">
+            <div className="space-y-1.5">
               <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-700">
                 <Link
                   href="/dashboard"
-                  className="inline-flex items-center gap-1 hover:text-emerald-800"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition"
                 >
                   <ArrowLeft className="h-3 w-3" /> Dashboard
                 </Link>
                 <span>/</span>
-                <span>Bursary & Financial Operations</span>
+                <span>Bursary & Finance</span>
               </div>
               <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-                Institutional Finance & Ledger
+                School Finance & Invoicing
               </h1>
-              <p className="text-sm text-slate-600">
-                Configurable Fee Schedules • Termly Invoicing • Double-Entry Append-Only Ledger • Paystack Gateway • Maker-Checker Reversals
+              <p className="text-xs sm:text-sm text-slate-600">
+                Manage fee schedules, student invoicing, payment records, and fee collections.
               </p>
             </div>
 
@@ -445,87 +445,87 @@ export default function AdminFinanceManagementPage() {
           </div>
         )}
 
-        {/* Financial KPI Cards */}
-        <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Financial KPI Cards (2x2 on Mobile, 4-Cols on Desktop) */}
+        <div className="mb-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           <Card className="border-slate-200 bg-white shadow-xs">
-            <CardContent className="p-5">
-              <div className="flex items-center justify-between">
+            <CardContent className="p-4 sm:p-5">
+              <div className="flex items-start sm:items-center justify-between gap-2">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-slate-500 truncate">
                     Total Invoiced
                   </p>
-                  <p className="mt-1 text-2xl font-bold tracking-tight text-slate-900">
+                  <p className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-slate-900">
                     ₦{totalInvoiced.toLocaleString()}
                   </p>
-                  <p className="mt-1 text-xs text-slate-500">
-                    Across {invoices.length} issued invoices
+                  <p className="mt-0.5 text-[10px] sm:text-xs text-slate-500 truncate">
+                    {invoices.length} issued invoices
                   </p>
                 </div>
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-slate-700">
-                  <FileText className="h-6 w-6" />
+                <div className="flex h-8 w-8 sm:h-12 sm:w-12 items-center justify-center rounded-lg sm:rounded-xl bg-slate-100 text-slate-700 shrink-0">
+                  <FileText className="h-4 w-4 sm:h-6 sm:w-6" />
                 </div>
               </div>
             </CardContent>
           </Card>
 
           <Card className="border-slate-200 bg-white shadow-xs">
-            <CardContent className="p-5">
-              <div className="flex items-center justify-between">
+            <CardContent className="p-4 sm:p-5">
+              <div className="flex items-start sm:items-center justify-between gap-2">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-emerald-600">
-                    Collected Revenue
+                  <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-emerald-600 truncate">
+                    Collected
                   </p>
-                  <p className="mt-1 text-2xl font-bold tracking-tight text-emerald-700">
+                  <p className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-emerald-700">
                     ₦{totalCollected.toLocaleString()}
                   </p>
-                  <p className="mt-1 text-xs text-emerald-600 font-medium">
-                    {collectionRate}% Collection Rate
+                  <p className="mt-0.5 text-[10px] sm:text-xs text-emerald-600 font-medium truncate">
+                    {collectionRate}% Collected
                   </p>
                 </div>
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
-                  <TrendingUp className="h-6 w-6" />
+                <div className="flex h-8 w-8 sm:h-12 sm:w-12 items-center justify-center rounded-lg sm:rounded-xl bg-emerald-100 text-emerald-700 shrink-0">
+                  <TrendingUp className="h-4 w-4 sm:h-6 sm:w-6" />
                 </div>
               </div>
             </CardContent>
           </Card>
 
           <Card className="border-slate-200 bg-white shadow-xs">
-            <CardContent className="p-5">
-              <div className="flex items-center justify-between">
+            <CardContent className="p-4 sm:p-5">
+              <div className="flex items-start sm:items-center justify-between gap-2">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-rose-500">
-                    Total Outstanding
+                  <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-rose-500 truncate">
+                    Outstanding
                   </p>
-                  <p className="mt-1 text-2xl font-bold tracking-tight text-rose-600">
+                  <p className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-rose-600">
                     ₦{totalOutstanding.toLocaleString()}
                   </p>
-                  <p className="mt-1 text-xs text-rose-500">
-                    {agingReport?.debtorCount || 0} active debtor accounts
+                  <p className="mt-0.5 text-[10px] sm:text-xs text-rose-500 truncate">
+                    {agingReport?.debtorCount || 0} debtors
                   </p>
                 </div>
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-rose-50 text-rose-600">
-                  <AlertCircle className="h-6 w-6" />
+                <div className="flex h-8 w-8 sm:h-12 sm:w-12 items-center justify-center rounded-lg sm:rounded-xl bg-rose-50 text-rose-600 shrink-0">
+                  <AlertCircle className="h-4 w-4 sm:h-6 sm:w-6" />
                 </div>
               </div>
             </CardContent>
           </Card>
 
           <Card className="border-slate-200 bg-white shadow-xs">
-            <CardContent className="p-5">
-              <div className="flex items-center justify-between">
+            <CardContent className="p-4 sm:p-5">
+              <div className="flex items-start sm:items-center justify-between gap-2">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-indigo-600">
-                    Maker-Checker Queue
+                  <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-indigo-600 truncate">
+                    Pending Approval
                   </p>
-                  <p className="mt-1 text-2xl font-bold tracking-tight text-indigo-700">
+                  <p className="mt-1 text-lg sm:text-2xl font-bold tracking-tight text-indigo-700">
                     {reversalRequests.filter((r) => r.status === 'PENDING_APPROVAL').length}
                   </p>
-                  <p className="mt-1 text-xs text-indigo-600">
-                    L2 Reversals awaiting Principal approval
+                  <p className="mt-0.5 text-[10px] sm:text-xs text-indigo-600 truncate">
+                    Pending reviews
                   </p>
                 </div>
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
-                  <ShieldCheck className="h-6 w-6" />
+                <div className="flex h-8 w-8 sm:h-12 sm:w-12 items-center justify-center rounded-lg sm:rounded-xl bg-indigo-50 text-indigo-600 shrink-0">
+                  <ShieldCheck className="h-4 w-4 sm:h-6 sm:w-6" />
                 </div>
               </div>
             </CardContent>
@@ -537,11 +537,10 @@ export default function AdminFinanceManagementPage() {
           <nav className="-mb-px flex space-x-6 overflow-x-auto">
             <button
               onClick={() => setActiveTab('invoices')}
-              className={`flex items-center gap-2 border-b-2 py-3 px-1 text-sm font-medium whitespace-nowrap transition-colors ${
-                activeTab === 'invoices'
+              className={`flex items-center gap-2 border-b-2 py-3 px-1 text-sm font-medium whitespace-nowrap transition-colors ${activeTab === 'invoices'
                   ? 'border-emerald-600 text-emerald-700 font-semibold'
                   : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700'
-              }`}
+                }`}
             >
               <FileText className="h-4 w-4" />
               Invoices & Billing ({invoices.length})
@@ -549,11 +548,10 @@ export default function AdminFinanceManagementPage() {
 
             <button
               onClick={() => setActiveTab('fees')}
-              className={`flex items-center gap-2 border-b-2 py-3 px-1 text-sm font-medium whitespace-nowrap transition-colors ${
-                activeTab === 'fees'
+              className={`flex items-center gap-2 border-b-2 py-3 px-1 text-sm font-medium whitespace-nowrap transition-colors ${activeTab === 'fees'
                   ? 'border-emerald-600 text-emerald-700 font-semibold'
                   : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700'
-              }`}
+                }`}
             >
               <Sliders className="h-4 w-4" />
               Fee Schedules & Sibling Discounts ({feeItems.length})
@@ -561,11 +559,10 @@ export default function AdminFinanceManagementPage() {
 
             <button
               onClick={() => setActiveTab('ledger')}
-              className={`flex items-center gap-2 border-b-2 py-3 px-1 text-sm font-medium whitespace-nowrap transition-colors ${
-                activeTab === 'ledger'
+              className={`flex items-center gap-2 border-b-2 py-3 px-1 text-sm font-medium whitespace-nowrap transition-colors ${activeTab === 'ledger'
                   ? 'border-emerald-600 text-emerald-700 font-semibold'
                   : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700'
-              }`}
+                }`}
             >
               <Scale className="h-4 w-4" />
               Double-Entry Student Ledger
@@ -573,11 +570,10 @@ export default function AdminFinanceManagementPage() {
 
             <button
               onClick={() => setActiveTab('aging')}
-              className={`flex items-center gap-2 border-b-2 py-3 px-1 text-sm font-medium whitespace-nowrap transition-colors ${
-                activeTab === 'aging'
+              className={`flex items-center gap-2 border-b-2 py-3 px-1 text-sm font-medium whitespace-nowrap transition-colors ${activeTab === 'aging'
                   ? 'border-emerald-600 text-emerald-700 font-semibold'
                   : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700'
-              }`}
+                }`}
             >
               <Clock className="h-4 w-4" />
               Aging Debtors Analysis
@@ -585,11 +581,10 @@ export default function AdminFinanceManagementPage() {
 
             <button
               onClick={() => setActiveTab('reversals')}
-              className={`flex items-center gap-2 border-b-2 py-3 px-1 text-sm font-medium whitespace-nowrap transition-colors ${
-                activeTab === 'reversals'
+              className={`flex items-center gap-2 border-b-2 py-3 px-1 text-sm font-medium whitespace-nowrap transition-colors ${activeTab === 'reversals'
                   ? 'border-emerald-600 text-emerald-700 font-semibold'
                   : 'border-transparent text-slate-500 hover:border-slate-300 hover:text-slate-700'
-              }`}
+                }`}
             >
               <ShieldCheck className="h-4 w-4" />
               Reversals & Maker-Checker ({reversalRequests.length})
@@ -692,15 +687,15 @@ export default function AdminFinanceManagementPage() {
                                 inv.status === 'PAID'
                                   ? 'paid'
                                   : inv.status === 'PARTIALLY_PAID'
-                                  ? 'pending'
-                                  : 'debt'
+                                    ? 'pending'
+                                    : 'debt'
                               }
                               className={
                                 inv.status === 'PAID'
                                   ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
                                   : inv.status === 'PARTIALLY_PAID'
-                                  ? 'bg-amber-50 text-amber-800 border-amber-200'
-                                  : 'bg-rose-50 text-rose-800 border-rose-200'
+                                    ? 'bg-amber-50 text-amber-800 border-amber-200'
+                                    : 'bg-rose-50 text-rose-800 border-rose-200'
                               }
                             >
                               {inv.status}
@@ -979,8 +974,8 @@ export default function AdminFinanceManagementPage() {
                       {studentLedgerBalance > 0
                         ? 'Outstanding institutional liability owed by student account'
                         : studentLedgerBalance === 0
-                        ? 'Account in full good standing — zero outstanding liability'
-                        : 'Credit advance balance in favor of student account'}
+                          ? 'Account in full good standing — zero outstanding liability'
+                          : 'Credit advance balance in favor of student account'}
                     </div>
                   </div>
 
@@ -1057,9 +1052,8 @@ export default function AdminFinanceManagementPage() {
                             {e.actorName}
                           </TableCell>
                           <TableCell
-                            className={`text-sm font-bold text-right ${
-                              e.entryType === 'DEBIT' ? 'text-rose-600' : 'text-emerald-700'
-                            }`}
+                            className={`text-sm font-bold text-right ${e.entryType === 'DEBIT' ? 'text-rose-600' : 'text-emerald-700'
+                              }`}
                           >
                             {e.entryType === 'DEBIT' ? '+' : '-'}₦{e.amount.toLocaleString()}
                           </TableCell>
@@ -1081,7 +1075,7 @@ export default function AdminFinanceManagementPage() {
           <div className="space-y-6">
             {/* 4-Tier Buckets */}
             {agingReport && (
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
                 <Card className="border-emerald-200 bg-emerald-50/50 shadow-xs">
                   <CardContent className="p-5">
                     <p className="text-xs font-semibold uppercase tracking-wider text-emerald-700">
@@ -1300,8 +1294,8 @@ export default function AdminFinanceManagementPage() {
                                 req.status === 'APPROVED'
                                   ? 'approved'
                                   : req.status === 'PENDING_APPROVAL'
-                                  ? 'pending'
-                                  : 'debt'
+                                    ? 'pending'
+                                    : 'debt'
                               }
                               className="text-[10px]"
                             >

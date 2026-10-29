@@ -787,3 +787,54 @@ export async function completeOnboarding(
 
   return currentConfig;
 }
+
+export interface RegisteredSchoolSummary {
+  id: string;
+  name: string;
+  code: string;
+  location: string;
+  ownerName: string;
+  contactEmail: string;
+  studentsCount: number;
+  subscriptionPlan: string;
+  status: 'ACTIVE' | 'PENDING_SETUP';
+  lastActive: string;
+  mrr: string;
+}
+
+/**
+ * Returns clean, real platform registered institutions for the Super-Admin overview.
+ * Eliminates simulated fake schools.
+ */
+export function getPlatformRegisteredSchools(): RegisteredSchoolSummary[] {
+  const configs = Array.from(academicStore.values());
+  // If a school was registered dynamically, show user registered schools
+  const userRegistered = configs.filter(
+    (c) => c.school.id !== TENANT_A_ID && c.school.id !== TENANT_B_ID
+  );
+
+  const targetConfigs = userRegistered.length > 0 ? userRegistered : [configs[0]].filter(Boolean);
+
+  return targetConfigs.map((c) => {
+    const isReady = Boolean(c.school.isOnboardingCompleted);
+    const locationStr = c.school.state
+      ? `${c.school.city ? c.school.city + ', ' : ''}${c.school.state}`
+      : 'Nigeria';
+    const emailPrefix = c.school.contactEmail ? c.school.contactEmail.split('@')[0] : 'Administrator';
+    const ownerDisplayName = emailPrefix.charAt(0).toUpperCase() + emailPrefix.slice(1);
+
+    return {
+      id: c.school.id,
+      name: c.school.name || 'Registered Institution',
+      code: c.school.officialCode || (c.school.slug ? c.school.slug.toUpperCase() : 'SCH-01'),
+      location: locationStr,
+      ownerName: ownerDisplayName,
+      contactEmail: c.school.contactEmail || '',
+      studentsCount: 0,
+      subscriptionPlan: isReady ? 'Standard Plan' : 'Setup In Progress',
+      status: isReady ? ('ACTIVE' as const) : ('PENDING_SETUP' as const),
+      lastActive: 'Active today',
+      mrr: '₦0',
+    };
+  });
+}

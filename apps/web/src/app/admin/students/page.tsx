@@ -155,23 +155,25 @@ export default function StudentsDirectoryPage() {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-14 space-y-8">
       {/* Top Breadcrumb & Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-200">
         <div>
-          <Link
-            href="/dashboard"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-navy-950 mb-2"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" />
-            Back to Dashboard
-          </Link>
-          <h1 className="text-2xl font-extrabold text-navy-950 tracking-tight flex items-center gap-2">
+          <div className="mb-3.5">
+            <Link
+              href="/dashboard"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-700 transition-colors shadow-2xs"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              <span>Back to Dashboard</span>
+            </Link>
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-navy-950 tracking-tight flex items-center gap-2">
             <Users className="h-6 w-6 text-navy-900" />
-            Student Information System (SIS)
+            Student Directory & Records
           </h1>
-          <p className="text-xs text-slate-500 mt-1">
-            Authoritative, non-destructive student registry, guardian custody linkages, and class enrollment history.
+          <p className="text-xs text-slate-500 mt-1 max-w-2xl leading-relaxed">
+            Manage student profiles, parent/guardian contacts, and classroom enrollments.
           </p>
         </div>
 
