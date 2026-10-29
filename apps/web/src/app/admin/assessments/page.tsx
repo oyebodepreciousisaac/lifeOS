@@ -375,53 +375,50 @@ export default function InstitutionalAssessmentsScorebookPage() {
   const isLocked = sheet?.status === 'LOCKED';
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-6 md:p-10 space-y-8">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-2 sm:p-6 lg:p-8 space-y-5 transition-colors">
       {/* Top Breadcrumb & Navigation */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-5">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
         <div className="space-y-1">
-          <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+          <div className="flex items-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
             <Link
               href="/dashboard"
               className="hover:text-institutional-blue dark:hover:text-sky-400 flex items-center gap-1 transition-colors"
             >
-              <ArrowLeft className="w-4 h-4" /> Dashboard
+              <ArrowLeft className="w-3.5 h-3.5" /> Dashboard
             </Link>
             <span>/</span>
             <span className="text-slate-800 dark:text-slate-200 font-medium">Academics</span>
             <span>/</span>
-            <span className="text-institutional-blue dark:text-sky-400 font-semibold">Continuous Assessment</span>
+            <span className="text-institutional-blue dark:text-sky-400 font-semibold">CA Scorebook</span>
           </div>
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
-              <FileSpreadsheet className="w-8 h-8 text-institutional-blue dark:text-sky-400" />
+            <h1 className="text-xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+              <FileSpreadsheet className="w-6 h-6 sm:w-8 sm:h-8 text-institutional-blue dark:text-sky-400" />
               Continuous Assessment & Examination Scorebook
             </h1>
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 border border-sky-300">
-              Module 5
-            </span>
           </div>
-          <p className="text-sm text-slate-600 dark:text-slate-400">
-            Boundary-guarded marks entry (CA 40% + Exam 60%), multi-stage moderation, and HMAC-SHA256 cryptographic locking.
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-2xl">
+            Record test scores (CA 1 &amp; 2, max 20 each) and final exam (max 60). Grades and totals calculate automatically.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <Button
             variant="outline"
             onClick={() => setViewPendingModal(true)}
-            className="flex items-center gap-2 relative border-slate-300 dark:border-slate-700"
+            className="flex items-center gap-1.5 text-xs h-9 relative border-slate-300 dark:border-slate-700"
           >
-            <History className="w-4 h-4 text-purple-600 dark:text-purple-400" />
-            Maker-Checker Audits
+            <History className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
+            Audit History
             {pendingCorrections.filter((p) => p.status === 'PENDING_APPROVAL').length > 0 && (
-              <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-purple-600 text-white rounded-full text-xs flex items-center justify-center font-bold">
+              <span className="ml-1 px-1.5 py-0.2 rounded-full bg-purple-600 text-white text-[10px] font-bold">
                 {pendingCorrections.filter((p) => p.status === 'PENDING_APPROVAL').length}
               </span>
             )}
           </Button>
           <Link href="/admin/report-cards">
-            <Button className="bg-institutional-blue hover:bg-institutional-blue/90 text-white flex items-center gap-2 shadow-sm">
-              <Award className="w-4 h-4" />
+            <Button className="bg-institutional-blue hover:bg-institutional-blue/90 text-white flex items-center gap-1.5 text-xs h-9 shadow-sm">
+              <Award className="w-3.5 h-3.5" />
               Compile Report Cards
             </Button>
           </Link>
@@ -760,23 +757,23 @@ export default function InstitutionalAssessmentsScorebookPage() {
           <Table>
             <TableHeader className="bg-slate-50 dark:bg-slate-800/60">
               <TableRow>
-                <TableHead className="w-12 text-center text-xs font-bold text-slate-600 dark:text-slate-300">S/N</TableHead>
-                <TableHead className="min-w-[200px] text-xs font-bold text-slate-600 dark:text-slate-300">Student Biodata</TableHead>
-                <TableHead className="w-28 text-center text-xs font-bold text-slate-600 dark:text-slate-300">
+                <TableHead className="w-8 sm:w-12 text-center text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-300 px-1 sm:px-3">#</TableHead>
+                <TableHead className="min-w-[130px] sm:min-w-[200px] text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-300 px-2 sm:px-4">Student Name</TableHead>
+                <TableHead className="w-16 sm:w-28 text-center text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-300 px-1 sm:px-3">
                   CA 1 <span className="text-[10px] text-slate-400 font-normal">(/20)</span>
                 </TableHead>
-                <TableHead className="w-28 text-center text-xs font-bold text-slate-600 dark:text-slate-300">
+                <TableHead className="w-16 sm:w-28 text-center text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-300 px-1 sm:px-3">
                   CA 2 <span className="text-[10px] text-slate-400 font-normal">(/20)</span>
                 </TableHead>
-                <TableHead className="w-28 text-center text-xs font-bold text-slate-600 dark:text-slate-300">
+                <TableHead className="w-16 sm:w-28 text-center text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-300 px-1 sm:px-3">
                   Exam <span className="text-[10px] text-slate-400 font-normal">(/60)</span>
                 </TableHead>
-                <TableHead className="w-28 text-center text-xs font-bold text-slate-600 dark:text-slate-300">
+                <TableHead className="w-14 sm:w-24 text-center text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-300 px-1 sm:px-3">
                   Total <span className="text-[10px] text-slate-400 font-normal">(/100)</span>
                 </TableHead>
-                <TableHead className="w-24 text-center text-xs font-bold text-slate-600 dark:text-slate-300">Grade</TableHead>
-                <TableHead className="w-32 text-center text-xs font-bold text-slate-600 dark:text-slate-300">Remark</TableHead>
-                <TableHead className="w-24 text-center text-xs font-bold text-slate-600 dark:text-slate-300">Status</TableHead>
+                <TableHead className="w-12 sm:w-20 text-center text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-300 px-1 sm:px-3">Grade</TableHead>
+                <TableHead className="hidden md:table-cell w-28 text-center text-xs font-bold text-slate-600 dark:text-slate-300 px-2 sm:px-4">Remark</TableHead>
+                <TableHead className="w-16 sm:w-24 text-center text-[11px] sm:text-xs font-bold text-slate-600 dark:text-slate-300 px-1 sm:px-3">Status</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -801,20 +798,20 @@ export default function InstitutionalAssessmentsScorebookPage() {
 
                   return (
                     <TableRow key={score.studentId} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40">
-                      <TableCell className="text-center text-xs font-medium text-slate-500">
+                      <TableCell className="text-center text-xs font-medium text-slate-500 px-1 sm:px-3">
                         {index + 1}
                       </TableCell>
-                      <TableCell>
-                        <div className="font-semibold text-sm text-slate-900 dark:text-white">
+                      <TableCell className="px-2 sm:px-4">
+                        <div className="font-semibold text-xs sm:text-sm text-slate-900 dark:text-white truncate max-w-[140px] sm:max-w-none">
                           {score.studentName}
                         </div>
-                        <div className="text-xs font-mono text-slate-500 dark:text-slate-400">
+                        <div className="text-[10px] sm:text-xs font-mono text-slate-500 dark:text-slate-400">
                           {score.admissionNumber}
                         </div>
                       </TableCell>
                       
                       {/* CA1 Input */}
-                      <TableCell className="text-center">
+                      <TableCell className="text-center px-1 sm:px-3">
                         <Input
                           type="number"
                           min={0}
@@ -822,7 +819,7 @@ export default function InstitutionalAssessmentsScorebookPage() {
                           disabled={isLocked}
                           value={score.ca1Score ?? ''}
                           onChange={(e) => handleScoreChange(score.studentId, 'ca1Score', e.target.value)}
-                          className={`w-20 mx-auto text-center font-semibold text-sm h-9 ${
+                          className={`w-14 sm:w-20 mx-auto text-center font-bold text-xs sm:text-sm h-8 sm:h-9 px-1 ${
                             (score.ca1Score ?? 0) > 20
                               ? 'border-rose-500 text-rose-600 bg-rose-50'
                               : 'bg-white dark:bg-slate-800'
@@ -831,7 +828,7 @@ export default function InstitutionalAssessmentsScorebookPage() {
                       </TableCell>
 
                       {/* CA2 Input */}
-                      <TableCell className="text-center">
+                      <TableCell className="text-center px-1 sm:px-3">
                         <Input
                           type="number"
                           min={0}
@@ -839,7 +836,7 @@ export default function InstitutionalAssessmentsScorebookPage() {
                           disabled={isLocked}
                           value={score.ca2Score ?? ''}
                           onChange={(e) => handleScoreChange(score.studentId, 'ca2Score', e.target.value)}
-                          className={`w-20 mx-auto text-center font-semibold text-sm h-9 ${
+                          className={`w-14 sm:w-20 mx-auto text-center font-bold text-xs sm:text-sm h-8 sm:h-9 px-1 ${
                             (score.ca2Score ?? 0) > 20
                               ? 'border-rose-500 text-rose-600 bg-rose-50'
                               : 'bg-white dark:bg-slate-800'
@@ -848,7 +845,7 @@ export default function InstitutionalAssessmentsScorebookPage() {
                       </TableCell>
 
                       {/* Exam Input */}
-                      <TableCell className="text-center">
+                      <TableCell className="text-center px-1 sm:px-3">
                         <Input
                           type="number"
                           min={0}
@@ -856,7 +853,7 @@ export default function InstitutionalAssessmentsScorebookPage() {
                           disabled={isLocked}
                           value={score.examScore ?? ''}
                           onChange={(e) => handleScoreChange(score.studentId, 'examScore', e.target.value)}
-                          className={`w-20 mx-auto text-center font-semibold text-sm h-9 ${
+                          className={`w-14 sm:w-20 mx-auto text-center font-bold text-xs sm:text-sm h-8 sm:h-9 px-1 ${
                             (score.examScore ?? 0) > 60
                               ? 'border-rose-500 text-rose-600 bg-rose-50'
                               : 'bg-white dark:bg-slate-800'
@@ -865,9 +862,9 @@ export default function InstitutionalAssessmentsScorebookPage() {
                       </TableCell>
 
                       {/* Total Score */}
-                      <TableCell className="text-center">
+                      <TableCell className="text-center px-1 sm:px-3">
                         <span
-                          className={`font-bold text-base ${
+                          className={`font-bold text-xs sm:text-base ${
                             score.totalScore === null
                               ? 'text-slate-400'
                               : isPass
@@ -880,9 +877,9 @@ export default function InstitutionalAssessmentsScorebookPage() {
                       </TableCell>
 
                       {/* Grade */}
-                      <TableCell className="text-center">
+                      <TableCell className="text-center px-1 sm:px-3">
                         <span
-                          className={`inline-block px-2 py-0.5 rounded font-mono text-xs font-bold border ${
+                          className={`inline-block px-1.5 py-0.5 rounded font-mono text-[11px] sm:text-xs font-bold border ${
                             score.gradeLetter === 'A'
                               ? 'bg-emerald-50 text-emerald-700 border-emerald-300'
                               : score.gradeLetter === 'B'
@@ -901,20 +898,20 @@ export default function InstitutionalAssessmentsScorebookPage() {
                       </TableCell>
 
                       {/* Remark */}
-                      <TableCell className="text-center text-xs text-slate-600 dark:text-slate-300 font-medium">
+                      <TableCell className="hidden md:table-cell text-center text-xs text-slate-600 dark:text-slate-300 font-medium px-2 sm:px-4">
                         {score.remark || '-'}
                       </TableCell>
 
                       {/* Status */}
-                      <TableCell className="text-center">
+                      <TableCell className="text-center px-1 sm:px-3">
                         {isIncomplete ? (
-                          <Badge variant="pending" className="text-[10px]">
+                          <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
                             Incomplete
-                          </Badge>
+                          </span>
                         ) : (
-                          <Badge variant="paid" className="text-[10px]">
+                          <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
                             Complete
-                          </Badge>
+                          </span>
                         )}
                       </TableCell>
                     </TableRow>

@@ -8,6 +8,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        'institutional-blue': '#2563EB',
         // Institutional Navy (Primary Brand - Solidity & Trust)
         navy: {
           50: '#F0F3F9',

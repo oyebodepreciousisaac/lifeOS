@@ -61,7 +61,7 @@ export function TableHead({
   return (
     <th
       className={cn(
-        'h-11 px-4 text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 [&:has([role=checkbox])]:pr-0',
+        'h-9 sm:h-11 px-2 sm:px-4 text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300 [&:has([role=checkbox])]:pr-0',
         className
       )}
       {...props}
@@ -75,7 +75,7 @@ export function TableCell({
 }: React.TdHTMLAttributes<HTMLTableCellElement>) {
   return (
     <td
-      className={cn('p-4 align-middle text-sm text-slate-800 dark:text-slate-200 [&:has([role=checkbox])]:pr-0', className)}
+      className={cn('p-2 sm:p-4 align-middle text-sm text-slate-800 dark:text-slate-200 [&:has([role=checkbox])]:pr-0', className)}
       {...props}
     />
   );

@@ -31,6 +31,7 @@ import {
   GraduationCap,
 } from 'lucide-react';
 import { logoutAction } from '@/app/actions/auth';
+import ThemeToggle from '@/components/theme/ThemeToggle';
 
 interface AdminShellProps {
   children: React.ReactNode;
@@ -97,11 +98,10 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
           ],
         },
         {
-          title: 'Tools & Requests',
+          title: 'Tools & Broadcasts',
           items: [
             { label: 'School Broadcasts', href: '/admin/communications', icon: Radio },
             { label: 'AI Lesson Assistant', href: '/admin/assistive-ai', icon: Bot },
-            { label: 'Score Alteration Requests', href: '/admin/governance', icon: Scale },
           ],
         },
       ];
@@ -118,62 +118,10 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
           ],
         },
         {
-          title: 'Collections & Operations',
+          title: 'Students & Records',
           items: [
-            { label: 'Student Debtors', href: '/admin/students', icon: Users },
-            { label: 'Payment Reminders', href: '/admin/communications', icon: Radio },
-            { label: 'Auxiliary & PTA Levies', href: '/admin/auxiliary', icon: HeartPulse },
-          ],
-        },
-        {
-          title: 'Governance & Audit',
-          items: [
-            { label: 'Dual-Control Approvals', href: '/admin/governance', icon: Scale },
-            { label: 'Financial Audit Trail', href: '/admin/audit-logs', icon: FileText },
-          ],
-        },
-      ];
-    }
-
-    if (role === 'SUPERADMIN') {
-      return [
-        {
-          title: 'Platform Control',
-          items: [
-            { label: 'Platform Command Center', href: '/dashboard', icon: LayoutDashboard },
-            { label: 'Onboard New School', href: '/setup', icon: UserPlus },
-            { label: 'Platform Security & Health', href: '/admin/platform-security', icon: Database },
-          ],
-        },
-        {
-          title: 'Institutional Consoles',
-          items: [
-            { label: 'Student Directory', href: '/admin/students', icon: Users },
-            { label: 'Finance & Invoicing', href: '/admin/finance', icon: Receipt },
-            { label: 'Daily Attendance', href: '/admin/attendance', icon: UserCheck },
-            { label: 'Assessments & Broadsheet', href: '/admin/report-cards', icon: Award },
-            { label: 'Maker-Checker Queue', href: '/admin/governance', icon: Scale },
-            { label: 'System Audit Logs', href: '/admin/audit-logs', icon: FileText },
-          ],
-        },
-      ];
-    }
-
-    if (role === 'PARENT') {
-      return [
-        {
-          title: 'Family & Wards',
-          items: [
-            { label: 'Parent Dashboard', href: '/portal/parent', icon: Users },
-            { label: 'Termly Report Cards', href: '/portal/parent?tab=reports', icon: Award },
-            { label: 'Attendance Records', href: '/portal/parent?tab=attendance', icon: UserCheck },
-          ],
-        },
-        {
-          title: 'Bursary & Messages',
-          items: [
-            { label: 'Fee Invoices & Pay Online', href: '/portal/parent?tab=fees', icon: CreditCard },
-            { label: 'School Broadcasts', href: '/admin/communications', icon: Radio },
+            { label: 'Student Billing Roster', href: '/admin/students', icon: Users },
+            { label: 'Audit Trail', href: '/admin/audit-logs', icon: FileText },
           ],
         },
       ];
@@ -182,40 +130,54 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
     if (role === 'STUDENT') {
       return [
         {
-          title: 'Academic Workspace',
+          title: 'Student Desk',
           items: [
-            { label: 'Student Dashboard', href: '/portal/student', icon: GraduationCap },
-            { label: 'Weekly Timetable', href: '/portal/student?tab=timetable', icon: Calendar },
-            { label: 'My Report Card', href: '/portal/student?tab=report-card', icon: Award },
-          ],
-        },
-        {
-          title: 'Learning & Resources',
-          items: [
-            { label: 'Virtual Lessons & LMS', href: '/admin/lms', icon: Video },
-            { label: 'Library & Books', href: '/admin/auxiliary', icon: BookOpen },
+            { label: 'My Academic Desk', href: '/portal/student', icon: GraduationCap },
+            { label: 'Class Timetable', href: '/portal/student?tab=timetable', icon: Calendar },
+            { label: 'Terminal Report Card', href: '/portal/student?tab=report-card', icon: Award },
+            { label: 'Virtual LMS', href: '/admin/lms', icon: Video },
           ],
         },
       ];
     }
 
-    // Default Institutional Leadership (OWNER, PRINCIPAL, VICE_PRINCIPAL, SUPERADMIN, IT_ADMIN)
+    if (role === 'PARENT') {
+      return [
+        {
+          title: 'Parent Portal',
+          items: [
+            { label: 'My Wards', href: '/portal/parent', icon: Users },
+            { label: 'Tuition & Fees', href: '/portal/parent?tab=fees', icon: CreditCard },
+            { label: 'Terminal Report Cards', href: '/portal/parent?tab=reports', icon: Award },
+            { label: 'Attendance Records', href: '/portal/parent?tab=attendance', icon: UserCheck },
+          ],
+        },
+      ];
+    }
+
+    // Default: Executive / School Admin / Principal / Superadmin
     return [
       {
-        title: 'Academics & Students',
+        title: 'Core Management',
         items: [
-          { label: 'Student Directory', href: '/admin/students', icon: Users },
+          { label: 'Institutional Dashboard', href: '/dashboard', icon: LayoutDashboard },
+          { label: 'Student Information (SIS)', href: '/admin/students', icon: Users },
           { label: 'Admissions Funnel', href: '/admin/admissions', icon: UserPlus },
-          { label: 'Daily Attendance', href: '/admin/attendance', icon: UserCheck },
-          { label: 'Master Timetable', href: '/admin/timetable', icon: Calendar },
-          { label: 'Continuous Assessment', href: '/admin/assessments', icon: FileSpreadsheet },
-          { label: 'Report Cards & Promotion', href: '/admin/report-cards', icon: Award },
         ],
       },
       {
-        title: 'Finance & Accounts',
+        title: 'Academics & Teaching',
         items: [
-          { label: 'Invoices & Billing', href: '/admin/finance', icon: Receipt },
+          { label: 'Daily Attendance', href: '/admin/attendance', icon: UserCheck },
+          { label: 'Class Timetable', href: '/admin/timetable', icon: Calendar },
+          { label: 'CA & Examinations', href: '/admin/assessments', icon: FileSpreadsheet },
+          { label: 'Terminal Report Cards', href: '/admin/report-cards', icon: Award },
+        ],
+      },
+      {
+        title: 'Finance & Bursary',
+        items: [
+          { label: 'Double-Entry Ledger', href: '/admin/finance', icon: Receipt },
           { label: 'Fee Schedules', href: '/admin/finance?tab=fees', icon: CreditCard },
         ],
       },
@@ -263,16 +225,16 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
   const breadcrumb = getBreadcrumb();
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex flex-col bg-slate-50">
-      {/* Top Admin Utility Bar */}
-      <div className="sticky top-16 z-30 border-b border-slate-200 bg-white/95 backdrop-blur-md px-4 sm:px-6 py-2.5">
-        <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
+    <div className="min-h-[calc(100vh-4rem)] flex flex-col bg-slate-50 dark:bg-slate-950 transition-colors">
+      {/* Top Admin Utility Bar - Relative on mobile so it never covers content when scrolling, sticky on desktop */}
+      <div className="relative lg:sticky lg:top-16 z-30 border-b border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md px-3 sm:px-6 py-2 transition-colors">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             {/* Mobile Hamburger Button */}
             <button
               type="button"
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden inline-flex items-center justify-center p-1.5 rounded-lg text-slate-700 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="lg:hidden inline-flex items-center justify-center p-1.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
               aria-expanded={mobileOpen}
               aria-label="Open administration navigation menu"
             >
@@ -280,37 +242,32 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
             </button>
 
             {/* Breadcrumb Navigation */}
-            <div className="flex items-center gap-1.5 text-xs text-slate-500">
-              <Link href="/dashboard" className="hover:text-emerald-700 font-semibold flex items-center gap-1">
+            <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 min-w-0">
+              <Link href="/dashboard" className="hover:text-emerald-700 dark:hover:text-emerald-400 font-semibold flex items-center gap-1 shrink-0">
                 <LayoutDashboard className="h-3.5 w-3.5 text-slate-400" />
-                <span>Dashboard</span>
+                <span className="hidden xs:inline">Dashboard</span>
               </Link>
-              <ChevronRight className="h-3 w-3 text-slate-300" />
-              <span className="hidden sm:inline text-slate-400">{breadcrumb.section}</span>
-              <span className="hidden sm:inline">
-                <ChevronRight className="h-3 w-3 text-slate-300" />
+              <ChevronRight className="h-3 w-3 text-slate-300 dark:text-slate-600 shrink-0" />
+              <span className="hidden sm:inline text-slate-400 dark:text-slate-500 truncate">{breadcrumb.section}</span>
+              <span className="hidden sm:inline shrink-0">
+                <ChevronRight className="h-3 w-3 text-slate-300 dark:text-slate-600" />
               </span>
-              <span className="font-bold text-navy-950 truncate max-w-[200px] sm:max-w-none">
+              <span className="font-bold text-navy-950 dark:text-white truncate">
                 {breadcrumb.item}
               </span>
             </div>
           </div>
 
-          {/* School Context & Role */}
-          <div className="flex items-center gap-2">
-            <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold text-slate-600 bg-slate-100 px-2.5 py-1 rounded-md">
-              <Building className="h-3 w-3 text-slate-500" />
-              <span className="truncate max-w-[150px] md:max-w-[240px]">{schoolName}</span>
+          {/* School Context, Role & Theme Toggle */}
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-md border border-slate-200/60 dark:border-slate-700/60">
+              <Building className="h-3 w-3 text-slate-500 dark:text-slate-400" />
+              <span className="truncate max-w-[130px] md:max-w-[200px]">{schoolName}</span>
             </span>
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-navy-100 text-navy-800">
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-navy-100 dark:bg-navy-900 text-navy-800 dark:text-emerald-400 border border-navy-200 dark:border-navy-800">
               {session.userType}
             </span>
-            <Link
-              href="/dashboard"
-              className="text-xs font-semibold text-emerald-700 hover:text-emerald-800 px-2 py-1 rounded hover:bg-emerald-50 transition-colors"
-            >
-              Dashboard
-            </Link>
+            <ThemeToggle className="p-1.5" />
           </div>
         </div>
       </div>
@@ -318,19 +275,19 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
       {/* Main Flex Row: Sidebar on Left, Content on Right */}
       <div className="flex-1 flex items-start">
         {/* Desktop Sticky Sidebar */}
-        <aside className="hidden lg:block w-64 shrink-0 border-r border-slate-200 bg-white min-h-[calc(100vh-6.5rem)] p-4 sticky top-[6.25rem]">
+        <aside className="hidden lg:block w-64 shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 min-h-[calc(100vh-6.5rem)] p-4 sticky top-[6.25rem] transition-colors">
           <div className="space-y-6">
             <Link
               href="/dashboard"
-              className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-50 hover:bg-slate-100 text-navy-950 text-xs font-bold transition-colors border border-slate-200"
+              className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 text-navy-950 dark:text-white text-xs font-bold transition-colors border border-slate-200 dark:border-slate-700"
             >
-              <LayoutDashboard className="h-4 w-4 text-emerald-600" />
+              <LayoutDashboard className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
               <span>Operational Dashboard</span>
             </Link>
 
             {navSections.map((section) => (
               <div key={section.title} className="space-y-1">
-                <h3 className="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+                <h3 className="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                   {section.title}
                 </h3>
                 <div className="space-y-0.5">
@@ -343,11 +300,11 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
                         href={item.href}
                         className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
                           active
-                            ? 'bg-emerald-50 text-emerald-800 font-bold border-l-4 border-emerald-600'
-                            : 'text-slate-600 hover:bg-slate-50 hover:text-navy-950'
+                            ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-400 font-bold border-l-4 border-emerald-600'
+                            : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-navy-950 dark:hover:text-white'
                         }`}
                       >
-                        <Icon className={`h-4 w-4 shrink-0 ${active ? 'text-emerald-600' : 'text-slate-400'}`} />
+                        <Icon className={`h-4 w-4 shrink-0 ${active ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'}`} />
                         <span className="truncate">{item.label}</span>
                       </Link>
                     );
@@ -357,13 +314,13 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
             ))}
 
             {/* User Signout */}
-            <div className="pt-4 border-t border-slate-100">
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
               <form action={logoutAction}>
                 <button
                   type="submit"
-                  className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 hover:bg-rose-50 hover:text-rose-700 transition-colors"
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:text-rose-700 dark:hover:text-rose-400 transition-colors"
                 >
-                  <LogOut className="h-4 w-4 text-slate-400" />
+                  <LogOut className="h-4 w-4 text-slate-400 dark:text-slate-500" />
                   <span>Sign Out</span>
                 </button>
               </form>
@@ -372,7 +329,7 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
         </aside>
 
         {/* Content Area */}
-        <main className="flex-1 min-w-0 p-3.5 sm:p-6 lg:p-8 w-full max-w-full overflow-x-hidden">
+        <main className="flex-1 min-w-0 p-2 sm:p-6 lg:p-8 w-full max-w-full overflow-x-hidden">
           {children}
         </main>
       </div>
@@ -382,27 +339,27 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
         <div className="lg:hidden fixed inset-0 z-50 flex">
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-navy-950/40 backdrop-blur-xs transition-opacity"
+            className="fixed inset-0 bg-navy-950/40 dark:bg-black/60 backdrop-blur-xs transition-opacity"
             onClick={() => setMobileOpen(false)}
             aria-hidden="true"
           />
 
           {/* Drawer Content */}
-          <div className="relative flex flex-col w-72 max-w-[85vw] bg-white h-full shadow-2xl p-4 overflow-y-auto z-10">
-            <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-100">
+          <div className="relative flex flex-col w-72 max-w-[85vw] bg-white dark:bg-slate-900 h-full shadow-2xl p-4 overflow-y-auto z-10 border-r border-slate-200 dark:border-slate-800 transition-colors">
+            <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-lg bg-navy-950 text-emerald-400 flex items-center justify-center font-bold text-xs">
+                <div className="h-8 w-8 rounded-lg bg-navy-950 dark:bg-slate-800 text-emerald-400 flex items-center justify-center font-bold text-xs border border-emerald-500/20">
                   S
                 </div>
                 <div>
-                  <strong className="text-xs text-navy-950 block">SquareOS Admin</strong>
-                  <span className="text-[10px] text-slate-400 block">{session.userType}</span>
+                  <strong className="text-xs text-navy-950 dark:text-white block">SquareOS Admin</strong>
+                  <span className="text-[10px] text-slate-400 dark:text-slate-500 block">{session.userType}</span>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setMobileOpen(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-navy-950"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-navy-950 dark:hover:text-white"
                 aria-label="Close navigation menu"
               >
                 <X className="h-5 w-5" />
@@ -412,15 +369,15 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
             <div className="space-y-5 flex-1">
               <Link
                 href="/dashboard"
-                className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 text-navy-950 text-xs font-bold border border-slate-200"
+                className="flex items-center gap-2 px-3 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 text-navy-950 dark:text-white text-xs font-bold border border-slate-200 dark:border-slate-700"
               >
-                <LayoutDashboard className="h-4 w-4 text-emerald-600" />
+                <LayoutDashboard className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
                 <span>Operational Dashboard</span>
               </Link>
 
               {navSections.map((section) => (
                 <div key={section.title} className="space-y-1">
-                  <h3 className="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400">
+                  <h3 className="px-3 text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500">
                     {section.title}
                   </h3>
                   <div className="space-y-0.5">
@@ -433,11 +390,11 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
                           href={item.href}
                           className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-xs font-medium transition-colors ${
                             active
-                              ? 'bg-emerald-50 text-emerald-800 font-bold border-l-4 border-emerald-600'
-                              : 'text-slate-600 hover:bg-slate-50 text-slate-700'
+                              ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-800 dark:text-emerald-400 font-bold border-l-4 border-emerald-600'
+                              : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
                           }`}
                         >
-                          <Icon className={`h-4 w-4 shrink-0 ${active ? 'text-emerald-600' : 'text-slate-400'}`} />
+                          <Icon className={`h-4 w-4 shrink-0 ${active ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-slate-500'}`} />
                           <span>{item.label}</span>
                         </Link>
                       );
@@ -447,11 +404,11 @@ export default function AdminShell({ children, session, schoolName }: AdminShell
               ))}
             </div>
 
-            <div className="pt-4 border-t border-slate-100 mt-4">
+            <div className="pt-4 border-t border-slate-100 dark:border-slate-800 mt-4">
               <form action={logoutAction}>
                 <button
                   type="submit"
-                  className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700 hover:bg-rose-50 hover:text-rose-700"
+                  className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-rose-50 dark:hover:bg-rose-950/40 hover:text-rose-700 dark:hover:text-rose-400 transition-colors"
                 >
                   <LogOut className="h-4 w-4" />
                   <span>Sign Out</span>

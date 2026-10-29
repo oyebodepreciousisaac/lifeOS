@@ -226,24 +226,24 @@ export default function DashboardModuleDirectory({
       {/* ── APPLE-STYLE SEGMENTED TABS ── */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div>
-          <h2 className="text-lg font-bold text-slate-900 tracking-tight">School Management Modules</h2>
-          <p className="text-xs text-slate-500">Quickly access all administrative departments and daily tools</p>
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white tracking-tight">School Management Modules</h2>
+          <p className="text-xs text-slate-500 dark:text-slate-400">Quickly access all administrative departments and daily tools</p>
         </div>
 
-        <div className="flex items-center gap-1.5 p-1 bg-slate-100 rounded-xl overflow-x-auto max-w-full">
+        <div className="flex items-center gap-1.5 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl overflow-x-auto max-w-full">
           {tabs.map((tab) => (
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
                 activeTab === tab.key
-                  ? 'bg-white text-slate-900 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+                  ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-700/60'
               }`}
             >
               {tab.label}
               <span className={`ml-1.5 text-[10px] px-1.5 py-0.2 rounded-full ${
-                activeTab === tab.key ? 'bg-slate-100 text-slate-800' : 'text-slate-400'
+                activeTab === tab.key ? 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200' : 'text-slate-400'
               }`}>
                 {tab.count}
               </span>
@@ -260,24 +260,24 @@ export default function DashboardModuleDirectory({
             <Link
               key={item.title}
               href={item.href}
-              className="group block p-4 sm:p-5 rounded-2xl bg-white border border-slate-200/80 hover:border-slate-300 hover:shadow-xs transition-all"
+              className="group block p-4 sm:p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-xs transition-all"
             >
               <div className="flex items-start justify-between gap-3 mb-2.5">
-                <div className="h-10 w-10 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-700 group-hover:scale-105 transition-transform">
+                <div className="h-10 w-10 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-300 group-hover:scale-105 transition-transform">
                   <IconComponent className="h-5 w-5" />
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
+                  <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
                     {item.badge}
                   </span>
-                  <ArrowRight className="h-4 w-4 text-slate-300 group-hover:text-slate-700 group-hover:translate-x-0.5 transition-all" />
+                  <ArrowRight className="h-4 w-4 text-slate-300 dark:text-slate-600 group-hover:text-slate-700 dark:group-hover:text-slate-300 group-hover:translate-x-0.5 transition-all" />
                 </div>
               </div>
 
-              <h3 className="font-bold text-sm text-slate-900 group-hover:text-slate-950">
+              <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
                 {item.title}
               </h3>
-              <p className="text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2 leading-relaxed">
                 {item.description}
               </p>
             </Link>
@@ -287,3 +287,4 @@ export default function DashboardModuleDirectory({
     </div>
   );
 }
+

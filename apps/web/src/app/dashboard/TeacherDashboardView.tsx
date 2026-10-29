@@ -15,7 +15,6 @@ import {
   Calendar,
   BookOpen,
   Bot,
-  Scale,
   Users,
   Video,
   AlertTriangle,
@@ -43,7 +42,7 @@ export default function TeacherDashboardView({
   return (
     <div className="space-y-6">
       {/* ── TEACHER HERO BANNER ── */}
-      <div className="relative rounded-2xl overflow-hidden bg-navy-950 text-white p-5 sm:p-8 shadow-institutional-lg">
+      <div className="relative rounded-2xl overflow-hidden bg-navy-950 dark:bg-slate-900 text-white p-5 sm:p-8 shadow-institutional-lg border border-slate-800 transition-colors">
         <div className="absolute inset-0 opacity-[0.08] bg-[radial-gradient(#34D399_1px,transparent_1px)] [background-size:20px_20px] pointer-events-none" />
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-5">
@@ -80,7 +79,7 @@ export default function TeacherDashboardView({
               <Button
                 variant="outline"
                 size="sm"
-                className="text-white border-slate-700 bg-navy-900 hover:bg-navy-800"
+                className="text-white border-slate-700 bg-navy-900/80 hover:bg-navy-800"
                 leftIcon={<FileSpreadsheet className="h-4 w-4" />}
               >
                 CA Scorebook
@@ -94,7 +93,7 @@ export default function TeacherDashboardView({
           <div className="rounded-xl px-4 py-3 bg-emerald-500/10 border border-emerald-500/20">
             <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Periods Today</p>
             <p className="text-xl font-extrabold text-emerald-300 mt-0.5">{data.todaySummary.totalPeriodsToday} Classes</p>
-            <p className="text-[11px] text-slate-400 mt-0.5">Math &amp; Further Maths</p>
+            <p className="text-[11px] text-slate-400 mt-0.5">Assigned Lessons</p>
           </div>
 
           <div className="rounded-xl px-4 py-3 bg-blue-500/10 border border-blue-500/20">
@@ -103,12 +102,12 @@ export default function TeacherDashboardView({
               {data.todaySummary.registersTakenCount} of {data.assignedClasses.length} Done
             </p>
             <p className="text-[11px] text-amber-300 mt-0.5 font-medium">
-              {data.todaySummary.registersPendingCount} Arm Pending
+              {data.todaySummary.registersPendingCount > 0 ? `${data.todaySummary.registersPendingCount} Arm Pending` : 'All Done Today'}
             </p>
           </div>
 
           <div className="rounded-xl px-4 py-3 bg-purple-500/10 border border-purple-500/20">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Assigned Scholars</p>
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Assigned Students</p>
             <p className="text-xl font-extrabold text-purple-300 mt-0.5">{totalAssignedScholars}</p>
             <p className="text-[11px] text-slate-400 mt-0.5">Across {data.assignedClasses.length} class arms</p>
           </div>
@@ -116,7 +115,7 @@ export default function TeacherDashboardView({
           <div className="rounded-xl px-4 py-3 bg-rose-500/15 border border-rose-500/30">
             <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400">Action Items</p>
             <p className="text-xl font-extrabold text-rose-300 mt-0.5">{data.pendingTasks.length} Urgent</p>
-            <p className="text-[11px] text-slate-400 mt-0.5">Deadlines today</p>
+            <p className="text-[11px] text-slate-400 mt-0.5">To review today</p>
           </div>
         </div>
       </div>
@@ -124,62 +123,63 @@ export default function TeacherDashboardView({
       {/* ── TEACHER CLASSROOM ACTIONS RIBBON ── */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
         <Link href="/admin/attendance" className="group block">
-          <div className="h-full rounded-xl border border-slate-200/90 bg-white p-3.5 hover:border-emerald-500 hover:shadow-xs transition-all shadow-xs">
-            <div className="h-9 w-9 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center mb-2">
+          <div className="h-full rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-3.5 hover:border-emerald-500 hover:shadow-xs transition-all shadow-xs">
+            <div className="h-9 w-9 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 flex items-center justify-center mb-2">
               <UserCheck className="h-5 w-5" />
             </div>
-            <p className="font-bold text-xs text-navy-950">Daily Attendance</p>
-            <p className="text-[11px] text-slate-500 mt-0.5">&lt; 60s Roll Call</p>
+            <p className="font-bold text-xs text-navy-950 dark:text-white">Daily Attendance</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">&lt; 60s Roll Call</p>
           </div>
         </Link>
 
         <Link href="/admin/assessments" className="group block">
-          <div className="h-full rounded-xl border border-slate-200/90 bg-white p-3.5 hover:border-blue-500 hover:shadow-xs transition-all shadow-xs">
-            <div className="h-9 w-9 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center mb-2">
+          <div className="h-full rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-3.5 hover:border-blue-500 hover:shadow-xs transition-all shadow-xs">
+            <div className="h-9 w-9 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400 flex items-center justify-center mb-2">
               <FileSpreadsheet className="h-5 w-5" />
             </div>
-            <p className="font-bold text-xs text-navy-950">CA Scorebook</p>
-            <p className="text-[11px] text-slate-500 mt-0.5">CA1, CA2 &amp; Exam</p>
+            <p className="font-bold text-xs text-navy-950 dark:text-white">CA Scorebook</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">CA1, CA2 &amp; Exam</p>
           </div>
         </Link>
 
         <Link href="/admin/timetable" className="group block">
-          <div className="h-full rounded-xl border border-slate-200/90 bg-white p-3.5 hover:border-purple-500 hover:shadow-xs transition-all shadow-xs">
-            <div className="h-9 w-9 rounded-lg bg-purple-50 text-purple-700 flex items-center justify-center mb-2">
+          <div className="h-full rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-3.5 hover:border-purple-500 hover:shadow-xs transition-all shadow-xs">
+            <div className="h-9 w-9 rounded-lg bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-400 flex items-center justify-center mb-2">
               <Calendar className="h-5 w-5" />
             </div>
-            <p className="font-bold text-xs text-navy-950">Timetable</p>
-            <p className="text-[11px] text-slate-500 mt-0.5">Weekly Schedule</p>
+            <p className="font-bold text-xs text-navy-950 dark:text-white">Timetable</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Weekly Schedule</p>
           </div>
         </Link>
 
         <Link href="/admin/lms" className="group block">
-          <div className="h-full rounded-xl border border-slate-200/90 bg-white p-3.5 hover:border-amber-500 hover:shadow-xs transition-all shadow-xs">
-            <div className="h-9 w-9 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center mb-2">
+          <div className="h-full rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-3.5 hover:border-amber-500 hover:shadow-xs transition-all shadow-xs">
+            <div className="h-9 w-9 rounded-lg bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 flex items-center justify-center mb-2">
               <Video className="h-5 w-5" />
             </div>
-            <p className="font-bold text-xs text-navy-950">Virtual LMS</p>
-            <p className="text-[11px] text-slate-500 mt-0.5">Lessons &amp; Quizzes</p>
+            <p className="font-bold text-xs text-navy-950 dark:text-white">Virtual LMS</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Lessons &amp; Homework</p>
           </div>
         </Link>
 
         <Link href="/admin/assistive-ai" className="group block">
-          <div className="h-full rounded-xl border border-slate-200/90 bg-white p-3.5 hover:border-cyan-500 hover:shadow-xs transition-all shadow-xs">
-            <div className="h-9 w-9 rounded-lg bg-cyan-50 text-cyan-700 flex items-center justify-center mb-2">
+          <div className="h-full rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-3.5 hover:border-cyan-500 hover:shadow-xs transition-all shadow-xs">
+            <div className="h-9 w-9 rounded-lg bg-cyan-50 dark:bg-cyan-950/60 text-cyan-700 dark:text-cyan-400 flex items-center justify-center mb-2">
               <Bot className="h-5 w-5" />
             </div>
-            <p className="font-bold text-xs text-navy-950">AI Lesson Plan</p>
-            <p className="text-[11px] text-slate-500 mt-0.5">Curriculum Helper</p>
+            <p className="font-bold text-xs text-navy-950 dark:text-white">AI Lesson Plan</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Curriculum Helper</p>
           </div>
         </Link>
 
-        <Link href="/admin/governance" className="group block">
-          <div className="h-full rounded-xl border border-slate-200/90 bg-white p-3.5 hover:border-rose-500 hover:shadow-xs transition-all shadow-xs">
-            <div className="h-9 w-9 rounded-lg bg-rose-50 text-rose-700 flex items-center justify-center mb-2">
-              <Scale className="h-5 w-5" />
+        {/* Pure Teacher Link: Student Directory for Assigned Class */}
+        <Link href="/admin/students" className="group block">
+          <div className="h-full rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 p-3.5 hover:border-rose-500 hover:shadow-xs transition-all shadow-xs">
+            <div className="h-9 w-9 rounded-lg bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 flex items-center justify-center mb-2">
+              <Users className="h-5 w-5" />
             </div>
-            <p className="font-bold text-xs text-navy-950">Score Alterations</p>
-            <p className="text-[11px] text-slate-500 mt-0.5">Maker-Checker</p>
+            <p className="font-bold text-xs text-navy-950 dark:text-white">Student Directory</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Class Roster</p>
           </div>
         </Link>
       </div>
@@ -188,15 +188,15 @@ export default function TeacherDashboardView({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Column: Today's Schedule */}
         <div className="lg:col-span-2 space-y-5">
-          <Card>
-            <CardHeader className="pb-3">
+          <Card className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors">
+            <CardHeader className="pb-3 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle className="text-base font-bold text-navy-950">
+                  <CardTitle className="text-base font-bold text-navy-950 dark:text-white">
                     Today&apos;s Teaching Schedule
                   </CardTitle>
-                  <CardDescription>
-                    {data.todaySummary.dateFormatted} • Clash-proof period timetable
+                  <CardDescription className="text-slate-500 dark:text-slate-400">
+                    {data.todaySummary.dateFormatted} • Timetable schedule
                   </CardDescription>
                 </div>
                 <Badge variant="approved">Timetable Active</Badge>
@@ -209,23 +209,23 @@ export default function TeacherDashboardView({
                   key={period.periodNumber}
                   className={`p-3 rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs transition-colors ${
                     period.status === 'CURRENT'
-                      ? 'bg-emerald-50/80 border border-emerald-300'
+                      ? 'bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700'
                       : period.status === 'COMPLETED'
-                      ? 'bg-slate-50/70 border border-slate-200/70 opacity-80'
-                      : 'bg-white border border-slate-200/80'
+                      ? 'bg-slate-50/70 dark:bg-slate-800/50 border border-slate-200/70 dark:border-slate-700/60 opacity-80'
+                      : 'bg-white dark:bg-slate-800/90 border border-slate-200/80 dark:border-slate-700'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="h-8 w-8 rounded-lg bg-navy-950 text-emerald-400 font-mono font-bold flex items-center justify-center shrink-0 text-xs">
+                    <span className="h-8 w-8 rounded-lg bg-navy-950 dark:bg-slate-700 text-emerald-400 font-mono font-bold flex items-center justify-center shrink-0 text-xs">
                       P{period.periodNumber}
                     </span>
 
                     <div>
-                      <h4 className="font-bold text-navy-950 text-sm">
-                        {period.subjectName} &bull; <span className="text-emerald-700">{period.classArm}</span>
+                      <h4 className="font-bold text-navy-950 dark:text-white text-sm">
+                        {period.subjectName} &bull; <span className="text-emerald-700 dark:text-emerald-400">{period.classArm}</span>
                       </h4>
-                      <p className="text-slate-500 flex items-center gap-2 mt-0.5">
-                        <span className="font-mono text-slate-700 font-medium">{period.timeSlot}</span>
+                      <p className="text-slate-500 dark:text-slate-400 flex items-center gap-2 mt-0.5">
+                        <span className="font-mono text-slate-700 dark:text-slate-300 font-medium">{period.timeSlot}</span>
                         <span>•</span>
                         <span>{period.room}</span>
                       </p>
@@ -234,7 +234,7 @@ export default function TeacherDashboardView({
 
                   <div className="flex items-center gap-2 shrink-0">
                     {period.status === 'COMPLETED' && (
-                      <span className="px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-bold text-[10px]">
+                      <span className="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-[10px]">
                         Completed
                       </span>
                     )}
@@ -244,7 +244,7 @@ export default function TeacherDashboardView({
                       </span>
                     )}
                     {period.status === 'UPCOMING' && (
-                      <span className="px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold text-[10px]">
+                      <span className="px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 font-bold text-[10px]">
                         Upcoming
                       </span>
                     )}
@@ -255,23 +255,23 @@ export default function TeacherDashboardView({
           </Card>
 
           {/* Assigned Classes Roster Card */}
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base font-bold text-navy-950">
+          <Card className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors">
+            <CardHeader className="pb-3 border-b border-slate-100 dark:border-slate-800">
+              <CardTitle className="text-base font-bold text-navy-950 dark:text-white">
                 Assigned Class Arms &amp; Scorebook Status
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-slate-500 dark:text-slate-400">
                 Roll call verification and continuous assessment progress.
               </CardDescription>
             </CardHeader>
 
-            <CardContent className="pt-2 divide-y divide-slate-100">
+            <CardContent className="pt-2 divide-y divide-slate-100 dark:divide-slate-800">
               {data.assignedClasses.map((cls) => (
                 <div key={cls.armId} className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                   <div>
-                    <h4 className="font-bold text-navy-950 text-sm">{cls.classArmName}</h4>
-                    <p className="text-slate-500 mt-0.5">
-                      Subject: <strong className="text-slate-700">{cls.subjectName}</strong> &bull; {cls.studentCount} Scholars
+                    <h4 className="font-bold text-navy-950 dark:text-white text-sm">{cls.classArmName}</h4>
+                    <p className="text-slate-500 dark:text-slate-400 mt-0.5">
+                      Subject: <strong className="text-slate-700 dark:text-slate-300">{cls.subjectName}</strong> &bull; {cls.studentCount} Students
                     </p>
                   </div>
 
@@ -287,7 +287,7 @@ export default function TeacherDashboardView({
                     )}
 
                     <Link href="/admin/assessments">
-                      <span className="px-2 py-1 rounded bg-slate-100 font-mono text-slate-700 font-bold text-[11px] hover:bg-slate-200 transition-colors cursor-pointer">
+                      <span className="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 font-mono text-slate-700 dark:text-slate-300 font-bold text-[11px] hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer border border-slate-200/50 dark:border-slate-700">
                         Scorebook: {cls.scorebookStatus}
                       </span>
                     </Link>
@@ -300,54 +300,54 @@ export default function TeacherDashboardView({
 
         {/* Right Column: Urgent Action Items & Quick Links */}
         <div className="space-y-5">
-          <Card className="border-amber-200 bg-amber-50/40">
-            <CardHeader className="pb-3">
+          <Card className="border-amber-200 dark:border-amber-900/60 bg-amber-50/40 dark:bg-amber-950/20 transition-colors">
+            <CardHeader className="pb-3 border-b border-amber-100 dark:border-amber-900/40">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-sm font-bold text-amber-950 flex items-center gap-1.5">
-                  <AlertTriangle className="h-4 w-4 text-amber-600" />
+                <CardTitle className="text-sm font-bold text-amber-950 dark:text-amber-200 flex items-center gap-1.5">
+                  <AlertTriangle className="h-4 w-4 text-amber-600 dark:text-amber-400" />
                   Urgent Action Items
                 </CardTitle>
                 <Badge variant="debt">{data.pendingTasks.length}</Badge>
               </div>
             </CardHeader>
 
-            <CardContent className="space-y-2.5 pt-1">
+            <CardContent className="space-y-2.5 pt-3">
               {data.pendingTasks.map((task) => (
-                <div key={task.id} className="p-3 rounded-lg bg-white border border-amber-200/80 shadow-xs text-xs space-y-1">
-                  <span className="text-[10px] font-bold font-mono text-rose-600 uppercase block">
+                <div key={task.id} className="p-3 rounded-lg bg-white dark:bg-slate-800 border border-amber-200/80 dark:border-slate-700 shadow-xs text-xs space-y-1">
+                  <span className="text-[10px] font-bold font-mono text-rose-600 dark:text-rose-400 uppercase block">
                     {task.type} &bull; {task.urgency} PRIORITY
                   </span>
-                  <p className="font-bold text-slate-900">{task.title}</p>
-                  <p className="text-slate-500 font-mono text-[11px]">Due: {task.dueTime}</p>
+                  <p className="font-bold text-slate-900 dark:text-white">{task.title}</p>
+                  <p className="text-slate-500 dark:text-slate-400 font-mono text-[11px]">Due: {task.dueTime}</p>
                 </div>
               ))}
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-bold text-navy-950">
-                Classroom Direct Tools
+          <Card className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors">
+            <CardHeader className="pb-3 border-b border-slate-100 dark:border-slate-800">
+              <CardTitle className="text-sm font-bold text-navy-950 dark:text-white">
+                Teacher Fast Links
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
+            <CardContent className="space-y-2 pt-3">
               <Link href="/portal/teacher" className="block">
-                <Button variant="outline" size="sm" className="w-full justify-start text-xs">
-                  <BookOpen className="h-4 w-4 mr-2 text-emerald-600" />
-                  Open Full Teacher Scorebook
+                <Button variant="outline" size="sm" className="w-full justify-start text-xs border-slate-200 dark:border-slate-700">
+                  <BookOpen className="h-4 w-4 mr-2 text-emerald-600 dark:text-emerald-400" />
+                  Open Full Teacher Portal
                 </Button>
               </Link>
 
               <Link href="/admin/students" className="block">
-                <Button variant="outline" size="sm" className="w-full justify-start text-xs">
-                  <Users className="h-4 w-4 mr-2 text-blue-600" />
+                <Button variant="outline" size="sm" className="w-full justify-start text-xs border-slate-200 dark:border-slate-700">
+                  <Users className="h-4 w-4 mr-2 text-blue-600 dark:text-blue-400" />
                   Student Biodata Directory
                 </Button>
               </Link>
 
               <Link href="/admin/communications" className="block">
-                <Button variant="outline" size="sm" className="w-full justify-start text-xs">
-                  <Clock className="h-4 w-4 mr-2 text-purple-600" />
+                <Button variant="outline" size="sm" className="w-full justify-start text-xs border-slate-200 dark:border-slate-700">
+                  <Clock className="h-4 w-4 mr-2 text-purple-600 dark:text-purple-400" />
                   Class Broadcasts &amp; Notices
                 </Button>
               </Link>

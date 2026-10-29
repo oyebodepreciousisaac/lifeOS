@@ -77,63 +77,69 @@ export default function PlatformOwnerDashboardView({
     return [];
   }, [initialSchools]);
 
+  const totalSchools = schoolsRegistry.length;
+  const totalStudents = schoolsRegistry.reduce((acc, s) => acc + s.students, 0);
+  const totalTeachers = schoolsRegistry.reduce((acc, s) => acc + s.teachers, 0);
+  const totalParents = schoolsRegistry.reduce((acc, s) => acc + s.parents, 0);
+  const totalGlobalUsers = totalStudents + totalTeachers + totalParents;
+
   // Core Platform Subsystems & Ecosystem Status
   const platformSubsystems = [
     {
       name: 'Student Information System (SIS)',
       status: 'OPERATIONAL',
       icon: Users,
-      metric: '4,210 Active Students',
-      description: 'Authoritative student records, bio-data, and kinship mapping across all schools.',
+      metric: `${totalStudents} Active Students`,
+      description: 'Authoritative student records, bio-data, and enrollment across all registered schools.',
     },
     {
       name: 'Double-Entry Bursary & Paystack Gateway',
       status: 'OPERATIONAL',
       icon: CreditCard,
-      metric: '₦342.8M Reconciled GTV',
-      description: 'Append-only ledger with zero mutable balance columns and webhook verification.',
+      metric: 'Real-time Reconciled',
+      description: 'Append-only ledger with zero mutable balance columns and automated webhook verification.',
     },
     {
       name: 'Roll Call Attendance & PWA Engine',
       status: 'OPERATIONAL',
       icon: Smartphone,
-      metric: '96.2% Avg Punctuality',
-      description: 'Sub-60s attendance registers with local offline queueing and instant sync.',
+      metric: 'Online & Sync Ready',
+      description: 'Sub-60s attendance registers with local offline queueing and instant cloud synchronization.',
     },
     {
-      name: 'Assessments & WAEC Report Cards',
+      name: 'Assessments & Examination Scorebook',
       status: 'OPERATIONAL',
       icon: GraduationCap,
-      metric: '12,400 Grades Computed',
-      description: 'Continuous assessment (40%) and exam (60%) engine with cryptographic QR seals.',
+      metric: 'Boundary Guarded',
+      description: 'Continuous assessment (40%) and exam (60%) engine with cryptographic tamper seals.',
     },
     {
       name: 'Virtual Classroom & LMS',
       status: 'OPERATIONAL',
       icon: Layers,
-      metric: '184 Active Courses',
-      description: 'Class syllabus modules, homework submission pipeline, and auto-graded quizzes.',
+      metric: 'Available',
+      description: 'Class syllabus modules, lesson content distribution, and homework submission pipelines.',
     },
     {
-      name: 'Broadcast Communications (SMS/WhatsApp)',
+      name: 'Broadcast Communications (SMS/Notices)',
       status: 'OPERATIONAL',
       icon: Radio,
-      metric: '99.8% Delivery Success',
-      description: 'Event-driven parent messaging routed through Termii and WhatsApp Cloud API.',
+      metric: 'Active Channels',
+      description: 'Automated parent notification and administrative broadcasts across SMS and web portals.',
     },
     {
       name: 'Maker-Checker Governance Engine',
       status: 'OPERATIONAL',
       icon: Scale,
-      metric: '0 Unauthorized Bypasses',
-      description: 'Dual-control approvals for score amendments, financial reversals, and student exits.',
+      metric: 'Guards Enforced',
+      description: 'Dual-control approvals for score amendments, financial adjustments, and student transfers.',
     },
     {
       name: 'Multi-Tenant Data Isolation Layer',
       status: 'OPERATIONAL',
       icon: Database,
-      metric: '100% Mathematical Isolation',
-      description: 'Row-level and schema-level tenant boundaries verified against IDOR attacks.',
+      metric: 'Strict Isolation',
+      description: 'Row-level and schema-level tenant boundaries separating all registered schools.',
     },
   ];
 
@@ -145,12 +151,6 @@ export default function PlatformOwnerDashboardView({
     const matchesFilter = filterStatus === 'ALL' || s.status === filterStatus;
     return matchesSearch && matchesFilter;
   });
-
-  const totalSchools = schoolsRegistry.length;
-  const totalStudents = schoolsRegistry.reduce((acc, s) => acc + s.students, 0);
-  const totalTeachers = schoolsRegistry.reduce((acc, s) => acc + s.teachers, 0);
-  const totalParents = schoolsRegistry.reduce((acc, s) => acc + s.parents, 0);
-  const totalGlobalUsers = totalStudents + totalTeachers + totalParents;
 
   return (
     <div className="space-y-8 pb-16">

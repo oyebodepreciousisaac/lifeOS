@@ -42,13 +42,13 @@ export default async function StudentPortalPage() {
   );
 
   return (
-    <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-6">
+    <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-6 transition-colors">
 
       {/* Top Banner */}
-      <div className="rounded-2xl bg-navy-950 text-white p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-institutional-lg">
+      <div className="rounded-2xl bg-navy-950 dark:bg-slate-900 text-white p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-institutional-lg border border-slate-800 transition-colors">
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-400 bg-navy-900 px-2.5 py-1 rounded-md border border-emerald-500/20">
+            <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-400 bg-navy-900 dark:bg-slate-800 px-2.5 py-1 rounded-md border border-emerald-500/20">
               <GraduationCap className="h-3.5 w-3.5" />
               Student Academic Workspace
             </span>
@@ -72,7 +72,7 @@ export default async function StudentPortalPage() {
             <Button
               variant="outline"
               size="sm"
-              className="text-white border-slate-700 bg-navy-900 hover:bg-navy-800"
+              className="text-white border-slate-700 bg-navy-900 dark:bg-slate-800 hover:bg-navy-800 dark:hover:bg-slate-700 text-xs"
             >
               Switch to Guardian View
             </Button>
@@ -82,29 +82,29 @@ export default async function StudentPortalPage() {
 
       {/* KPI Cards - 2x2 on Mobile, 4-col on Desktop */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        <Card>
+        <Card className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors">
           <CardHeader className="p-4 sm:p-5 pb-2">
-            <span className="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">
+            <span className="text-[10px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
               Term Average
             </span>
-            <CardTitle className="text-xl sm:text-2xl font-extrabold text-navy-950 mt-1">
+            <CardTitle className="text-xl sm:text-2xl font-extrabold text-navy-950 dark:text-white mt-1">
               {averageScore}%
             </CardTitle>
-            <CardDescription className="text-[11px] sm:text-xs text-emerald-600 font-medium">
+            <CardDescription className="text-[11px] sm:text-xs text-emerald-600 dark:text-emerald-400 font-medium">
               Academic Standing
             </CardDescription>
           </CardHeader>
         </Card>
 
-        <Card>
+        <Card className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-colors">
           <CardHeader className="p-4 sm:p-5 pb-2">
-            <span className="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider">
+            <span className="text-[10px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
               Attendance
             </span>
-            <CardTitle className="text-xl sm:text-2xl font-extrabold text-emerald-700 mt-1">
+            <CardTitle className="text-xl sm:text-2xl font-extrabold text-emerald-700 dark:text-emerald-400 mt-1">
               {data.attendanceSummary.rate}%
             </CardTitle>
-            <CardDescription className="text-[11px] sm:text-xs text-slate-500">
+            <CardDescription className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400">
               {data.attendanceSummary.daysPresent} days present
             </CardDescription>
           </CardHeader>
