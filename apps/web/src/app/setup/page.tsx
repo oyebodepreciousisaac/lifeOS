@@ -26,6 +26,7 @@ import {
   Trash2,
   ShieldAlert,
   GraduationCap,
+  X,
 } from 'lucide-react';
 import Link from 'next/link';
 import {
@@ -105,7 +106,108 @@ export default function SchoolSetupWizardPage() {
     daysPerWeek: 5,
   });
 
-  // Load existing configuration on mount
+  // Step 4: Class Structure & Arm Naming States
+  const [activeArmLevelId, setActiveArmLevelId] = React.useState<string | null>(null);
+  const [inlineArmName, setInlineArmName] = React.useState('');
+  const [inlineArmCap, setInlineArmCap] = React.useState(35);
+  const [showAddLevelForm, setShowAddLevelForm] = React.useState(false);
+  const [newLevelName, setNewLevelName] = React.useState('');
+  const [newLevelSection, setNewLevelSection] = React.useState<SchoolSection>('PRIMARY');
+
+  // Step 5: Subject Form States
+  const [showAddSubjectForm, setShowAddSubjectForm] = React.useState(false);
+  const [newSubName, setNewSubName] = React.useState('');
+  const [newSubCode, setNewSubCode] = React.useState('');
+  const [newSubDept, setNewSubDept] = React.useState('General');
+  const [newSubElective, setNewSubElective] = React.useState(false);
+
+  const ARM_PRESETS = [
+    { label: 'Letters (A, B, C)', arms: ['A', 'B', 'C'] },
+    { label: 'Metals (Gold, Silver, Bronze)', arms: ['Gold', 'Silver', 'Bronze'] },
+    { label: 'Gems (Diamond, Emerald, Sapphire)', arms: ['Diamond', 'Emerald', 'Sapphire'] },
+    { label: 'Colors (Blue, Green, Yellow, Red)', arms: ['Blue', 'Green', 'Yellow', 'Red'] },
+    { label: 'Streams (Science, Arts, Commercial)', arms: ['Science', 'Arts', 'Commercial'] },
+  ];
+
+  const handleApplyArmPresetToAll = (armsList: string[]) => {
+    setClassLevels((prev) =>
+      prev.map((lvl) => ({
+        ...lvl,
+        arms: armsList.map((armName, idx) => ({
+          id: `arm_${lvl.id}_${idx + 1}_${Date.now()}`,
+          levelId: lvl.id,
+          name: armName,
+          capacity: 35,
+        })),
+      }))
+    );
+    setFeedback({
+      type: 'success',
+      message: `Applied arm structure [${armsList.join(', ')}] across all classes.`,
+    });
+    setTimeout(() => setFeedback(null), 3500);
+  };
+
+  const handleAddLevel = () => {
+    if (!newLevelName.trim()) return;
+    const newLvl: ClassLevelItem = {
+      id: `lvl_${Date.now()}`,
+      schoolId: config?.school.id || '',
+      campusId: campuses[0]?.id || 'main',
+      name: newLevelName.trim(),
+      levelOrder: classLevels.length + 1,
+      section: newLevelSection,
+      arms: [
+        { id: `arm_${Date.now()}_1`, levelId: `lvl_${Date.now()}`, name: 'A', capacity: 35 },
+        { id: `arm_${Date.now()}_2`, levelId: `lvl_${Date.now()}`, name: 'B', capacity: 35 },
+      ],
+    };
+    setClassLevels([...classLevels, newLvl]);
+    setNewLevelName('');
+    setShowAddLevelForm(false);
+  };
+
+  const handleAddInlineArm = (levelId: string) => {
+    if (!inlineArmName.trim()) return;
+    setClassLevels((prev) =>
+      prev.map((lvl) => {
+        if (lvl.id !== levelId) return lvl;
+        return {
+          ...lvl,
+          arms: [
+            ...lvl.arms,
+            {
+              id: `arm_${Date.now()}`,
+              levelId,
+              name: inlineArmName.trim(),
+              capacity: Number(inlineArmCap) || 35,
+            },
+          ],
+        };
+      })
+    );
+    setInlineArmName('');
+    setActiveArmLevelId(null);
+  };
+
+  const handleAddInlineSubject = () => {
+    if (!newSubName.trim() || !newSubCode.trim()) return;
+    setSubjects([
+      ...subjects,
+      {
+        id: `sub_${Date.now()}`,
+        schoolId: config?.school.id || '',
+        name: newSubName.trim(),
+        code: newSubCode.trim().toUpperCase(),
+        department: newSubDept,
+        isElective: newSubElective,
+        applicableSections: ['PRIMARY', 'JUNIOR_SECONDARY', 'SENIOR_SECONDARY'],
+      },
+    ]);
+    setNewSubName('');
+    setNewSubCode('');
+    setShowAddSubjectForm(false);
+  };
   React.useEffect(() => {
     async function load() {
       setLoading(true);
@@ -721,11 +823,11 @@ export default function SchoolSetupWizardPage() {
                   Step 4: School Sections, Class Levels & Arms
                 </CardTitle>
                 <CardDescription>
-                  Configure dynamic classes (Creche to SS3) and arms with student capacity guards.
+                  Configure class levels (Creche to SS3) and arms with flexible naming (Letters, Metals, Gems, Colors, Streams).
                 </CardDescription>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <Button
                   variant="outline"
                   size="sm"
@@ -734,24 +836,113 @@ export default function SchoolSetupWizardPage() {
                   className="text-xs"
                 >
                   <Sparkles className="h-3.5 w-3.5 mr-1 text-emerald-600" />
-                  Load Standard NERDC Hierarchy
+                  Load Standard 14 Levels
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={() => setShowAddLevelForm(!showAddLevelForm)}
+                  className="text-xs"
+                >
+                  <Plus className="h-3.5 w-3.5 mr-1" />
+                  Add Custom Level
                 </Button>
               </div>
             </div>
+
+            {/* Arm Presets Switcher Bar */}
+            {classLevels.length > 0 && (
+              <div className="mt-4 p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-semibold text-slate-700">
+                    Apply Arm Naming Style to All Classes:
+                  </span>
+                  <span className="text-[11px] text-slate-500">Click to re-arm all levels in 1-click</span>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {ARM_PRESETS.map((preset) => (
+                    <button
+                      key={preset.label}
+                      type="button"
+                      onClick={() => handleApplyArmPresetToAll(preset.arms)}
+                      className="px-2.5 py-1 rounded-lg text-xs font-medium bg-white hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 border border-slate-200 hover:border-emerald-300 transition-all shadow-xs"
+                    >
+                      {preset.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </CardHeader>
+
           <CardContent className="space-y-6">
+            {/* Inline Add Class Level Form */}
+            {showAddLevelForm && (
+              <div className="p-4 bg-emerald-50/60 border border-emerald-200 rounded-xl space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-emerald-950 uppercase tracking-wider">
+                    Add New Class Level
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setShowAddLevelForm(false)}
+                    className="text-slate-400 hover:text-slate-600"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div>
+                    <label className="text-xs font-medium text-slate-700 block mb-1">Class Level Name</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. JSS 1, Grade 1, Reception"
+                      value={newLevelName}
+                      onChange={(e) => setNewLevelName(e.target.value)}
+                      className="w-full text-xs rounded-lg border border-slate-300 px-3 py-2 bg-white text-slate-900"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-slate-700 block mb-1">Section</label>
+                    <select
+                      value={newLevelSection}
+                      onChange={(e) => setNewLevelSection(e.target.value as SchoolSection)}
+                      className="w-full text-xs rounded-lg border border-slate-300 px-3 py-2 bg-white text-slate-900"
+                    >
+                      <option value="EARLY_YEARS">Early Years / Nursery</option>
+                      <option value="PRIMARY">Primary / Basic</option>
+                      <option value="JUNIOR_SECONDARY">Junior Secondary (JSS)</option>
+                      <option value="SENIOR_SECONDARY">Senior Secondary (SSS)</option>
+                    </select>
+                  </div>
+                  <div className="flex items-end gap-2">
+                    <Button size="sm" onClick={handleAddLevel} className="w-full text-xs">
+                      Save Class Level
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => setShowAddLevelForm(false)}
+                      className="text-xs"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {classLevels.length === 0 ? (
               <div className="p-8 border-2 border-dashed border-slate-200 rounded-2xl text-center space-y-4">
                 <Layers className="h-10 w-10 text-slate-400 mx-auto" />
                 <div>
                   <h4 className="text-sm font-bold text-slate-800">No Class Levels Configured</h4>
                   <p className="text-xs text-slate-500 mt-1">
-                    Click "Load Standard NERDC Hierarchy" to immediately generate 14 levels (Nursery, Primary, JSS, SSS) or add them manually.
+                    Click "Load Standard 14 Levels" to immediately generate Nursery, Primary, JSS, and SSS, or create your own custom classes.
                   </p>
                 </div>
                 <Button onClick={handleApplyPreset} isLoading={saving}>
                   <Sparkles className="h-4 w-4 mr-1.5" />
-                  Load 14 Standard Levels Now
+                  Load Standard 14 Levels
                 </Button>
               </div>
             ) : (
@@ -788,34 +979,98 @@ export default function SchoolSetupWizardPage() {
                     </div>
 
                     {/* Arms list */}
-                    <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100">
-                      <span className="text-xs font-semibold text-slate-500 mr-2">Arms & Capacities:</span>
-                      {level.arms.map((arm, aIdx) => (
-                        <div key={arm.id || aIdx} className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-slate-100 text-xs font-medium text-slate-800 border border-slate-200">
-                          <span>{arm.name}</span>
-                          <span className="text-[10px] text-slate-400">({arm.capacity} cap)</span>
+                    <div className="space-y-2 pt-2 border-t border-slate-100">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-xs font-semibold text-slate-500 mr-1">Arms:</span>
+                        {level.arms.map((arm, aIdx) => (
+                          <div
+                            key={arm.id || aIdx}
+                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-100 text-xs font-medium text-slate-800 border border-slate-200"
+                          >
+                            <span>{arm.name}</span>
+                            <span className="text-[10px] text-slate-400">({arm.capacity} cap)</span>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const next = [...classLevels];
+                                next[lIdx].arms = next[lIdx].arms.filter((_, idx) => idx !== aIdx);
+                                setClassLevels(next);
+                              }}
+                              className="text-slate-400 hover:text-rose-600 ml-1"
+                              title="Remove arm"
+                            >
+                              <X className="h-3 w-3" />
+                            </button>
+                          </div>
+                        ))}
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setActiveArmLevelId(activeArmLevelId === level.id ? null : level.id);
+                            setInlineArmName('');
+                          }}
+                          className="text-xs text-emerald-600 hover:text-emerald-800 font-bold flex items-center gap-1 ml-1 px-2 py-0.5 rounded hover:bg-emerald-50 transition"
+                        >
+                          <Plus className="h-3 w-3" />
+                          Add Arm
+                        </button>
+                      </div>
+
+                      {/* In-place Add Arm Form */}
+                      {activeArmLevelId === level.id && (
+                        <div className="p-3 bg-slate-50 rounded-lg border border-emerald-200 space-y-2 mt-2">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <span className="text-xs text-slate-600 font-medium">Quick presets:</span>
+                            {['Gold', 'Silver', 'Bronze', 'Diamond', 'Emerald', 'A', 'B', 'C'].map((name) => (
+                              <button
+                                key={name}
+                                type="button"
+                                onClick={() => setInlineArmName(name)}
+                                className="px-2 py-0.5 text-xs rounded bg-white hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 border border-slate-200 font-mono"
+                              >
+                                + {name}
+                              </button>
+                            ))}
+                          </div>
+                          <div className="flex flex-wrap items-center gap-2">
+                            <input
+                              type="text"
+                              placeholder="Arm name (e.g. Gold, A, Science)"
+                              value={inlineArmName}
+                              onChange={(e) => setInlineArmName(e.target.value)}
+                              className="text-xs rounded-md border border-slate-300 px-2.5 py-1.5 bg-white text-slate-900 w-44"
+                            />
+                            <div className="flex items-center gap-1">
+                              <span className="text-[11px] text-slate-500">Cap:</span>
+                              <input
+                                type="number"
+                                min={1}
+                                max={200}
+                                value={inlineArmCap}
+                                onChange={(e) => setInlineArmCap(Number(e.target.value))}
+                                className="text-xs rounded-md border border-slate-300 px-2 py-1.5 bg-white text-slate-900 w-16"
+                              />
+                            </div>
+                            <Button
+                              size="sm"
+                              onClick={() => handleAddInlineArm(level.id)}
+                              className="text-xs py-1 h-7"
+                              disabled={!inlineArmName.trim()}
+                            >
+                              Save Arm
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => setActiveArmLevelId(null)}
+                              className="text-xs py-1 h-7"
+                            >
+                              Cancel
+                            </Button>
+                          </div>
                         </div>
-                      ))}
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const armName = prompt('Enter arm name (e.g. A, B, C or JSS1A):');
-                          if (armName && armName.trim()) {
-                            const next = [...classLevels];
-                            next[lIdx].arms.push({
-                              id: `arm_${Date.now()}`,
-                              levelId: level.id,
-                              name: armName.trim(),
-                              capacity: 35,
-                            });
-                            setClassLevels(next);
-                          }
-                        }}
-                        className="text-xs text-emerald-600 hover:text-emerald-800 font-bold flex items-center gap-1 ml-1"
-                      >
-                        <Plus className="h-3 w-3" />
-                        Add Arm
-                      </button>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -851,41 +1106,120 @@ export default function SchoolSetupWizardPage() {
                 </CardDescription>
               </div>
 
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  const name = prompt('Subject Name (e.g. Further Mathematics):');
-                  const code = prompt('Subject Code (e.g. FMTH):');
-                  if (name && code) {
-                    setSubjects([
-                      ...subjects,
-                      {
-                        id: `sub_${Date.now()}`,
-                        schoolId: config?.school.id || '',
-                        name: name.trim(),
-                        code: code.trim().toUpperCase(),
-                        department: 'General',
-                        isElective: false,
-                        applicableSections: ['PRIMARY', 'JUNIOR_SECONDARY', 'SENIOR_SECONDARY'],
-                      },
-                    ]);
-                  }
-                }}
-              >
-                <Plus className="h-4 w-4 mr-1" />
-                Add Subject
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleApplyPreset}
+                  disabled={saving}
+                  className="text-xs"
+                >
+                  <Sparkles className="h-3.5 w-3.5 mr-1 text-emerald-600" />
+                  Load Standard Subjects
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={() => setShowAddSubjectForm(!showAddSubjectForm)}
+                  className="text-xs"
+                >
+                  <Plus className="h-3.5 w-3.5 mr-1" />
+                  Add Subject
+                </Button>
+              </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-6">
+            {/* Inline Add Subject Form */}
+            {showAddSubjectForm && (
+              <div className="p-4 bg-emerald-50/60 border border-emerald-200 rounded-xl space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-emerald-950 uppercase tracking-wider">
+                    Add New Subject
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setShowAddSubjectForm(false)}
+                    className="text-slate-400 hover:text-slate-600"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                  <div>
+                    <label className="text-xs font-medium text-slate-700 block mb-1">Subject Name</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Further Mathematics"
+                      value={newSubName}
+                      onChange={(e) => setNewSubName(e.target.value)}
+                      className="w-full text-xs rounded-lg border border-slate-300 px-3 py-2 bg-white text-slate-900"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-slate-700 block mb-1">Subject Code</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. FMTH"
+                      value={newSubCode}
+                      onChange={(e) => setNewSubCode(e.target.value)}
+                      className="w-full text-xs rounded-lg border border-slate-300 px-3 py-2 bg-white text-slate-900 uppercase"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs font-medium text-slate-700 block mb-1">Department</label>
+                    <select
+                      value={newSubDept}
+                      onChange={(e) => setNewSubDept(e.target.value)}
+                      className="w-full text-xs rounded-lg border border-slate-300 px-3 py-2 bg-white text-slate-900"
+                    >
+                      <option value="General">General</option>
+                      <option value="Sciences">Sciences</option>
+                      <option value="Humanities & Arts">Humanities & Arts</option>
+                      <option value="Business & Commercial">Business & Commercial</option>
+                      <option value="Languages">Languages</option>
+                      <option value="Technical & Vocational">Technical & Vocational</option>
+                    </select>
+                  </div>
+                  <div className="flex items-center gap-2 pt-5">
+                    <label className="inline-flex items-center gap-1.5 text-xs text-slate-700 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={newSubElective}
+                        onChange={(e) => setNewSubElective(e.target.checked)}
+                        className="rounded border-slate-300 text-emerald-600"
+                      />
+                      <span>Elective</span>
+                    </label>
+                  </div>
+                </div>
+                <div className="flex justify-end gap-2 pt-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => setShowAddSubjectForm(false)}
+                    className="text-xs"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={handleAddInlineSubject}
+                    className="text-xs"
+                    disabled={!newSubName.trim() || !newSubCode.trim()}
+                  >
+                    Save Subject
+                  </Button>
+                </div>
+              </div>
+            )}
+
             {subjects.length === 0 ? (
               <div className="p-8 border-2 border-dashed border-slate-200 rounded-2xl text-center space-y-4">
                 <BookOpen className="h-10 w-10 text-slate-400 mx-auto" />
                 <div>
                   <h4 className="text-sm font-bold text-slate-800">No Subjects Configured</h4>
                   <p className="text-xs text-slate-500 mt-1">
-                    Load the standard NERDC subjects or create your custom departmental catalog.
+                    Load standard NERDC subjects or create your custom departmental catalog.
                   </p>
                 </div>
                 <Button onClick={handleApplyPreset} isLoading={saving}>
@@ -912,6 +1246,7 @@ export default function SchoolSetupWizardPage() {
                         type="button"
                         onClick={() => setSubjects(subjects.filter((_, i) => i !== sIdx))}
                         className="text-slate-400 hover:text-rose-600"
+                        title="Delete subject"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                       </button>

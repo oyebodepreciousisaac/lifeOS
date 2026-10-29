@@ -33,6 +33,7 @@ import {
 import Link from 'next/link';
 import { logoutAction } from '@/app/actions/auth';
 import { DEMO_USERS } from '@/lib/auth/demo-users';
+import { getSchoolConfiguration } from '@/lib/academic/academic-store';
 import RoleSpecificKpiPanel, { DashboardMetricsContext } from './RoleSpecificKpiPanel';
 import { getSisDashboardMetrics } from '@/lib/sis/sis-store';
 import { getSchoolAttendanceMetrics } from '@/lib/attendance/attendance-store';
@@ -73,9 +74,19 @@ export default async function DashboardPage() {
 
   // Direct routing for portal roles
   if (session.userType === 'PARENT') redirect('/portal/parent');
-  if (session.userType === 'STUDENT') redirect('/portal/student');
-
-  const userConfig = DEMO_USERS[session.email] || { schoolName: 'Apex Model College, Lagos' };
+  let currentSchoolName = 'Your School';
+  try {
+    if (session.schoolId) {
+      const cfg = getSchoolConfiguration(session.schoolId);
+      if (cfg?.school?.name) currentSchoolName = cfg.school.name;
+    }
+  } catch {
+    // fallback if uninitialized
+  }
+  if (currentSchoolName === 'Your School' && DEMO_USERS[session.email]?.schoolName) {
+    currentSchoolName = DEMO_USERS[session.email].schoolName;
+  }
+  const userConfig = { schoolName: currentSchoolName };
 
   const dateDisplay = new Date().toLocaleDateString('en-NG', {
     weekday: 'long',
