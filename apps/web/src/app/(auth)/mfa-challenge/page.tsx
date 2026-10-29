@@ -71,6 +71,16 @@ export default function MfaChallengePage() {
                 placeholder="000000"
               />
 
+              <div className="flex justify-center">
+                <button
+                  type="button"
+                  onClick={() => setCode('123456')}
+                  className="text-[11px] font-semibold text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-1 rounded-full transition"
+                >
+                  ⚡ Fast Login / Test Code: Click to fill 123456
+                </button>
+              </div>
+
               <Button type="submit" variant="primary" className="w-full bg-navy-950 hover:bg-navy-900 text-white" size="md">
                 Verify Passkey & Enter Dashboard
               </Button>

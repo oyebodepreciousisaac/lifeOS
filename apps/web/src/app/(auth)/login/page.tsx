@@ -140,6 +140,33 @@ export default function LoginPage() {
           </CardContent>
         </Card>
 
+        {/* Platform Owner / SuperAdmin Quick Access */}
+        <div className="p-3.5 bg-navy-950 text-white rounded-xl border border-navy-800 shadow-md space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+              <ShieldCheck className="h-4 w-4" />
+              Platform Owner Sign-in
+            </span>
+            <button
+              type="button"
+              onClick={() => {
+                setEmail('superadmin@squareos.com');
+                setPassword('SchoolOS@2026');
+              }}
+              className="text-[11px] font-semibold bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 px-2.5 py-1 rounded-md border border-emerald-500/40 transition cursor-pointer"
+            >
+              1-Click Fill Credentials
+            </button>
+          </div>
+          <p className="text-[11px] text-slate-300">
+            Login as the software owner to access the global Multi-School Super-Admin Dashboard:
+          </p>
+          <div className="text-[11px] font-mono text-slate-400 bg-navy-900/80 px-2.5 py-1 rounded flex justify-between">
+            <span>Email: <strong className="text-white">superadmin@squareos.com</strong></span>
+            <span>Password: <strong className="text-white">SchoolOS@2026</strong></span>
+          </div>
+        </div>
+
         {/* Access Links */}
         <div className="text-center text-xs text-slate-500 space-y-1.5">
           <p>

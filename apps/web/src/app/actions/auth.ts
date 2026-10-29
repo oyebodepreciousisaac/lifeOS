@@ -9,6 +9,8 @@ import { DEMO_USERS } from '@/lib/auth/demo-users';
 
 function getRoleDestination(role: string): string {
   switch (role) {
+    case 'SUPERADMIN':
+      return '/super-admin';
     case 'PARENT':
       return '/portal/parent';
     case 'TEACHER':
