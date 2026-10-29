@@ -102,20 +102,20 @@ export default function LoginPage() {
                     className="font-semibold text-emerald-700 hover:text-emerald-800 flex items-center gap-1"
                   >
                     <HelpCircle className="h-3 w-3" />
-                    Need login help?
+                    Forgot password?
                   </button>
                 </div>
               </div>
 
-              {/* Password Assistance / Institutional Help Note */}
+              {/* Password Assistance */}
               {helpOpen && (
                 <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 space-y-1.5 animate-in fade-in-50 duration-150">
-                  <strong className="text-navy-950 block font-semibold">Institutional Access Assistance</strong>
+                  <strong className="text-navy-950 block font-semibold">Password Reset Guide</strong>
                   <p>
-                    For student safety and institutional compliance, password resets are coordinated via your school administrator or IT registry desk.
+                    Staff, teachers, and students: Please contact your school administrator or bursar to trigger a secure password reset link or issue temporary credentials.
                   </p>
                   <p className="text-[11px] text-slate-500">
-                    If you are locked out, contact your school administrative office or platform support with your registered National Identification / School Admission Number.
+                    School Owners: For verified institutional recovery, contact SquareOS platform support with your registered school email.
                   </p>
                 </div>
               )}
@@ -134,24 +134,18 @@ export default function LoginPage() {
               <span>•</span>
               <span className="flex items-center gap-1">
                 <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
-                Multi-Factor Compliant
+                MFA Protected
               </span>
             </div>
           </CardContent>
         </Card>
 
-        {/* Security & Access Links */}
+        {/* Access Links */}
         <div className="text-center text-xs text-slate-500 space-y-1.5">
           <p>
-            Enrolling a new student?{' '}
-            <Link href="/admissions/apply" className="text-emerald-700 hover:underline font-bold">
-              Visit Admissions Application
-            </Link>
-          </p>
-          <p>
-            New institutional proprietor?{' '}
-            <Link href="/setup" className="text-navy-900 hover:underline font-bold">
-              Provision Your School On SquareOS
+            School Proprietor or Admin?{' '}
+            <Link href="/setup" className="text-emerald-700 hover:underline font-bold">
+              Register Your School on SquareOS
             </Link>
           </p>
         </div>

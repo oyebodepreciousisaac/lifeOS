@@ -263,8 +263,8 @@ export const NIGERIAN_PRESET_LEVELS: Array<{
     levelOrder: 3,
     section: 'PRIMARY',
     arms: [
-      { name: 'Gold', capacity: 35 },
-      { name: 'Diamond', capacity: 35 },
+      { name: 'A', capacity: 35 },
+      { name: 'B', capacity: 35 },
     ],
   },
   {
@@ -272,8 +272,8 @@ export const NIGERIAN_PRESET_LEVELS: Array<{
     levelOrder: 4,
     section: 'PRIMARY',
     arms: [
-      { name: 'Gold', capacity: 35 },
-      { name: 'Diamond', capacity: 35 },
+      { name: 'A', capacity: 35 },
+      { name: 'B', capacity: 35 },
     ],
   },
   {
@@ -281,8 +281,8 @@ export const NIGERIAN_PRESET_LEVELS: Array<{
     levelOrder: 5,
     section: 'PRIMARY',
     arms: [
-      { name: 'Gold', capacity: 35 },
-      { name: 'Diamond', capacity: 35 },
+      { name: 'A', capacity: 35 },
+      { name: 'B', capacity: 35 },
     ],
   },
   {
@@ -290,8 +290,8 @@ export const NIGERIAN_PRESET_LEVELS: Array<{
     levelOrder: 6,
     section: 'PRIMARY',
     arms: [
-      { name: 'Gold', capacity: 35 },
-      { name: 'Diamond', capacity: 35 },
+      { name: 'A', capacity: 35 },
+      { name: 'B', capacity: 35 },
     ],
   },
   {
@@ -299,8 +299,8 @@ export const NIGERIAN_PRESET_LEVELS: Array<{
     levelOrder: 7,
     section: 'PRIMARY',
     arms: [
-      { name: 'Gold', capacity: 35 },
-      { name: 'Diamond', capacity: 35 },
+      { name: 'A', capacity: 35 },
+      { name: 'B', capacity: 35 },
     ],
   },
   {
@@ -308,8 +308,8 @@ export const NIGERIAN_PRESET_LEVELS: Array<{
     levelOrder: 8,
     section: 'PRIMARY',
     arms: [
-      { name: 'Gold', capacity: 35 },
-      { name: 'Diamond', capacity: 35 },
+      { name: 'A', capacity: 35 },
+      { name: 'B', capacity: 35 },
     ],
   },
   {
@@ -317,9 +317,9 @@ export const NIGERIAN_PRESET_LEVELS: Array<{
     levelOrder: 9,
     section: 'JUNIOR_SECONDARY',
     arms: [
-      { name: 'Gold', capacity: 40 },
-      { name: 'Diamond', capacity: 40 },
-      { name: 'Emerald', capacity: 40 },
+      { name: 'A', capacity: 40 },
+      { name: 'B', capacity: 40 },
+      { name: 'C', capacity: 40 },
     ],
   },
   {
@@ -327,8 +327,9 @@ export const NIGERIAN_PRESET_LEVELS: Array<{
     levelOrder: 10,
     section: 'JUNIOR_SECONDARY',
     arms: [
-      { name: 'Gold', capacity: 40 },
-      { name: 'Diamond', capacity: 40 },
+      { name: 'A', capacity: 40 },
+      { name: 'B', capacity: 40 },
+      { name: 'C', capacity: 40 },
     ],
   },
   {
@@ -336,8 +337,9 @@ export const NIGERIAN_PRESET_LEVELS: Array<{
     levelOrder: 11,
     section: 'JUNIOR_SECONDARY',
     arms: [
-      { name: 'Gold', capacity: 40 },
-      { name: 'Diamond', capacity: 40 },
+      { name: 'A', capacity: 40 },
+      { name: 'B', capacity: 40 },
+      { name: 'C', capacity: 40 },
     ],
   },
   {

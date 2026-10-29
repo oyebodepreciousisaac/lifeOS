@@ -25,6 +25,7 @@ import {
   BookOpen,
   LogOut,
   Sparkles,
+  BarChart3,
 } from 'lucide-react';
 import { logoutAction } from '@/app/actions/auth';
 
@@ -144,7 +145,7 @@ export default function MobileBottomNav({ user }: MobileBottomNavProps) {
     // Guest / Unauthenticated
     return [
       { label: 'Home', href: '/', icon: Home },
-      { label: 'Apply', href: '/admissions/apply', icon: FileCheck2 },
+      { label: 'Portals', href: '/portal/parent', icon: Users },
       { label: 'Verify', href: '/admin/report-cards', icon: ShieldCheck },
       { label: 'Setup School', href: '/setup', icon: Building },
       {
@@ -204,6 +205,7 @@ export default function MobileBottomNav({ user }: MobileBottomNavProps) {
 
     // Executive / Superadmin / Owner
     return [
+      { label: 'Platform Overview', href: '/super-admin', icon: BarChart3 },
       { label: 'Command Center', href: '/dashboard', icon: LayoutDashboard },
       { label: 'Provision New School', href: '/setup', icon: Building },
       { label: 'Student Directory', href: '/admin/students', icon: Users },

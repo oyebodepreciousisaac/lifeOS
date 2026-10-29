@@ -80,8 +80,9 @@ export default function MainNavbar({ user }: MainNavbarProps) {
     }
     if (user?.role === 'SUPERADMIN') {
       return [
-        { label: 'Platform Command Center', href: '/dashboard' },
-        { label: 'Onboard School', href: '/setup' },
+        { label: 'Platform Overview', href: '/super-admin' },
+        { label: 'Dashboard', href: '/dashboard' },
+        { label: 'Register School', href: '/setup' },
         { label: 'Platform Security', href: '/admin/platform-security' },
         { label: 'Audit Trail', href: '/admin/audit-logs' },
       ];
@@ -96,10 +97,10 @@ export default function MainNavbar({ user }: MainNavbarProps) {
       ];
     }
     return [
-      { label: 'Overview', href: '/' },
-      { label: 'Admissions Portal', href: '/admissions/apply' },
-      { label: 'Verify Credentials', href: '/admin/report-cards' },
-      { label: 'Onboard School', href: '/setup' },
+      { label: 'Home', href: '/' },
+      { label: 'Verify Report Card', href: '/admin/report-cards' },
+      { label: 'Register Your School', href: '/setup' },
+      { label: 'Sign In', href: '/login' },
     ];
   };
 

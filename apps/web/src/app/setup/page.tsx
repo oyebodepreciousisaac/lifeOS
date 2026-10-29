@@ -360,14 +360,14 @@ export default function SchoolSetupWizardPage() {
                 label="Official School Name"
                 value={schoolProfile.name}
                 onChange={(e) => setSchoolProfile({ ...schoolProfile, name: e.target.value })}
-                placeholder="e.g. King's College Lagos"
+                placeholder="e.g. Meadows Model Academy"
                 required
               />
               <Input
-                label="School Slug (Unique URL Subdomain)"
+                label="School Web Address (URL Subdomain)"
                 value={schoolProfile.slug}
                 onChange={(e) => setSchoolProfile({ ...schoolProfile, slug: e.target.value })}
-                placeholder="e.g. kings-college-lagos"
+                placeholder="e.g. meadows-academy"
                 required
               />
               <Input
@@ -795,7 +795,7 @@ export default function SchoolSetupWizardPage() {
                       <button
                         type="button"
                         onClick={() => {
-                          const armName = prompt('Enter new arm name (e.g. Silver, Emerald):');
+                          const armName = prompt('Enter arm name (e.g. A, B, C or JSS1A):');
                           if (armName && armName.trim()) {
                             const next = [...classLevels];
                             next[lIdx].arms.push({
