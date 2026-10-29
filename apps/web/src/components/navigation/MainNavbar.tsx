@@ -99,7 +99,7 @@ export default function MainNavbar({ user }: MainNavbarProps) {
     return [
       { label: 'Home', href: '/' },
       { label: 'Verify Report Card', href: '/admin/report-cards' },
-      { label: 'Register Your School', href: '/setup' },
+      { label: 'Register Your School', href: '/signup' },
       { label: 'Sign In', href: '/login' },
     ];
   };
@@ -130,7 +130,7 @@ export default function MainNavbar({ user }: MainNavbarProps) {
                 </span>
               </div>
               <p className="text-[10px] font-medium text-slate-500 -mt-0.5">
-                Institutional Operating System
+                School Operating System
               </p>
             </div>
           </Link>
@@ -179,17 +179,11 @@ export default function MainNavbar({ user }: MainNavbarProps) {
                 ? 'Student Workspace'
                 : user.role === 'BURSAR'
                 ? 'Finance Dashboard'
-                : 'Institutional Dashboard'}
+                : 'Dashboard'}
               <ArrowRight className="h-3.5 w-3.5 ml-0.5" />
             </Link>
           ) : (
             <div className="flex items-center gap-2">
-              <Link
-                href="/admissions/apply"
-                className="text-xs font-semibold text-slate-700 hover:text-emerald-700 px-3 py-2 rounded-lg hover:bg-slate-50 transition-colors"
-              >
-                Apply Online
-              </Link>
               <Link
                 href="/login"
                 className="text-xs font-semibold text-slate-700 hover:text-navy-950 px-3 py-2 rounded-lg hover:bg-slate-50 transition-colors"
@@ -201,7 +195,7 @@ export default function MainNavbar({ user }: MainNavbarProps) {
                 className="inline-flex items-center gap-1.5 text-xs font-bold bg-emerald-600 text-white px-3.5 py-2 rounded-lg hover:bg-emerald-500 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
               >
                 <LogIn className="h-3.5 w-3.5" />
-                Get Started
+                Register School
               </Link>
             </div>
           )}
@@ -284,13 +278,13 @@ export default function MainNavbar({ user }: MainNavbarProps) {
                     className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-navy-950 text-white font-bold text-sm shadow-sm"
                   >
                     <LogIn className="h-4 w-4 text-emerald-400" />
-                    Sign In to SquareOS
+                    Sign In
                   </Link>
                   <Link
-                    href="/admissions/apply"
-                    className="flex items-center justify-center gap-2 w-full py-2 px-4 rounded-xl border border-slate-200 text-slate-700 font-semibold text-xs hover:bg-slate-50"
+                    href="/signup"
+                    className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-emerald-600 text-white font-bold text-xs shadow-sm hover:bg-emerald-500"
                   >
-                    Prospective Student Application Form
+                    Register Your School
                   </Link>
                 </>
               )}

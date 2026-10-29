@@ -332,6 +332,88 @@ export function getSchoolConfiguration(schoolId: string): AcademicConfiguration 
 }
 
 /**
+ * Initializes a new school tenant when a school owner registers an account.
+ */
+export function initializeRegisteredSchool(
+  schoolId: string,
+  schoolName: string,
+  stateLocation: string,
+  contactEmail: string
+): AcademicConfiguration {
+  const initialSession: AcademicSessionItem = {
+    id: `ses_${Date.now()}`,
+    schoolId,
+    name: '2026/2027',
+    startDate: '2026-09-14',
+    endDate: '2027-07-23',
+    isCurrent: true,
+    terms: [
+      {
+        id: `trm_1_${Date.now()}`,
+        name: '1st Term',
+        startDate: '2026-09-14',
+        endDate: '2026-12-18',
+        isCurrent: true,
+        isLocked: false,
+      },
+    ],
+  };
+
+  const slug = schoolName.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').slice(0, 30);
+
+  const config: AcademicConfiguration = {
+    school: {
+      id: schoolId,
+      name: schoolName,
+      slug: slug || `school-${Date.now().toString().slice(-4)}`,
+      officialCode: '',
+      motto: '',
+      logoUrl: '',
+      crestUrl: '',
+      contactEmail: contactEmail || 'admin@school.sch.ng',
+      contactPhone: '+234 800 000 0000',
+      currency: 'NGN',
+      timezone: 'Africa/Lagos',
+      address: `${stateLocation || 'Lagos'}, Nigeria`,
+      city: stateLocation || 'Lagos',
+      state: stateLocation || 'Lagos',
+      isOnboardingCompleted: false,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    campuses: [
+      {
+        id: `cmp_${Date.now()}`,
+        schoolId,
+        name: 'Main Campus',
+        code: 'MAIN',
+        address: `${stateLocation || 'Lagos'}, Nigeria`,
+        city: stateLocation || 'Lagos',
+        state: stateLocation || 'Lagos',
+        country: 'Nigeria',
+        isMain: true,
+      },
+    ],
+    activeSession: initialSession,
+    sessions: [initialSession],
+    classLevels: [],
+    subjects: [],
+    operationalRules: {
+      workingHoursStart: '07:45',
+      workingHoursEnd: '15:30',
+      periodDurationMinutes: 40,
+      assemblyDurationMinutes: 20,
+      breakDurationMinutes: 30,
+      latenessCutoff: '08:15',
+      daysPerWeek: 5,
+    },
+  };
+
+  academicStore.set(schoolId, config);
+  return config;
+}
+
+/**
  * Asserts that the actor is authorized to manage school and academic configurations.
  */
 function assertAuthorizedAdmin(actor: AuthSession, targetSchoolId: string) {

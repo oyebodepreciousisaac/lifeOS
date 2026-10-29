@@ -249,7 +249,7 @@ export default function PublicApplicationPage() {
           <div className="text-center space-y-2">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">
               <Building className="h-3.5 w-3.5" />
-              {academicConfig?.school.name || "King's College Lagos"}
+              {academicConfig?.school.name || "School Admissions Portal"}
             </div>
             <h1 className="text-2xl font-black text-navy-950">
               Admissions Application Submitted
@@ -420,7 +420,7 @@ export default function PublicApplicationPage() {
             <span>SchoolOS Prospective Admissions Portal</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-navy-950 tracking-tight">
-            {academicConfig?.school.name || "King's College Lagos"}
+            {academicConfig?.school.name || "School Admissions Portal"}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 max-w-lg mx-auto">
             Online student application for the {academicConfig?.activeSession.name || '2026/2027'} academic session. Please provide accurate biodata and guardian details.

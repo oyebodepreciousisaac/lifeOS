@@ -140,9 +140,13 @@ export default function SchoolSetupWizardPage() {
         setSubjects(d.subjects);
         setOperationalRules(d.operationalRules);
       } else {
+        if (res.error?.includes('401') || res.error?.includes('log in') || res.error?.includes('Unauthorized')) {
+          window.location.href = '/signup';
+          return;
+        }
         setFeedback({
           type: 'error',
-          message: res.error || 'Failed to load configuration. Make sure you are logged in.',
+          message: res.error || 'Failed to load configuration.',
         });
       }
       setLoading(false);

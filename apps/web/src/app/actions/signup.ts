@@ -3,6 +3,7 @@
 import { redirect } from 'next/navigation';
 import { createSession } from '@/lib/auth/session';
 import { logAuditEvent, logSecurityEvent } from '@/lib/audit/logger';
+import { initializeRegisteredSchool } from '@/lib/academic/academic-store';
 
 export interface SignUpState {
   error?: string;
@@ -17,7 +18,7 @@ export async function signupAction(
   _prevState: SignUpState | null,
   formData: FormData
 ): Promise<SignUpState> {
-  const roleType = formData.get('roleType') as string;
+  const roleType = (formData.get('roleType') as string) || 'OWNER';
   const fullName = (formData.get('fullName') as string)?.trim();
   const email = (formData.get('email') as string)?.toLowerCase().trim();
   const password = formData.get('password') as string;
@@ -45,6 +46,9 @@ export async function signupAction(
 
     const newSchoolId = `sch_${schoolName.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 8)}_${Date.now().toString().slice(-4)}`;
 
+    // Initialize school configuration in store
+    initializeRegisteredSchool(newSchoolId, schoolName, stateLocation || 'Lagos', email);
+
     await createSession({
       userId: `usr_owner_${Date.now()}`,
       schoolId: newSchoolId,
@@ -64,7 +68,7 @@ export async function signupAction(
       resourceId: newSchoolId,
     });
 
-    redirect('/dashboard');
+    redirect('/setup');
   }
 
   // 2. TEACHER INVITATION ACTIVATION

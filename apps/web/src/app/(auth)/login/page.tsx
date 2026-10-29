@@ -76,7 +76,7 @@ export default function LoginPage() {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="text-slate-400 hover:text-slate-600 focus:outline-none p-1"
+                        className="text-slate-400 hover:text-slate-700 focus:outline-none p-1 cursor-pointer"
                         aria-label={showPassword ? 'Hide password' : 'Show password'}
                       >
                         {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
@@ -144,7 +144,7 @@ export default function LoginPage() {
         <div className="text-center text-xs text-slate-500 space-y-1.5">
           <p>
             School Proprietor or Admin?{' '}
-            <Link href="/setup" className="text-emerald-700 hover:underline font-bold">
+            <Link href="/signup" className="text-emerald-700 hover:underline font-bold">
               Register Your School on SquareOS
             </Link>
           </p>

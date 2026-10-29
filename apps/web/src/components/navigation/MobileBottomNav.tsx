@@ -147,7 +147,7 @@ export default function MobileBottomNav({ user }: MobileBottomNavProps) {
       { label: 'Home', href: '/', icon: Home },
       { label: 'Portals', href: '/portal/parent', icon: Users },
       { label: 'Verify', href: '/admin/report-cards', icon: ShieldCheck },
-      { label: 'Setup School', href: '/setup', icon: Building },
+      { label: 'Register', href: '/signup', icon: Building },
       {
         label: 'Sign In',
         isAction: false,

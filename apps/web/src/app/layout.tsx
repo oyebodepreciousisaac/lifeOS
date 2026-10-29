@@ -69,14 +69,11 @@ export default async function RootLayout({
               </div>
 
               <div className="flex items-center gap-4 text-xs font-semibold text-slate-600">
-                <Link href="/admissions/apply" className="hover:text-emerald-600 transition-colors">
-                  Admissions
-                </Link>
-                <Link href="/setup" className="hover:text-emerald-600 transition-colors">
-                  Onboard School
+                <Link href="/signup" className="hover:text-emerald-600 transition-colors">
+                  Register School
                 </Link>
                 <Link href="/login" className="hover:text-emerald-600 transition-colors">
-                  Institutional Login
+                  Sign In
                 </Link>
               </div>
             </div>
